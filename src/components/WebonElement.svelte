@@ -38,7 +38,7 @@
     </div>
     <button on:click={e => {
         e.stopPropagation()
-        nomo.injectQRCode(download_link)
+        nomo.injectQRCode({qrCode: download_link, navigateBack: true})
     }}>
         <img src={downloaded ? checkmark : download} alt="">
     </button>
@@ -73,6 +73,7 @@
 
       .slogan {
         font-size: 12px;
+        color: #4b4b4b;
       }
     }
 

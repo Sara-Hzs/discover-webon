@@ -6,7 +6,7 @@
     import back from "../../assets/back.png"
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
-    import {nomo} from "nomo-plugin-kit/dist/nomo_api.js";
+    import {nomo} from "nomo-plugin-kit/dist/nomo_api";
     import WebonList from "../../components/WebonList.svelte";
 
     let id = getParameterFromURL()
@@ -16,6 +16,8 @@
         const url = new URL(window.location.href)
         return url.searchParams.get('id');
     }
+
+    console.log(webon)
 
 </script>
 
@@ -43,9 +45,13 @@
         }}>
             <img src={back} alt="">
         </button>
-        <button class="download" on:click={e => {
+        <button class="download" on:click={async e => {
         e.stopPropagation()
-        nomo.injectQRCode(webon.download_link)
+        nomo.injectQRCode({qrCode: webon.download_link, navigateBack: true}).then(() => {
+            console.log("injected")
+        }).catch(e => {
+            console.log(e)
+        })
     }}>
             <span>Download</span>
             <img src={download} alt="">
@@ -81,6 +87,7 @@
     gap: 20px;
   }
   .banner {
+    min-height: 190px;
     max-width: 500px;
     position: relative;
 

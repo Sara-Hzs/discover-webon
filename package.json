@@ -4,7 +4,9 @@
 	"scripts": {
 		"dev": "vite dev --host",
 		"build": "vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"clear:cache": "./scripts/clear_cloudflare_cache.sh",
+		"deploy": "npm run build && rsync -avz --progress build/ root@95.179.247.2:/var/www/webon-store --delete && npm run clear:cache"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",

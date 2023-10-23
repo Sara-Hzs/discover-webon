@@ -1,7 +1,6 @@
 <script>
     import './global.scss';
     import {onMount} from "svelte";
-    import {nomo} from "nomo-plugin-kit/dist/nomo_api";
     import {injectNomoCSSVariables} from "nomo-plugin-kit/dist/nomo_theming";
     import {data} from "../stores/data.js";
     import Reload from "../components/Reload.svelte";
@@ -13,13 +12,14 @@
 
     onMount(async () => {
         await injectNomoCSSVariables();
-        await nomo.registerOnPluginVisible(() => {
-            refetchDataOnPluginVisible()
-        })
+        // await nomo.registerOnPluginVisible(() => {
+        //     refetchDataOnPluginVisible()
+        // })
         fetchWebonList().then(webonList => {
             $data.webonList = webonList
             loading = false
         }).catch(e => {
+            console.log(e)
             error = e.message
             loading = false
         })
