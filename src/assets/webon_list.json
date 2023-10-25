@@ -5,8 +5,8 @@
     "slogan": "Where Serenity Meets Spending Power.",
     "images": [
     ],
-    "icon": "",
-    "card_image": "",
+    "icon": "/icons/Zencon.svg",
+    "card_image": "/cards/Zencon_card.svg",
     "version": "0.1.0",
     "id": "hgfhfgh",
     "download_link": "https://nomo.app/pluginv1/debit.nomo.app"
@@ -17,8 +17,8 @@
     "slogan": "Empower Your Identity, Enhance Your Security",
     "images": [
     ],
-    "icon": "",
-    "card_image": "",
+    "icon": "/icons/ZenPass.svg",
+    "card_image": "/cards/zenpass.svg",
     "version": "0.1.0",
     "id": "fghfghfgh",
     "download_link": "https://nomo.app/pluginv1/zenpass.nomo.app"
@@ -29,8 +29,8 @@
     "slogan": "Boost Your Smartchain Transactions with FAUCET",
     "images": [
     ],
-    "icon": "",
-    "card_image": "",
+    "icon": "/icons/Faucet.svg",
+    "card_image": "/cards/Faucet_card.svg",
     "version": "0.1.0",
     "id": "hjkhjkhj",
     "download_link": "https://nomo.app/pluginv1/faucet.nomo.app"
@@ -41,20 +41,20 @@
     "slogan": "Token Generator: Smartchain Tokens Crafted Your Way",
     "images": [
     ],
-    "icon": "",
-    "card_image": "",
+    "icon": "/icons/Token_Generator.svg",
+    "card_image": "/cards/Token_Generator_card.svg",
     "version": "0.1.0",
     "id": "ioöugixfhfgj",
     "download_link": "https://nomo.app/pluginv1/tokens.nomo.app"
   },
   {
-    "name": "Global Summit 2023",
-    "description": "Unlock the Full Potential of Global Summit 2023 with Effortless Event Ticket Access. Immerse Yourself, Connect, and Elevate Your Experience at Every Remarkable Event.",
-    "slogan": "Experience. Connect. Elevate. Global Summit 2023.",
+    "name": "Safir Global Summit 2023",
+    "description": "Unlock the Full Potential of Safir Global Summit 2023 with Effortless Event Ticket Access. Immerse Yourself, Connect, and Elevate Your Experience at Every Remarkable Event.",
+    "slogan": "Experience. Connect. Elevate. Safir Global Summit 2023.",
     "images": [
     ],
-    "icon": "",
-    "card_image": "",
+    "icon": "/icons/Safir_Global_Summit.svg",
+    "card_image": "/cards/Safir_Global_Summit_card.svg",
     "version": "0.1.0",
     "id": "fghhgkmhjgk",
     "download_link": "https://nomo.app/pluginv1/globalsummit2023.nomo.app"
@@ -66,8 +66,8 @@
     "slogan": "Where Codes Become Tokens.",
     "images": [
     ],
-    "icon": "",
-    "card_image": "",
+    "icon": "/icons/AVINOC_Incentive.svg",
+    "card_image": "/cards/AVINOC_Incentive_card.svg",
     "version": "0.1.0",
     "id": "fgjghvsdf",
     "download_link": "https://nomo.app/pluginv1/avinoc-incentive.nomo.app"
@@ -78,8 +78,8 @@
     "slogan": "Simplify Asset Exchange with Swap",
     "images": [
     ],
-    "icon": "",
-    "card_image": "",
+    "icon": "/icons/Swap.svg",
+    "card_image": "/cards/Swap_card.svg",
     "version": "0.1.0",
     "id": "cmxnvkjbi",
     "download_link": "https://nomo.app/pluginv1/swap.nomo.app"
@@ -90,8 +90,8 @@
     "slogan": "For Developers, By Developers",
     "images": [
     ],
-    "icon": "",
-    "card_image": "",
+    "icon": "/icons/Demo_Plugin.svg",
+    "card_image": "/cards/Demo_Plugin_card.svg",
     "version": "0.1.0",
     "id": "ifdgifdgb",
     "download_link": "https://nomo.app/pluginv1/demoplugin.nomo.app"

@@ -1,17 +1,39 @@
 <script>
     import './global.scss';
     import {onMount} from "svelte";
-    import {injectNomoCSSVariables} from "nomo-plugin-kit/dist/nomo_theming";
+    import {
+        // getCurrentNomoTheme,
+        injectNomoCSSVariables,
+        // switchNomoTheme
+    } from "nomo-plugin-kit/dist/nomo_theming";
     import {data} from "../stores/data.js";
     import Reload from "../components/Reload.svelte";
     import {fetchWebonList} from "../utils/functions.js";
     import cross from "../assets/cross.svg";
+    import {nomo} from "nomo-plugin-kit/dist/nomo_api";
 
     let loading = true
     let error = false
 
     onMount(async () => {
-        await injectNomoCSSVariables();
+        // const oldTheme = (await getCurrentNomoTheme()).name;
+        // const newTheme =
+        //     oldTheme === "LIGHT"
+        //         ? "DARK"
+        //         : oldTheme === "DARK"
+        //             ? "TUPAN"
+        //             : oldTheme === "TUPAN"
+        //                 ? "AVINOC"
+        //                 : "LIGHT";
+        // await switchNomoTheme({ theme: newTheme });
+        await injectNomoCSSVariables(); // refresh css variables after switching theme
+        try {
+            await nomo.registerOnPluginVisible(() => {
+                refetchDataOnPluginVisible()
+            })
+        } catch (e) {
+            console.log(e)
+        }
         // await nomo.registerOnPluginVisible(() => {
         //     refetchDataOnPluginVisible()
         // })

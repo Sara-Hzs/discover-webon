@@ -14,7 +14,7 @@
         id = url.searchParams.get('id');
     }
 
-    const getWebonById = (id) => {
+    const getWebonById = async (id) => {
         webon = $data.webonList.find(el => {
             return el.id === id
         })
@@ -27,11 +27,13 @@
         }
     }
 
-    onMount(() => {
+    onMount(async () => {
         getParameterFromURL();
         getWebonById(id)
         console.log(webon)
     })
+
+
 </script>
 
 {#if loading}

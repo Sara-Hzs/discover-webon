@@ -24,7 +24,7 @@
 		"@sveltejs/adapter-static": "^2.0.3",
 		"flowbite-svelte": "^0.44.18",
 		"moment": "^2.29.4",
-		"nomo-plugin-kit": "^0.1.4",
+		"nomo-plugin-kit": "^0.1.7",
 		"sass": "^1.69.2",
 		"svelte-preprocess": "^5.0.4",
 		"svelte-qrcode": "^1.0.0"
