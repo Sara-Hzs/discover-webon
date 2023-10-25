@@ -2,9 +2,10 @@
     import './global.scss';
     import {onMount} from "svelte";
     import {
+        getCurrentNomoTheme,
         // getCurrentNomoTheme,
         injectNomoCSSVariables,
-        // switchNomoTheme
+        switchNomoTheme
     } from "nomo-plugin-kit/dist/nomo_theming";
     import {data} from "../stores/data.js";
     import Reload from "../components/Reload.svelte";
@@ -16,17 +17,8 @@
     let error = false
 
     onMount(async () => {
-        // const oldTheme = (await getCurrentNomoTheme()).name;
-        // const newTheme =
-        //     oldTheme === "LIGHT"
-        //         ? "DARK"
-        //         : oldTheme === "DARK"
-        //             ? "TUPAN"
-        //             : oldTheme === "TUPAN"
-        //                 ? "AVINOC"
-        //                 : "LIGHT";
-        // await switchNomoTheme({ theme: newTheme });
-        await injectNomoCSSVariables(); // refresh css variables after switching theme
+        await switchNomoTheme({theme: 'TUPAN'})
+        await injectNomoCSSVariables();
         try {
             await nomo.registerOnPluginVisible(() => {
                 refetchDataOnPluginVisible()
@@ -60,6 +52,21 @@
     <meta name="description" content="Webon Store"/>
 </svelte:head>
 
+<button on:click={async () => {
+         const oldTheme = (await getCurrentNomoTheme()).name;
+         const newTheme =
+             oldTheme === "LIGHT"
+                 ? "DARK"
+                 : oldTheme === "DARK"
+                     ? "TUPAN"
+                     : oldTheme === "TUPAN"
+                         ? "AVINOC"
+                         : "LIGHT";
+        await switchNomoTheme({ theme: newTheme });
+        await injectNomoCSSVariables(); // refresh css variables after switching theme
+}}>
+    Theme
+</button>
 {#if loading}
     <div class="loading">
         Loading...

@@ -1,10 +1,11 @@
 <script>
-    import download from '../assets/download.svg'
+    // import download from '../assets/download.svg'
     import default_icon from '../assets/icon.png'
-    import checkmark from '../assets/checkmark_black.svg'
+    // import checkmark from '../assets/checkmark_black.svg'
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
     import {nomo} from "nomo-plugin-kit/dist/nomo_api";
+    import Download from "./Icons/Download.svelte";
 
     export let name
     export let id
@@ -40,7 +41,8 @@
         e.stopPropagation()
         nomo.injectQRCode({qrCode: download_link, navigateBack: true})
     }}>
-        <img src={downloaded ? checkmark : download} alt="">
+<!--        <img src={downloaded ? checkmark : download} alt="">-->
+        <Download/>
     </button>
 </div>
 
@@ -69,11 +71,13 @@
       .name {
         font-size: 14px;
         letter-spacing: 0.5px;
+        color: var(--nomoForeground1);
       }
 
       .slogan {
         font-size: 12px;
-        color: #4b4b4b;
+        filter: brightness(0.7);
+        color: var(--nomoForeground2);
       }
     }
 
