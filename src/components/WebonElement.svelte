@@ -17,10 +17,15 @@
     export let card_image
     export let images
     export let downloaded = false
+
+    export let suggested = false
 </script>
 
 <div class="container" on:click={() => {
     browser && goto('/webon?id=' + id)
+    suggested && setTimeout(() => {
+        location.reload()
+    }, 50)
 }}>
     <div class="icon">
         {#if icon}

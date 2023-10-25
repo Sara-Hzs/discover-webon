@@ -3,11 +3,11 @@
     import icon from "../../assets/icon.png"
     import card from "../../assets/card.png"
     import download from "../../assets/download.svg"
-    import list from "../../assets/list.svg"
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
     import {nomo} from "nomo-plugin-kit/dist/nomo_api";
     import WebonList from "../../components/WebonList.svelte";
+    import Back from "../../components/Icons/Back.svelte";
 
     let id = getParameterFromURL()
     let webon = $data[id]
@@ -31,7 +31,7 @@
             <button class="back" on:click={() => {
             browser && goto('/')
         }}>
-                <img src={list} alt="">
+                <Back/>
             </button>
             <button class="download" on:click={async e => {
         e.stopPropagation()
@@ -65,7 +65,7 @@
         Suggestions for you
     </div>
     <div class="page">
-        <WebonList/>
+        <WebonList suggested={true}/>
     </div>
 </div>
 
@@ -93,8 +93,7 @@
     justify-content: space-between;
     .back {
       border-radius: 1000px;
-      border: 2px #262738 solid;
-      background: white;
+      background: var(--nomoPrimary);
       width: 50px;
       display: flex;
       justify-content: center;
@@ -104,13 +103,12 @@
       }
     }
     .download {
-      background: white;
-      color: #262738;
+      background: var(--nomoPrimary);
+      color: var(--nomoOnSecondary);
       display: flex;
       align-items: center;
       justify-content: space-between;
       border-radius: 1000px;
-      border: solid 2px #262738;
       padding: 0 10px 0 20px;
       width: 200px;
       img {

@@ -21,10 +21,30 @@
 	src: url('/Vito-Bold.otf') format('opentype');
 }
 
+:root {
+	--nomoPrimary: #bca570ff;
+	--nomoOnPrimary: #ffffffff;
+	--nomoPrimaryContainer: #fcfaf7ff;
+	--nomoSecondary: #d1af72ff;
+	--nomoOnSecondary: #000000ff;
+	--nomoSecondaryContainer: #e6d0a3ff;
+	--nomoBackground: #f5f5f5ff;
+	--nomoSurface: #ffffffff;
+	--nomoForeground1: #000000cf;
+	--nomoForeground2: #000000df;
+	--nomoForeground3: #000000ef;
+	--nomoSnackBarColor: #fff7e5ff;
+	--nomoDisabledColor: #e0e0e0ff;
+	--nomoError: #ff5252ff;
+	--nomoSettingsTileColor: #ffffffff;
+	--nomoSettingsColumnColor: #edededff;
+}
+
 html, body {
 	height: 100%;
 	width: 100%;
 	background: var(--nomoSurface);
+	color: var(--nomoForeground1);
 	overflow-x: hidden;
 	margin: 0;
 	font-family: "Vito", serif;

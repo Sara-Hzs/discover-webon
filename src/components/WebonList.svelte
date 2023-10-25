@@ -3,11 +3,13 @@
 import {data} from "../stores/data.js";
 import WebonElement from "./WebonElement.svelte";
 // import {nomo} from "nomo-plugin-kit/dist/nomo_api";
+
+export let suggested = false
 </script>
 
 <div class="container">
     {#each $data.webonList as webon}
-        <WebonElement {...webon} />
+        <WebonElement {...webon} {suggested}/>
     {/each}
 <!--    <button on:click={() => {-->
 <!--        $data.webonList.forEach(webon => {-->
