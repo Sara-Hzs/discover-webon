@@ -85,8 +85,8 @@
     "download_link": "https://nomo.app/pluginv1/swap.nomo.app"
   },
   {
-    "name": "DemoPlugin",
-    "description": "For developers, DemoPlugin is an invaluable resource. It's designed to provide a dedicated environment for developing Nomo Plugins and comes complete with tutorials, readily available on dev.nomo.app. This plugin serves as an interactive showcase of various features that can be integrated into your custom plugins. This includes capabilities like signing transactions through provided npm packages, interacting with the chat, sending assets, scanning QR codes, and adding custom tokens.",
+    "name": "DemoWebon",
+    "description": "For developers, DemoWebon is an invaluable resource. It's designed to provide a dedicated environment for developing Nomo WebOns and comes complete with tutorials, readily available on dev.nomo.app. This plugin serves as an interactive showcase of various features that can be integrated into your custom plugins. This includes capabilities like signing transactions through provided npm packages, interacting with the chat, sending assets, scanning QR codes, and adding custom tokens.",
     "slogan": "For Developers, By Developers",
     "images": [
     ],
@@ -94,7 +94,7 @@
     "card_image": "/cards/Demo_Plugin_card.svg",
     "version": "0.1.0",
     "id": "ifdgifdgb",
-    "download_link": "https://nomo.app/pluginv1/demoplugin.nomo.app"
+    "download_link": "https://nomo.app/pluginv1/demowebon.nomo.app"
   },
   {
     "name": "TVOTE",

@@ -58,6 +58,7 @@
             </div>
         </div>
         <div class="description">
+            <div>Description</div>
             {webon.description}
         </div>
         <div class="version">{webon.version}</div>
@@ -135,6 +136,9 @@
   .description {
     margin: 20px 10px;
     flex: 1;
+    div {
+      font-weight: bold;
+    }
   }
   .suggestions {
     margin-top: 20px;
