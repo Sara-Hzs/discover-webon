@@ -6,6 +6,7 @@
     import {goto} from "$app/navigation";
     import {nomo} from "nomo-plugin-kit/dist/nomo_api";
     import Download from "./Icons/Download.svelte";
+    import {hasMinimumNomoVersion} from "nomo-plugin-kit/dist/nomo_api.js";
 
     export let name
     export let id
@@ -42,9 +43,20 @@
             {slogan}
         </div>
     </div>
-    <button on:click={e => {
+    <button on:click={async e => {
         e.stopPropagation()
-        nomo.injectQRCode({qrCode: download_link, navigateBack: true})
+        const version_above = await hasMinimumNomoVersion({minVersion: '0.3.3'})
+        if (version_above?.minVersionFulfilled) {
+            nomo.installWebOn({
+                deeplink: download_link,
+                skipPermissionDialog: true,
+                navigateBack: true,
+              }).catch((e) => {
+                console.error(e);
+              }) ;
+        } else {
+            nomo.injectQRCode({qrCode: download_link, navigateBack: false})
+        }
     }}>
 <!--        <img src={downloaded ? checkmark : download} alt="">-->
         <Download/>

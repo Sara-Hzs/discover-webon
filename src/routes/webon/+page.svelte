@@ -8,6 +8,7 @@
     import {nomo} from "nomo-plugin-kit/dist/nomo_api";
     import WebonList from "../../components/WebonList.svelte";
     import Back from "../../components/Icons/Back.svelte";
+    import {hasMinimumNomoVersion} from "nomo-plugin-kit/dist/nomo_api.js";
 
     let id = getParameterFromURL()
     let webon = $data[id]
@@ -35,11 +36,19 @@
             </button>
             <button class="download" on:click={async e => {
         e.stopPropagation()
-        nomo.injectQRCode({qrCode: webon.download_link, navigateBack: true}).then(() => {
-            console.log("injected")
-        }).catch(e => {
-            console.log(e)
-        })
+        const version_above = await hasMinimumNomoVersion({minVersion: '0.3.3'})
+        if (version_above?.minVersionFulfilled) {
+            nomo.installWebOn({
+                deeplink: webon.download_link,
+                skipPermissionDialog: true,
+                navigateBack: true,
+              }).catch((e) => {
+                console.error(e);
+              }) ;
+        } else {
+            nomo.injectQRCode({qrCode: webon.download_link, navigateBack: false})
+            location.reload()
+        }
     }}>
                 <span>Download</span>
                 <img src={download} alt="">

@@ -11,6 +11,7 @@
     "nomo.permission.READ_MEDIA",
     "nomo.permission.DEVICE_FINGERPRINTING",
     "nomo.permission.SIGN_EVM_TRANSACTION",
-    "nomo.permission.SIGN_EVM_MESSAGE"
+    "nomo.permission.SIGN_EVM_MESSAGE",
+    "nomo.permission.INSTALL_WEBON"
   ]
 }
