@@ -95,17 +95,5 @@
     "version": "0.1.0",
     "id": "ifdgifdgb",
     "download_link": "https://nomo.app/pluginv1/demowebon.nomo.app"
-  },
-  {
-    "name": "TVOTE",
-    "description": "Vote now to be a part of the future",
-    "slogan": "Vote now to be a part of the future",
-    "images": [
-    ],
-    "icon": "/icons/TVote.svg",
-    "card_image": "/cards/TVOTE_card.svg",
-    "version": "0.1.0",
-    "id": "lpfdgndf",
-    "download_link": "https://nomo.app/pluginv1/demoplugin.nomo.app"
   }
 ]
