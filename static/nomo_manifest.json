@@ -1,6 +1,6 @@
 {
   "nomo_manifest_version": "1.0.0",
-  "plugin_id": "app.nomo.webonstore",
+  "plugin_id": "app.nomo.webon-store",
   "plugin_name": "WebOn Store",
   "plugin_version": "0.1.0",
   "dependencies": [],
