@@ -37,7 +37,7 @@
   },
   {
     "name": "Tokengenerator",
-    "description": "The Token Generator plugin opens up exciting possibilities. It allows you to craft custom tokens on Zeniq Smartchain in a matter of seconds. It's as easy as inputting your token details, hitting the generate button, and seamlessly adding your newly created tokens to your NOMO wallet. Just ensure you have some Zeniq tokens available to cover minimal fees. You can obtain Zeniq tokens from our Faucet, making the token generation process a breeze.",
+    "description": "The Token Generator WebOn opens up exciting possibilities. It allows you to craft custom tokens on Zeniq Smartchain in a matter of seconds. It's as easy as inputting your token details, hitting the generate button, and seamlessly adding your newly created tokens to your NOMO wallet. Just ensure you have some Zeniq tokens available to cover minimal fees. You can obtain Zeniq tokens from our Faucet, making the token generation process a breeze.",
     "slogan": "Token Generator: Smartchain Tokens Crafted Your Way",
     "images": [
     ],
@@ -62,7 +62,7 @@
   {
 
     "name": "Avinoc Incentive",
-    "description": "Where Success Meets Rewards. Unlock the Power of Every Code to Transform Incentives into Earnings, One Code at a Time. Unlock Your Rewards: Redeem Your Code for Avinoc ZEN20 Tokens in the Plugin. Don't Miss Out on Your Exclusive Incentive!",
+    "description": "Where Success Meets Rewards. Unlock the Power of Every Code to Transform Incentives into Earnings, One Code at a Time. Unlock Your Rewards: Redeem Your Code for Avinoc ZEN20 Tokens in the WebOn. Don't Miss Out on Your Exclusive Incentive!",
     "slogan": "Where Codes Become Tokens.",
     "images": [
     ],
@@ -86,7 +86,7 @@
   },
   {
     "name": "DemoWebon",
-    "description": "For developers, DemoWebon is an invaluable resource. It's designed to provide a dedicated environment for developing Nomo Plugins and comes complete with tutorials, readily available on dev.nomo.app. This plugin serves as an interactive showcase of various features that can be integrated into your custom plugins. This includes capabilities like signing transactions through provided npm packages, interacting with the chat, sending assets, scanning QR codes, and adding custom tokens.",
+    "description": "For developers, DemoWebon is an invaluable resource. It's designed to provide a dedicated environment for developing Nomo WebOns and comes complete with tutorials, readily available on dev.nomo.app. This WebOn serves as an interactive showcase of various features that can be integrated into your custom WebOns. This includes capabilities like signing transactions through provided npm packages, interacting with the chat, sending assets, scanning QR codes, and adding custom tokens.",
     "slogan": "For Developers, By Developers",
     "images": [
     ],
@@ -95,5 +95,17 @@
     "version": "0.1.0",
     "id": "ifdgifdgb",
     "download_link": "https://nomo.app/pluginv1/demowebon.nomo.app"
+  },
+  {
+    "name": "TVOTE",
+    "description": "Vote now to be a part of the future",
+    "slogan": "Vote now to be a part of the future",
+    "images": [
+    ],
+    "icon": "/icons/TVote.svg",
+    "card_image": "/cards/TVOTE_card.svg",
+    "version": "0.1.0",
+    "id": "lpfdgndf",
+    "download_link": "https://nomo.app/pluginv1/demoplugin.nomo.app"
   }
 ]
