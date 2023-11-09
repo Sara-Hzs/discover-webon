@@ -48,22 +48,10 @@
     "download_link": "https://nomo.app/pluginv1/tokens.nomo.app"
   },
   {
-    "name": "Safir Global Summit 2023",
-    "description": "Unlock the Full Potential of Safir Global Summit 2023 with Effortless Event Ticket Access. Immerse Yourself, Connect, and Elevate Your Experience at Every Remarkable Event.",
-    "slogan": "Experience. Connect. Elevate. Safir Global Summit 2023.",
-    "images": [
-    ],
-    "icon": "/icons/Safir_Global_Summit.svg",
-    "card_image": "/cards/Safir_Global_Summit_card.svg",
-    "version": "0.1.0",
-    "id": "fghhgkmhjgk",
-    "download_link": "https://nomo.app/pluginv1/globalsummit2023.nomo.app"
-  },
-  {
 
     "name": "Avinoc Incentive",
     "description": "Where Success Meets Rewards. Unlock the Power of Every Code to Transform Incentives into Earnings, One Code at a Time. Unlock Your Rewards: Redeem Your Code for Avinoc ZEN20 Tokens in the WebOn. Don't Miss Out on Your Exclusive Incentive!",
-    "slogan": "Where Codes Become Tokens.",
+    "slogan": "Migrate ",
     "images": [
     ],
     "icon": "/icons/AVINOC_Incentive.svg",
@@ -107,5 +95,17 @@
     "version": "0.1.0",
     "id": "mgpgkgjrtogortbho",
     "download_link": "https://nomo.app/pluginv1/tvote.nomo.app"
+  },
+  {
+    "name": "Avinoc Migration",
+    "description": "Swap your ERC20 AVINOC Tokens to ZEN20 Tokens on the ZENIQ Smartchain effortlessly with our AVINOC Migration WebOn. Enjoy hassle-free swaps, enhanced security, and lightning-fast transfers, all while unlocking new possibilities for your AVINOC holdings. Download AVINOC Migration WebOn today and embrace the future of AVINOC token swapping with confidence and ease!",
+    "slogan": "Where Codes Become Tokens.",
+    "images": [
+    ],
+    "icon": "/icons/AVINOC_SWAP.svg",
+    "card_image": "/cards/AVINOC_SWAP_card.svg",
+    "version": "0.1.0",
+    "id": "xbvcbsifsofj",
+    "download_link": "https://nomo.app/pluginv1/avinoc-migration.nomo.app"
   }
 ]
