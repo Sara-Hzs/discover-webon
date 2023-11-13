@@ -1,32 +1,24 @@
 <script>
-    // import download from '../assets/download.svg'
     import default_icon from '../assets/icon.png'
-    // import checkmark from '../assets/checkmark_black.svg'
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
-    import {nomo} from "nomo-plugin-kit/dist/nomo_api";
+    import {nomo} from "nomo-webon-kit";
     import Download from "./Icons/Download.svelte";
-    import {hasMinimumNomoVersion} from "nomo-plugin-kit/dist/nomo_api.js";
+    import {onMount} from "svelte";
+    import {hasMinimumNomoVersion} from "nomo-webon-kit/dist/nomo_api";
 
-    export let name
-    export let id
-    export let icon
-    export let slogan
-    export let download_link
-    export let description
-    export let version
-    export let card_image
-    export let images
+    export let webon
+    const {name, id, icon, slogan, download_link} = webon
     export let downloaded = false
 
-    export let suggested = false
+    onMount(() => {
+
+
+    })
 </script>
 
 <div class="container" on:click={() => {
     browser && goto('/webon?id=' + id)
-    suggested && setTimeout(() => {
-        location.reload()
-    }, 50)
 }}>
     <div class="icon">
         {#if icon}
@@ -43,7 +35,8 @@
             {slogan}
         </div>
     </div>
-    <button on:click={async e => {
+    {#if !downloaded}
+        <button on:click={async e => {
         e.stopPropagation()
         const version_above = await hasMinimumNomoVersion({minVersion: '0.3.3'})
         if (version_above?.minVersionFulfilled) {
@@ -58,9 +51,9 @@
             nomo.injectQRCode({qrCode: download_link, navigateBack: false})
         }
     }}>
-<!--        <img src={downloaded ? checkmark : download} alt="">-->
-        <Download/>
-    </button>
+                <Download/>
+        </button>
+    {/if}
 </div>
 
 <style lang="scss">

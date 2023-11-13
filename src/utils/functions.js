@@ -1,5 +1,6 @@
 // import {nomo} from "nomo-plugin-kit/dist/nomo_api";
 import list from '../assets/webon_list.json'
+import {nomo} from "nomo-webon-kit";
 
 // export const fetchWebonList = async () => {
 //     return (await nomo.authHttp({
@@ -17,5 +18,12 @@ import list from '../assets/webon_list.json'
 // }
 
 export const fetchWebonList = async () => {
+    try {
+        nomo.getInstalledWebOns().then(installed_webons => {
+            console.log(installed_webons)
+        })
+    } catch {
+
+    }
     return list
 }

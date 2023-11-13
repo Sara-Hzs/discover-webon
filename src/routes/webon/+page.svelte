@@ -5,10 +5,10 @@
     import download from "../../assets/download.svg"
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
-    import {nomo} from "nomo-plugin-kit/dist/nomo_api";
+    import {nomo} from "nomo-webon-kit";
+    import {hasMinimumNomoVersion} from "nomo-webon-kit/dist/nomo_api";
     import WebonList from "../../components/WebonList.svelte";
     import Back from "../../components/Icons/Back.svelte";
-    import {hasMinimumNomoVersion} from "nomo-plugin-kit/dist/nomo_api.js";
 
     let id = getParameterFromURL()
     let webon = $data[id]

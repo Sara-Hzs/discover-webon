@@ -6,12 +6,12 @@
         // getCurrentNomoTheme,
         injectNomoCSSVariables,
         // switchNomoTheme
-    } from "nomo-plugin-kit/dist/nomo_theming";
+    } from "nomo-webon-kit";
     import {data} from "../stores/data.js";
     import Reload from "../components/Reload.svelte";
     import {fetchWebonList} from "../utils/functions.js";
     import cross from "../assets/cross.svg";
-    import {nomo} from "nomo-plugin-kit/dist/nomo_api";
+    import {nomo} from "nomo-webon-kit";
 
     let loading = true
     let error = false
