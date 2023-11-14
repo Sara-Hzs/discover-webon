@@ -1,27 +1,15 @@
 [
   {
-    "name": "ZENCON Card",
-    "description": "Embrace a new era of financial serenity with the ZENCON debit card. It's not just a card; it's your key to effortless and secure transactions in a fast-paced world. Say goodbye to chaos and hello to peace of mind as you navigate the financial landscape with confidence.",
-    "slogan": "Where Serenity Meets Spending Power.",
+    "name": "Demo WebOn",
+    "description": "For developers, DemoWebon is an invaluable resource. It's designed to provide a dedicated environment for developing Nomo WebOns and comes complete with tutorials, readily available on dev.nomo.app. This WebOn serves as an interactive showcase of various features that can be integrated into your custom WebOns. This includes capabilities like signing transactions through provided npm packages, interacting with the chat, sending assets, scanning QR codes, and adding custom tokens.",
+    "slogan": "For Developers, By Developers",
     "images": [
     ],
-    "icon": "/icons/Zencon.svg",
-    "card_image": "/cards/ZENcard.png",
+    "icon": "/icons/Demo_Plugin.svg",
+    "card_image": "/cards/Demo_Plugin_card.svg",
     "version": "0.1.0",
-    "id": "hgfhfgh",
-    "download_link": "https://nomo.app/pluginv1/debit.nomo.app"
-  },
-  {
-    "name": "ZENPASS",
-    "description": "Elevate your identity with ZENPASS on the ZENIQ Smartchain, enabling robust authentication for physical applications. Our KYC identification system (know your customer) streamlines the authentication process and ensures the security of your personal data. With your ZENPASS NFT, securely share your KYC-approved personal information across multiple applications. Take charge of your data, unlock new opportunities, and keep your information protected.",
-    "slogan": "Empower Your Identity, Enhance Your Security",
-    "images": [
-    ],
-    "icon": "/icons/ZenPass.svg",
-    "card_image": "/cards/zenpass.svg",
-    "version": "0.1.0",
-    "id": "fghfghfgh",
-    "download_link": "https://nomo.app/pluginv1/zenpass.nomo.app"
+    "id": "ifdgifdgb",
+    "download_link": "https://nomo.app/pluginv1/demowebon.nomo.app"
   },
   {
     "name": "Faucet",
@@ -36,7 +24,7 @@
     "download_link": "https://nomo.app/pluginv1/faucet.nomo.app"
   },
   {
-    "name": "Tokengenerator",
+    "name": "Token Generator",
     "description": "The Token Generator WebOn opens up exciting possibilities. It allows you to craft custom tokens on Zeniq Smartchain in a matter of seconds. It's as easy as inputting your token details, hitting the generate button, and seamlessly adding your newly created tokens to your NOMO wallet. Just ensure you have some Zeniq tokens available to cover minimal fees. You can obtain Zeniq tokens from our Faucet, making the token generation process a breeze.",
     "slogan": "Token Generator: Smartchain Tokens Crafted Your Way",
     "images": [
@@ -61,7 +49,31 @@
     "download_link": "https://nomo.app/pluginv1/avinoc-incentive.nomo.app"
   },
   {
-    "name": "Swap",
+    "name": "ZENCON DEBIT",
+    "description": "Embrace a new era of financial serenity with the ZENCON debit card. It's not just a card; it's your key to effortless and secure transactions in a fast-paced world. Say goodbye to chaos and hello to peace of mind as you navigate the financial landscape with confidence.",
+    "slogan": "Where Serenity Meets Spending Power.",
+    "images": [
+    ],
+    "icon": "/icons/Zencon.svg",
+    "card_image": "/cards/ZENcard.png",
+    "version": "0.1.0",
+    "id": "hgfhfgh",
+    "download_link": "https://nomo.app/pluginv1/debit.nomo.app"
+  },
+  {
+    "name": "ZENPASS",
+    "description": "Elevate your identity with ZENPASS on the ZENIQ Smartchain, enabling robust authentication for physical applications. Our KYC identification system (know your customer) streamlines the authentication process and ensures the security of your personal data. With your ZENPASS NFT, securely share your KYC-approved personal information across multiple applications. Take charge of your data, unlock new opportunities, and keep your information protected.",
+    "slogan": "Empower Your Identity, Enhance Your Security",
+    "images": [
+    ],
+    "icon": "/icons/ZenPass.svg",
+    "card_image": "/cards/zenpass.svg",
+    "version": "0.1.0",
+    "id": "fghfghfgh",
+    "download_link": "https://nomo.app/pluginv1/zenpass.nomo.app"
+  },
+  {
+    "name": "Swap WebOn",
     "description": "Unlock the Power of Digital Finance with Swap. Seamlessly convert tokens and embrace a user-friendly tool for the future of finance. It simplifies exchanges and optimises your digital assets for financial growth. Ideal for traders or newcomers. The Swap offers efficiency and user-friendliness. Elevate your digital finance with this powerful tool.",
     "slogan": "Simplify Asset Exchange with Swap",
     "images": [
@@ -71,18 +83,6 @@
     "version": "0.1.0",
     "id": "cmxnvkjbi",
     "download_link": "https://nomo.app/pluginv1/swap.nomo.app"
-  },
-  {
-    "name": "DemoWebon",
-    "description": "For developers, DemoWebon is an invaluable resource. It's designed to provide a dedicated environment for developing Nomo WebOns and comes complete with tutorials, readily available on dev.nomo.app. This WebOn serves as an interactive showcase of various features that can be integrated into your custom WebOns. This includes capabilities like signing transactions through provided npm packages, interacting with the chat, sending assets, scanning QR codes, and adding custom tokens.",
-    "slogan": "For Developers, By Developers",
-    "images": [
-    ],
-    "icon": "/icons/Demo_Plugin.svg",
-    "card_image": "/cards/Demo_Plugin_card.svg",
-    "version": "0.1.0",
-    "id": "ifdgifdgb",
-    "download_link": "https://nomo.app/pluginv1/demowebon.nomo.app"
   },
   {
     "name": "TVOTE",

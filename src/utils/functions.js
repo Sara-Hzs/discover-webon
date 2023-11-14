@@ -18,12 +18,10 @@ import {nomo} from "nomo-webon-kit";
 // }
 
 export const fetchWebonList = async () => {
-    try {
-        nomo.getInstalledWebOns().then(installed_webons => {
-            console.log(installed_webons)
-        })
-    } catch {
-
-    }
-    return list
+    nomo.getInstalledWebOns().then(installed_webons => {
+        console.log(installed_webons)
+    }).catch(e => {
+        console.log(e)
+    })
+    return list.reverse()
 }

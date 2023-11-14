@@ -16,6 +16,8 @@
     let loading = true
     let error = false
 
+    let webons = []
+
     onMount(async () => {
         const theme = await getCurrentNomoTheme()
         console.log(theme);
@@ -23,7 +25,7 @@
             await injectNomoCSSVariables();
         }
         try {
-            await nomo.registerOnPluginVisible(() => {
+            await nomo.registerOnWebOnVisible(() => {
                 refetchDataOnPluginVisible()
             })
         } catch (e) {
@@ -32,6 +34,9 @@
         // await nomo.registerOnPluginVisible(() => {
         //     refetchDataOnPluginVisible()
         // })
+        nomo.getInstalledWebOns().then(installed_webons => {
+            webons = installed_webons
+        })
         fetchWebonList().then(webonList => {
             $data.webonList = webonList
             loading = false
