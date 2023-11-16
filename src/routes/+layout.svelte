@@ -29,7 +29,6 @@
             console.log(e)
         }
         await fetchWebonList().then(webonList => {
-            console.log('WTF', webonList)
             $data.webonList = webonList
         }).catch(e => {
             console.log(e)

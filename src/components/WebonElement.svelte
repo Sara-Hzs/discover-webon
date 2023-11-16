@@ -14,11 +14,9 @@
     let error = ''
 
     onMount(() => {
-        setTimeout(() => console.log('hello'),2000)
         webon = webon
         loading = false
     })
-    console.log('WebOn', webon)
 </script>
 
 {#if !loading}

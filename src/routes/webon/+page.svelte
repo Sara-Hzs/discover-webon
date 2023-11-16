@@ -1,15 +1,14 @@
 <script>
     import {data} from "../../stores/data.js";
-    import {nomo_store} from "../../stores/nomo_store.js";
     import icon from "../../assets/icon.png"
     import card from "../../assets/card.png"
     import download from "../../assets/download.svg"
     import checkmark from "../../assets/checkmark.svg"
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
-    import {nomo} from "nomo-webon-kit";
     import WebonList from "../../components/WebonList.svelte";
     import Back from "../../components/Icons/Back.svelte";
+    import {downloadWebOn} from "../../utils/functions.js";
 
     let id = getParameterFromURL()
     let webon = $data[id]
@@ -22,60 +21,53 @@
 </script>
 
 <div class="page">
-        <div class="banner">
-            {#if webon.card_image}
-                <img class="card" src={webon.card_image} alt="">
-            {:else}
-                <img class="card" src={card} alt="">
-            {/if}
-        </div>
-        <div class="back-button">
-            <button class="back" on:click={() => {
+    <div class="banner">
+        {#if webon.card_image}
+            <img class="card" src={webon.card_image} alt="">
+        {:else}
+            <img class="card" src={card} alt="">
+        {/if}
+    </div>
+    <div class="back-button">
+        <button class="back" on:click={() => {
             browser && goto('/')
         }}>
-                <Back/>
-            </button>
-            <button class="download" on:click={async e => {
+            <Back/>
+        </button>
+        <button class="download" on:click={async e => {
         e.stopPropagation()
-        if ($nomo_store.install_functionality) {
-            nomo.installWebOn({
-                deeplink: webon.download_link,
-                skipPermissionDialog: true,
-                navigateBack: true,
-              }).catch((e) => {
-                console.error(e);
-              }) ;
-        } else {
-            nomo.injectQRCode({qrCode: webon.download_link, navigateBack: false})
-            location.reload()
-        }
+        downloadWebOn(webon.download_link).then(() => {
+            webon.downloaded = true
+        }).catch(e => {
+            console.error(e)
+        })
     }}>
-                {#if !webon.downloaded}
-                    <span>Download</span>
-                    <img src={download} alt="">
-                {:else}
-                    <span>Open</span>
-                    <img src={checkmark} alt="">
-                {/if}
-            </button>
+            {#if !webon.downloaded}
+                <span>Download</span>
+                <img src={download} alt="">
+            {:else}
+                <span>Open</span>
+                <img src={checkmark} alt="">
+            {/if}
+        </button>
+    </div>
+    <div class="top">
+        <div class="icon">
+            {#if webon.icon}
+                <img src={webon.icon} alt="">
+            {:else}
+                <img src={icon} alt="">
+            {/if}
         </div>
-        <div class="top">
-            <div class="icon">
-                {#if webon.icon}
-                    <img src={webon.icon} alt="">
-                {:else}
-                    <img src={icon} alt="">
-                {/if}
-            </div>
-            <div class="name">
-                {webon.name}
-            </div>
+        <div class="name">
+            {webon.name}
         </div>
-        <div class="description">
-            <div>Description</div>
-            {webon.description}
-        </div>
-        <div class="version">{webon.version}</div>
+    </div>
+    <div class="description">
+        <div>Description</div>
+        {webon.description}
+    </div>
+    <div class="version">{webon.version}</div>
     <div class="suggestions">
         Suggestions for you
     </div>
@@ -90,6 +82,7 @@
     min-height: 90%;
     gap: 20px;
   }
+
   .banner {
     width: 100%;
     max-width: 500px;
@@ -101,11 +94,13 @@
       height: 100%;
     }
   }
+
   .back-button {
     width: 100%;
     min-height: 50px;
     display: flex;
     justify-content: space-between;
+
     .back {
       border-radius: 1000px;
       background: var(--nomoPrimary);
@@ -113,10 +108,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
+
       img {
         width: 30px;
       }
     }
+
     .download {
       background: var(--nomoPrimary);
       color: var(--nomoOnSecondary);
@@ -126,34 +123,41 @@
       border-radius: 1000px;
       padding: 0 10px 0 20px;
       width: 200px;
+
       img {
         width: 30px;
       }
     }
   }
+
   .top {
     width: 100%;
     display: flex;
     justify-content: flex-start;
     gap: 20px;
+
     img {
       border-radius: 15px;
       width: 90px;
       min-width: 90px;
     }
+
     .name {
       font-size: 30px;
       font-weight: bold;
       word-break: break-word;
     }
   }
+
   .description {
     margin: 20px 10px;
     flex: 1;
+
     div {
       font-weight: bold;
     }
   }
+
   .suggestions {
     margin-top: 20px;
     width: 100%;
