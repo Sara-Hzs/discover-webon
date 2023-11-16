@@ -6,6 +6,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"clear:cache": "./scripts/clear_cloudflare_cache.sh",
+		"stage": "npm run build && rsync -avz --progress build/ root@95.179.247.2:/var/www/playground --delete && npm run clear:cache",
 		"deploy": "npm run build && rsync -avz --progress build/ root@95.179.247.2:/var/www/discover --delete && npm run clear:cache"
 	},
 	"devDependencies": {

@@ -2,66 +2,86 @@
     import default_icon from '../assets/icon.png'
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
-    import {nomo} from "nomo-webon-kit";
     import Download from "./Icons/Download.svelte";
+    import Uninstall from "./Icons/Uninstall.svelte";
+    import Checkmark from "./Icons/Checkmark.svelte";
+    import {downloadWebOn, uninstallWebOn} from "../utils/functions.js";
+    import {nomo_store} from "../stores/nomo_store.js";
     import {onMount} from "svelte";
-    import {hasMinimumNomoVersion} from "nomo-webon-kit/dist/nomo_api";
 
     export let webon
-    const {name, id, icon, slogan, download_link} = webon
-    export let downloaded = false
+    let loading = true
+    let error = ''
 
     onMount(() => {
-
-
+        setTimeout(() => console.log('hello'),2000)
+        webon = webon
+        loading = false
     })
+    console.log('WebOn', webon)
 </script>
 
-<div class="container" on:click={() => {
-    browser && goto('/webon?id=' + id)
+{#if !loading}
+
+    <div class="container" on:click={() => {
+browser && goto('/webon?id=' + webon.id)
 }}>
-    <div class="icon">
-        {#if icon}
-            <img src={icon} alt=''/>
+        <div class="icon">
+            {#if webon.icon}
+                <img src={webon.icon} alt=''/>
+            {:else}
+                <img src={default_icon} alt=''/>
+            {/if}
+        </div>
+        <div class="information">
+            <div class="name">
+                {webon.name}
+            </div>
+            <div class="slogan">
+                {webon.slogan}
+            </div>
+        </div>
+        {#if !webon.downloaded}
+            <button on:click={async e => {
+            e.stopPropagation()
+            downloadWebOn(webon.download_link).then(() => {
+                error = ''
+                webon.downloaded = true
+            }).catch(() => {
+                error = 'Download failed'
+            })
+            }}>
+                <Download/>
+            </button>
+        {:else if $nomo_store.uninstall_functionality}
+            <button on:click={async e => {
+            e.stopPropagation()
+            uninstallWebOn(webon.webon_url).then(() => {
+                error = ''
+                webon.downloaded = false
+            }).catch(() => {
+            error = 'Uninstall failed'
+            })
+    }}>
+                <Uninstall/>
+            </button>
         {:else}
-            <img src={default_icon} alt=''/>
+            <button disabled>
+                <Checkmark/>
+            </button>
         {/if}
     </div>
-    <div class="information">
-        <div class="name">
-            {name}
-        </div>
-        <div class="slogan">
-            {slogan}
-        </div>
-    </div>
-    {#if !downloaded}
-        <button on:click={async e => {
-        e.stopPropagation()
-        const version_above = await hasMinimumNomoVersion({minVersion: '0.3.3'})
-        if (version_above?.minVersionFulfilled) {
-            nomo.installWebOn({
-                deeplink: download_link,
-                skipPermissionDialog: true,
-                navigateBack: true,
-              }).catch((e) => {
-                console.error(e);
-              }) ;
-        } else {
-            nomo.injectQRCode({qrCode: download_link, navigateBack: false})
-        }
-    }}>
-                <Download/>
-        </button>
-    {/if}
-</div>
+{/if}
+{#if error}
+    <div class="error">{error}</div>
+{/if}
 
 <style lang="scss">
   .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 5px;
+    gap: 10px;
 
     .icon {
       img {
@@ -103,5 +123,12 @@
         border-radius: 1000px;
       }
     }
+  }
+
+  .error {
+    color: red;
+    font-size: 12px;
+    margin: 5px 5px 15px;
+    padding: 5px;
   }
 </style>

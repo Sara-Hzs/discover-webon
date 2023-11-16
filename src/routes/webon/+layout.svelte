@@ -29,7 +29,7 @@
 
     onMount(async () => {
         getParameterFromURL();
-        getWebonById(id)
+        await getWebonById(id)
         console.log(webon)
     })
 

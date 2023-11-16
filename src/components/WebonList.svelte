@@ -1,14 +1,17 @@
 <script>
-
 import {data} from "../stores/data.js";
 import WebonElement from "./WebonElement.svelte";
+import {onMount} from "svelte";
+
+onMount(() => {
+    $data.webonList = $data.webonList
+    console.log("Webon List", $data.webonList)
+})
 </script>
 
 <div class="container">
     {#each $data.webonList as webon}
-        <WebonElement {webon} downloaded={
-            false
-        }/>
+        <WebonElement {webon}/>
     {/each}
 </div>
 

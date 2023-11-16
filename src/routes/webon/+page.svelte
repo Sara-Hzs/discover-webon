@@ -1,12 +1,13 @@
 <script>
     import {data} from "../../stores/data.js";
+    import {nomo_store} from "../../stores/nomo_store.js";
     import icon from "../../assets/icon.png"
     import card from "../../assets/card.png"
     import download from "../../assets/download.svg"
+    import checkmark from "../../assets/checkmark.svg"
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
     import {nomo} from "nomo-webon-kit";
-    import {hasMinimumNomoVersion} from "nomo-webon-kit/dist/nomo_api";
     import WebonList from "../../components/WebonList.svelte";
     import Back from "../../components/Icons/Back.svelte";
 
@@ -36,8 +37,7 @@
             </button>
             <button class="download" on:click={async e => {
         e.stopPropagation()
-        const version_above = await hasMinimumNomoVersion({minVersion: '0.3.3'})
-        if (version_above?.minVersionFulfilled) {
+        if ($nomo_store.install_functionality) {
             nomo.installWebOn({
                 deeplink: webon.download_link,
                 skipPermissionDialog: true,
@@ -50,8 +50,13 @@
             location.reload()
         }
     }}>
-                <span>Download</span>
-                <img src={download} alt="">
+                {#if !webon.downloaded}
+                    <span>Download</span>
+                    <img src={download} alt="">
+                {:else}
+                    <span>Open</span>
+                    <img src={checkmark} alt="">
+                {/if}
             </button>
         </div>
         <div class="top">
@@ -75,7 +80,7 @@
         Suggestions for you
     </div>
     <div class="page">
-        <WebonList suggested={true}/>
+        <WebonList/>
     </div>
 </div>
 

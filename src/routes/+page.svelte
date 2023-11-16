@@ -10,6 +10,6 @@ import WebonList from "../components/WebonList.svelte";
 
 <style>
     .page {
-        height: 100%;
+        min-height: 100vh;
     }
 </style>
