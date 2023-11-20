@@ -3,6 +3,7 @@
     import {data} from "../../stores/data.js";
     import cross from "../../assets/cross.svg";
     import Reload from "../../components/Reload.svelte";
+    import {nomo} from "nomo-webon-kit";
 
     let id
     let webon
@@ -30,7 +31,14 @@
     onMount(async () => {
         getParameterFromURL();
         await getWebonById(id)
-        console.log(webon)
+        try {
+            await nomo.registerOnWebOnVisible(async () => {
+                getParameterFromURL();
+                await getWebonById(id)
+            })
+        } catch (e) {
+            console.log(e)
+        }
     })
 
 

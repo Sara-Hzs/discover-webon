@@ -12,7 +12,6 @@
 
     let id = getParameterFromURL()
     let webon = $data[id]
-
     function getParameterFromURL() {
         const url = new URL(window.location.href)
         return url.searchParams.get('id');

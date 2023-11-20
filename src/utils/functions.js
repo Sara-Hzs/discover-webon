@@ -9,7 +9,6 @@ const reversed_list = list.reverse()
 export const fetchWebonList = async () => {
     return new Promise((resolve, reject) => {
         nomo.getInstalledWebOns().then(installed_webons => {
-            console.log('Installed:', installed_webons)
             reversed_list.forEach(available_webon => {
                 available_webon.webon_url = available_webon.download_link.replace('nomo.app/pluginv1/', '');
                 let match = installed_webons.manifests.find(installed_webon => installed_webon.webon_url === available_webon.webon_url);
@@ -17,7 +16,6 @@ export const fetchWebonList = async () => {
                     available_webon.downloaded = true;
                 }
             });
-            console.log('Available:', reversed_list)
             resolve(reversed_list)
         }).catch(e => {
             console.log(e)

@@ -5,7 +5,6 @@ import {onMount} from "svelte";
 
 onMount(() => {
     $data.webonList = $data.webonList
-    console.log("Webon List", $data.webonList)
 })
 </script>
 
