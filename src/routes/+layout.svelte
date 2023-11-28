@@ -32,7 +32,7 @@
             $data.webonList = webonList
         }).catch(e => {
             console.log(e)
-            error = 'Could not fetch any WebOns'
+            $data.webonList = []
         })
         loading = false
     })
@@ -42,7 +42,7 @@
             $data.webonList = webonList
         }).catch(e => {
             console.log(e)
-            error = 'Could not fetch any WebOns'
+            $data.webonList = $data.webonList
         })
     }
 

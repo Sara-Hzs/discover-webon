@@ -3,7 +3,7 @@
   "plugin_id": "app.nomo.discover",
   "plugin_name": "Discover Webons",
   "plugin_version": "0.1.1",
-  "webon_id": "app.nomo.playground",
+  "webon_id": "app.nomo.discover",
   "webon_name": "Discover Webons",
   "webon_version": "0.1.1",
   "dependencies": [],

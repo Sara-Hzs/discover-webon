@@ -19,7 +19,7 @@ export const fetchWebonList = async () => {
             resolve(reversed_list)
         }).catch(e => {
             console.log(e)
-            reject(e)
+            resolve(reversed_list)
         })
     })
 }
