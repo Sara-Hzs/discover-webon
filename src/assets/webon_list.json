@@ -107,5 +107,17 @@
     "version": "0.1.0",
     "id": "xbvcbsifsofj",
     "download_link": "https://nomo.app/pluginv1/avinoc-migration.nomo.app"
+  },
+  {
+    "name": "Voo Travel",
+    "description": "Start building your Voo Travel Crew now.\nTake full advantage of all the benefits from your very first booking once the VOO Travel App, the booking platform for VOO private customers, is launched!\nReady to put together your #voocrew?",
+    "slogan": "Ready for takeoff?",
+    "images": [
+    ],
+    "icon": "/icons/voo.svg",
+    "card_image": "/cards/voo.svg",
+    "version": "0.1.0",
+    "id": "klndbgduvadvf",
+    "download_link": "https://nomo.app/pluginv1/voo.nomo.app"
   }
 ]
