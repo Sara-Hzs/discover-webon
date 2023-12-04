@@ -2,7 +2,7 @@
     import {data} from "../../stores/data.js";
     import icon from "../../assets/icon.png"
     import card from "../../assets/card.png"
-    import download from "../../assets/download.svg"
+    import plus from "../../assets/plus.svg"
     import checkmark from "../../assets/checkmark.svg"
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
@@ -42,8 +42,8 @@
         })
     }}>
             {#if !webon.downloaded}
-                <span>Download</span>
-                <img src={download} alt="">
+                <span>Add Now</span>
+                <img src={plus} alt="">
             {:else}
                 <span>Open</span>
                 <img src={checkmark} alt="">
