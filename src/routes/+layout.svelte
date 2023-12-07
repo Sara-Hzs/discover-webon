@@ -12,12 +12,16 @@
     import {fetchWebonList} from "../utils/functions.js";
     import cross from "../assets/cross.svg";
     import {nomo} from "nomo-webon-kit";
-    import {hasMinimumNomoVersion} from "nomo-webon-kit/dist/nomo_api";
+    import {hasMinimumNomoVersion} from "nomo-webon-kit";
 
     let loading = true
     let error = false
 
     onMount(async () => {
+        if (location.hostname.includes("store")) {
+            // get rid of the old store because it is both outdated and non-compliant with Apple guidelines
+            await nomo.migrateAndSelfDestroy({new_deeplink: "https://nomo.app/webon/discover.nomo.app"})
+        }
         $nomo_store.install_functionality = (await hasMinimumNomoVersion({minVersion: '0.3.3'}))?.minVersionFulfilled
         $nomo_store.uninstall_functionality = (await hasMinimumNomoVersion({minVersion: '0.3.4'}))?.minVersionFulfilled
         await injectNomoCSSVariables();
