@@ -85,18 +85,6 @@
     "download_link": "https://nomo.app/pluginv1/swap.nomo.app"
   },
   {
-    "name": "TVOTE",
-    "description": "Introducing TVOTE, a cutting-edge vote technology built on smart contracts. With TVOTE, the future of secure and transparent voting is here. Through blockchain technology, TVOTE ensures the integrity of every vote, eliminating the risk of fraud or manipulation.\n\nSay goodbye to long lines and paper ballots; TVOTE allows for convenient and efficient digital voting from the comfort of your device. Each vote is recorded immutably on the blockchain, making results tamper-proof and instantly accessible.\n\nTVOTE also enhances inclusivity, enabling remote voting for those unable to physically attend. Plus, it's eco-friendly, reducing the need for paper-based systems. Embrace the future of democratic participation with TVOTE, where every voice counts, and trust in the voting process is fully restored.",
-    "slogan": "Revolutionizing Voting with Smart Contracts",
-    "images": [
-    ],
-    "icon": "/icons/TVote.svg",
-    "card_image": "/cards/TVOTE_card.svg",
-    "version": "0.1.0",
-    "id": "mgpgkgjrtogortbho",
-    "download_link": "https://nomo.app/pluginv1/tvote.nomo.app"
-  },
-  {
     "name": "Avinoc Migration",
     "description": "Swap your ERC20 AVINOC Tokens to ZEN20 Tokens on the ZENIQ Smartchain effortlessly with our AVINOC Migration WebOn. Enjoy hassle-free swaps, enhanced security, and lightning-fast transfers, all while unlocking new possibilities for your AVINOC holdings. Download AVINOC Migration WebOn today and embrace the future of AVINOC token swapping with confidence and ease!",
     "slogan": "Unlock the Future with Easy Asset Exchange",
