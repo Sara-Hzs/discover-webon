@@ -54,7 +54,7 @@
 
 <svelte:head>
     <title>Webon Store</title>
-    <meta name="description" content="Webon Store"/>
+    <meta name="description" content="Discover WebOns"/>
 </svelte:head>
 
 {#if loading}
