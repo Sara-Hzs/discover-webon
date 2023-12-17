@@ -57,8 +57,8 @@ browser && goto('/webon?id=' + webon.id)
             uninstallWebOn(webon.webon_url).then(() => {
                 error = ''
                 webon.downloaded = false
-            }).catch(() => {
-            error = 'Uninstall failed'
+            }).catch(e => {
+            error = 'Uninstall failed: ' + JSON.stringify(e)
             })
     }}>
                 <Uninstall/>

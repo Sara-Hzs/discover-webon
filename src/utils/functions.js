@@ -11,7 +11,9 @@ export const fetchWebonList = async () => {
         nomo.getInstalledWebOns().then(installed_webons => {
             reversed_list.forEach(available_webon => {
                 available_webon.webon_url = available_webon.download_link.replace('nomo.app/pluginv1/', '');
-                let match = installed_webons.manifests.find(installed_webon => installed_webon.webon_url === available_webon.webon_url);
+                let match = installed_webons.manifests.find(installed_webon => {
+                    return installed_webon.webon_url === available_webon.webon_url || installed_webon.webon_id === available_webon.id
+                });
                 if (match) {
                     available_webon.downloaded = true;
                 }
