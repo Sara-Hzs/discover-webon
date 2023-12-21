@@ -1,6 +1,6 @@
 [
   {
-    "name": "Demo WebOn",
+    "name": "Dev WebOn",
     "description": "For developers, DemoWebon is an invaluable resource. It's designed to provide a dedicated environment for developing Nomo WebOns and comes complete with tutorials, readily available on dev.nomo.app. This WebOn serves as an interactive showcase of various features that can be integrated into your custom WebOns. This includes capabilities like signing transactions through provided npm packages, interacting with the chat, sending assets, scanning QR codes, and adding custom tokens.",
     "slogan": "For Developers, By Developers",
     "images": [
