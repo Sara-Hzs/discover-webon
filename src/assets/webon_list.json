@@ -6,7 +6,7 @@
     "images": [
     ],
     "icon": "/icons/Demo_Plugin.svg",
-    "card_image": "/cards/Demo_Plugin_card.svg",
+    "card_image": "/cards/Demo_Plugin_card.png",
     "version": "0.1.0",
     "id": "app.nomo.demowebon",
     "download_link": "https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz"

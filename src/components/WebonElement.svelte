@@ -54,7 +54,7 @@ browser && goto('/webon?id=' + webon.id)
         {:else if $nomo_store.uninstall_functionality}
             <button on:click={async e => {
             e.stopPropagation()
-            uninstallWebOn(webon.webon_url).then(() => {
+            uninstallWebOn(webon.webon_url === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz' ? 'https://w.nomo.app/demowebon/nomo.tar.gz' : webon.webon_url).then(() => {
                 error = ''
                 webon.downloaded = false
             }).catch(e => {
