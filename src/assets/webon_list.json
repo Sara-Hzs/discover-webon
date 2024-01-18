@@ -107,5 +107,53 @@
     "version": "0.1.0",
     "id": "klndbgduvadvf",
     "download_link": "https://nomo.app/pluginv1/voo.nomo.app"
+  },
+  {
+    "name": "Avinoc DeFi",
+    "description": "Unlock Your Earning Potential: Step into the world of Avinoc DeFi and unleash a heightened level of yield potential. Seamlessly participate with your Avinoc DeFi tokens to enhance your returns without constraints, exploring rewarding opportunities for growth and success within the blockchain ecosystem.",
+    "slogan": "Maximize Your Yield Potential with Avinoc DeFi!",
+    "images": [
+    ],
+    "icon": "/icons/avinoc_DeFi.svg",
+    "card_image": "/cards/avinoc_DeFi.svg",
+    "version": "0.1.0",
+    "id": "avinocDeFi",
+    "download_link": "https://nomo.app/webon/w.nomo.app/avinocdefi/nomo.tar.gz"
+  },
+  {
+    "name": "SAFIR+",
+    "description": "We want to express our heartfelt appreciation for choosing the NOMO App! Your decision to use our services is truly valued and has not gone unnoticed. As a token of our gratitude, we're excited to share that an exclusive voucher, designed exclusively for you, is awaiting your discovery in the SAFIR Backoffice. This carefully curated voucher is our way of saying thank you for your ongoing support, and we hope it adds an extra layer of enjoyment to your NOMO experience. Your loyalty means the world to us, and we look forward to continuing to provide you with exceptional service. Once again, thank you for being an integral part of the NOMO community!",
+    "slogan": "A Heartfelt Thank You from NOMO App: Your Exclusive Voucher Awaits!",
+    "images": [
+    ],
+    "icon": "/icons/safir+.svg",
+    "card_image": "/cards/safir+.svg",
+    "version": "0.1.0",
+    "id": "safirplus",
+    "download_link": "https://nomo.app/webon/w.nomo.app/safirplus/nomo.tar.gz"
+  },
+  {
+    "name": "NEO Credit DeFi",
+    "description": "Unleash Your Earning Power: Step into the world of Neo Credit DeFi minting and unlock a new level of yield potential. Seamlessly stake your NEO Credit tokens and amplify your returns without limits, opening up lucrative opportunities for growth and success in the blockchain ecosystem.",
+    "slogan": "Amplify Your Yield Potential with NEO Credit! ",
+    "images": [
+    ],
+    "icon": "/icons/NEO_credit_DeFi.svg",
+    "card_image": "/cards/NEO_credit_DeFi.svg",
+    "version": "0.1.0",
+    "id": "neoCreditDeFi",
+    "download_link": "https://nomo.app/webon/w.nomo.app/neocreditdefi/nomo.tar.gz"
+  },
+  {
+    "name": "NEO Credit Migration",
+    "description": "Elevate Your User Experience: Embark on a seamless transition by migrating your NRT to the ZENIQ Smartchain, unlocking a myriad of powerful features that promise to elevate your transactions and rewards within our dynamic ecosystem. This upgrade not only ensures a smoother and more efficient process but also opens the door to enhanced functionalities designed to enrich your overall interaction with our platform. Join us on this transformative journey, and experience the next level of convenience and rewards as you embrace the innovative possibilities of the ZENIQ Smartchain. Upgrade now to discover a world of possibilities that await you in our enhanced ecosystem!",
+    "slogan": "Move Your NRT to the ZENIQ Smartchain!",
+    "images": [
+    ],
+    "icon": "/icons/NEO_credit_migration.svg",
+    "card_image": "/cards/NEO_credit_migration.svg",
+    "version": "0.1.0",
+    "id": "neoCreditMigration",
+    "download_link": "https://nomo.app/webon/w.nomo.app/neocreditmigration/nomo.tar.gz"
   }
 ]

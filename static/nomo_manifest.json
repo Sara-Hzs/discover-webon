@@ -5,7 +5,7 @@
   "plugin_version": "0.1.3",
   "webon_id": "app.nomo.discover",
   "webon_name": "Discover Webons",
-  "webon_version": "0.1.3",
+  "webon_version": "0.1.4",
   "dependencies": [],
   "permissions": [
     "nomo.permission.INSTALL_WEBON",
