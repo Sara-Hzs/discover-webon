@@ -41,7 +41,7 @@
     "card_image": "/cards/AVINOC_Incentive_card.svg",
     "version": "0.1.0",
     "id": "fgjghvsdf",
-    "download_link": "https://nomo.app/pluginv1/avinoc-incentive.nomo.app"
+    "download_link": "https://nomo.app/webon/avinoc-incentive.nomo.app"
   },
   {
     "name": "ZENCON DEBIT",
@@ -52,7 +52,7 @@
     "card_image": "/cards/ZENcard.png",
     "version": "0.1.0",
     "id": "hgfhfgh",
-    "download_link": "https://nomo.app/pluginv1/debit.nomo.app"
+    "download_link": "https://nomo.app/webon/debit.nomo.app"
   },
   {
     "name": "ZENPASS",
@@ -63,7 +63,7 @@
     "card_image": "/cards/zenpass.svg",
     "version": "0.1.0",
     "id": "fghfghfgh",
-    "download_link": "https://nomo.app/pluginv1/zenpass.nomo.app"
+    "download_link": "https://nomo.app/webon/zenpass.nomo.app"
   },
   {
     "name": "Swap WebOn",
@@ -74,7 +74,7 @@
     "card_image": "/cards/Swap_card.svg",
     "version": "0.1.0",
     "id": "cmxnvkjbi",
-    "download_link": "https://nomo.app/pluginv1/swap.nomo.app"
+    "download_link": "https://nomo.app/webon/swap.nomo.app"
   },
   {
     "name": "Avinoc Migration",
@@ -85,7 +85,7 @@
     "card_image": "/cards/AVINOC_SWAP_card.svg",
     "version": "0.1.0",
     "id": "xbvcbsifsofj",
-    "download_link": "https://nomo.app/pluginv1/avinoc-migration.nomo.app"
+    "download_link": "https://nomo.app/webon/avinoc-migration.nomo.app"
   },
   {
     "name": "Voo Miles",
@@ -96,7 +96,7 @@
     "card_image": "/cards/voo.svg",
     "version": "0.1.0",
     "id": "klndbgduvadvf",
-    "download_link": "https://nomo.app/pluginv1/voo.nomo.app"
+    "download_link": "https://nomo.app/webon/voo.nomo.app"
   },
   {
     "name": "Avinoc DeFi",
