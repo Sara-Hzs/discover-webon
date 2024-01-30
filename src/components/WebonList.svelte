@@ -1,17 +1,28 @@
 <script>
-import {data} from "../stores/data.js";
-import WebonElement from "./WebonElement.svelte";
-import {onMount} from "svelte";
+  import { data } from "../stores/data.js";
+  import WebonElement from "./WebonElement.svelte";
+  import { onMount } from "svelte";
 
-onMount(() => {
-    $data.webonList = $data.webonList
-})
+  let selectedWebonList = "webon_list.json"; // Default webon list
+
+  const handleWebonListChange = (newWebonList) => {
+    selectedWebonList = newWebonList;
+    loadWebonList();
+  };
+
+  const loadWebonList = () => {
+    data.webonList = selectedWebonList;
+  };
+
+  onMount(() => {
+    loadWebonList();
+  });
 </script>
 
 <div class="container">
-    {#each $data.webonList as webon}
-        <WebonElement {webon}/>
-    {/each}
+  {#each $data.webonList as webon}
+    <WebonElement {webon} />
+  {/each}
 </div>
 
 <style lang="scss">
