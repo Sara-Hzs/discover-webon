@@ -3,8 +3,7 @@
     "name": "Dev WebOn",
     "description": "For developers, DemoWebon is an invaluable resource. It's designed to provide a dedicated environment for developing Nomo WebOns and comes complete with tutorials, readily available on dev.nomo.app. This WebOn serves as an interactive showcase of various features that can be integrated into your custom WebOns. This includes capabilities like signing transactions through provided npm packages, interacting with the chat, sending assets, scanning QR codes, and adding custom tokens.",
     "slogan": "For Developers, By Developers",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/Demo_Plugin.svg",
     "card_image": "/cards/Demo_Plugin_card.png",
     "version": "0.1.0",
@@ -15,8 +14,7 @@
     "name": "Faucet",
     "description": "As a gesture of appreciation, our users receive 0.1 Zeniq Tokens for free – a gift from Nomo. These tokens can be claimed once per wallet and are particularly useful for covering gas fees associated with transactions on Zeniq Smartchain. Whether you're transferring Zeniq Smartchain Tokens or engaging in our Smartchain, these tokens come in handy for a smooth and cost-effective experience.",
     "slogan": "Boost Your Smartchain Transactions with FAUCET",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/Faucet.svg",
     "card_image": "/cards/Faucet_card.svg",
     "version": "0.1.0",
@@ -27,8 +25,7 @@
     "name": "Token Generator",
     "description": "The Token Generator WebOn opens up exciting possibilities. It allows you to craft custom tokens on Zeniq Smartchain in a matter of seconds. It's as easy as inputting your token details, hitting the generate button, and seamlessly adding your newly created tokens to your NOMO wallet. Just ensure you have some Zeniq tokens available to cover minimal fees. You can obtain Zeniq tokens from our Faucet, making the token generation process a breeze.",
     "slogan": "Smartchain Tokens Crafted Your Way",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/Token_Generator.svg",
     "card_image": "/cards/Token_Generator_card.svg",
     "version": "0.1.0",
@@ -36,84 +33,76 @@
     "download_link": "https://nomo.app/webon/w.nomo.app/tokengenerator/nomo.tar.gz"
   },
   {
-
     "name": "Avinoc Incentive",
     "description": "Where Success Meets Rewards. Unlock the Power of Every Code to Transform Incentives into Earnings, One Code at a Time. Unlock Your Rewards: Redeem Your Code for Avinoc ZEN20 Tokens in the WebOn. Don't Miss Out on Your Exclusive Incentive!",
     "slogan": "Where Codes Become Tokens.",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/AVINOC_Incentive.svg",
     "card_image": "/cards/AVINOC_Incentive_card.svg",
     "version": "0.1.0",
     "id": "fgjghvsdf",
-    "download_link": "https://nomo.app/pluginv1/avinoc-incentive.nomo.app"
+    "download_link": "https://nomo.app/webon/avinoc-incentive.nomo.app"
   },
   {
     "name": "ZENCON DEBIT",
     "description": "Embrace a new era of financial serenity with the ZENCON debit card. It's not just a card; it's your key to effortless and secure transactions in a fast-paced world. Say goodbye to chaos and hello to peace of mind as you navigate the financial landscape with confidence.",
     "slogan": "Where Serenity Meets Spending Power.",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/Zencon.svg",
     "card_image": "/cards/ZENcard.png",
     "version": "0.1.0",
     "id": "hgfhfgh",
-    "download_link": "https://nomo.app/pluginv1/debit.nomo.app"
+    "download_link": "https://nomo.app/webon/debit.nomo.app"
   },
   {
     "name": "ZENPASS",
     "description": "Elevate your identity with ZENPASS on the ZENIQ Smartchain, enabling robust authentication for physical applications. Our KYC identification system (know your customer) streamlines the authentication process and ensures the security of your personal data. With your ZENPASS NFT, securely share your KYC-approved personal information across multiple applications. Take charge of your data, unlock new opportunities, and keep your information protected.",
     "slogan": "Empower Your Identity, Enhance Your Security",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/ZenPass.svg",
     "card_image": "/cards/zenpass.svg",
     "version": "0.1.0",
     "id": "fghfghfgh",
-    "download_link": "https://nomo.app/pluginv1/zenpass.nomo.app"
+    "download_link": "https://nomo.app/webon/zenpass.nomo.app"
   },
   {
     "name": "Swap WebOn",
     "description": "Unlock the Power of Digital Finance with Swap. Seamlessly convert tokens and embrace a user-friendly tool for the future of finance. It simplifies exchanges and optimises your digital assets for financial growth. Ideal for traders or newcomers. The Swap offers efficiency and user-friendliness. Elevate your digital finance with this powerful tool.",
     "slogan": "Simplify Asset Exchange with Swap",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/Swap.svg",
     "card_image": "/cards/Swap_card.svg",
     "version": "0.1.0",
     "id": "cmxnvkjbi",
-    "download_link": "https://nomo.app/webon/w.nomo.app/swap/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/swap.nomo.app"
   },
   {
     "name": "Avinoc Migration",
     "description": "Swap your ERC20 AVINOC Tokens to ZEN20 Tokens on the ZENIQ Smartchain effortlessly with our AVINOC Migration WebOn. Enjoy hassle-free swaps, enhanced security, and lightning-fast transfers, all while unlocking new possibilities for your AVINOC holdings. Download AVINOC Migration WebOn today and embrace the future of AVINOC token swapping with confidence and ease!",
     "slogan": "Unlock the Future with Easy Asset Exchange",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/AVINOC_SWAP.svg",
     "card_image": "/cards/AVINOC_SWAP_card.svg",
     "version": "0.1.0",
     "id": "xbvcbsifsofj",
-    "download_link": "https://nomo.app/pluginv1/avinoc-migration.nomo.app"
+    "download_link": "https://nomo.app/webon/avinoc-migration.nomo.app"
   },
   {
     "name": "Voo Miles",
     "description": "Start building your VOO Crew to enjoy the benefits of VOO Miles with your very first booking on the ultimate flight booking app, VOO Travel, upon its launch. Join us in experiencing the exclusive perks and bonuses that come with being a part of VOO Miles. Don’t miss out on the excitement – sign up today for an unparalleled travel experience! #VOOMiles #VOOTravel",
     "slogan": "Start building your Crew now!",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/voo.svg",
     "card_image": "/cards/voo.svg",
     "version": "0.1.0",
     "id": "klndbgduvadvf",
-    "download_link": "https://nomo.app/webon/w.nomo.app/voo/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/voo.nomo.app"
   },
   {
     "name": "Avinoc DeFi",
     "description": "Unlock Your Earning Potential: Step into the world of Avinoc DeFi and unleash a heightened level of yield potential. Seamlessly participate with your Avinoc DeFi tokens to enhance your returns without constraints, exploring rewarding opportunities for growth and success within the blockchain ecosystem.",
     "slogan": "Maximize Your Yield Potential with Avinoc DeFi!",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/avinoc_DeFi.svg",
     "card_image": "/cards/avinoc_DeFi.svg",
     "version": "0.1.0",
@@ -124,8 +113,7 @@
     "name": "SAFIR+",
     "description": "We want to express our heartfelt appreciation for choosing the NOMO App! Your decision to use our services is truly valued and has not gone unnoticed. As a token of our gratitude, we're excited to share that an exclusive voucher, designed exclusively for you, is awaiting your discovery in the SAFIR Backoffice. This carefully curated voucher is our way of saying thank you for your ongoing support, and we hope it adds an extra layer of enjoyment to your NOMO experience. Your loyalty means the world to us, and we look forward to continuing to provide you with exceptional service. Once again, thank you for being an integral part of the NOMO community!",
     "slogan": "A Heartfelt Thank You from NOMO App: Your Exclusive Voucher Awaits!",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/safir+.svg",
     "card_image": "/cards/safir+.svg",
     "version": "0.1.0",
@@ -136,8 +124,7 @@
     "name": "NEO Credit DeFi",
     "description": "Unleash Your Earning Power: Step into the world of Neo Credit DeFi minting and unlock a new level of yield potential. Seamlessly stake your NEO Credit tokens and amplify your returns without limits, opening up lucrative opportunities for growth and success in the blockchain ecosystem.",
     "slogan": "Amplify Your Yield Potential with NEO Credit! ",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/NEO_credit_DeFi.svg",
     "card_image": "/cards/NEO_credit_DeFi.svg",
     "version": "0.1.0",
@@ -148,8 +135,7 @@
     "name": "NEO Credit Migration",
     "description": "Elevate Your User Experience: Embark on a seamless transition by migrating your NRT to the ZENIQ Smartchain, unlocking a myriad of powerful features that promise to elevate your transactions and rewards within our dynamic ecosystem. This upgrade not only ensures a smoother and more efficient process but also opens the door to enhanced functionalities designed to enrich your overall interaction with our platform. Join us on this transformative journey, and experience the next level of convenience and rewards as you embrace the innovative possibilities of the ZENIQ Smartchain. Upgrade now to discover a world of possibilities that await you in our enhanced ecosystem!",
     "slogan": "Move Your NRT to the ZENIQ Smartchain!",
-    "images": [
-    ],
+    "images": [],
     "icon": "/icons/NEO_credit_migration.svg",
     "card_image": "/cards/NEO_credit_migration.svg",
     "version": "0.1.0",
