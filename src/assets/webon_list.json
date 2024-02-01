@@ -66,6 +66,17 @@
     "download_link": "https://nomo.app/webon/zenpass.nomo.app"
   },
   {
+    "name":"Swap DeFi",
+    "description":"Swap DeFi: Specializing in user-friendly asset swapping with a seamless and intuitive user experience",
+    "slogan": "A Swap WebOn for DeFi-enthusiasts",
+    "images":[],
+    "icon": "/icons/swap_defi.svg",
+    "card_image":"/cards/defi_swap_card.svg",
+    "version":"0.2.12",
+    "id":"app.nomo.swapdefi",
+    "download_link":"https://nomo.app/webon/w.nomo.app/swapdefi/nomo.tar.gz"
+  },
+  {
     "name": "Swap WebOn",
     "description": "Unlock the Power of Digital Finance with Swap. Seamlessly convert tokens and embrace a user-friendly tool for the future of finance. It simplifies exchanges and optimises your digital assets for financial growth. Ideal for traders or newcomers. The Swap offers efficiency and user-friendliness. Elevate your digital finance with this powerful tool.",
     "slogan": "Simplify Asset Exchange with Swap",
