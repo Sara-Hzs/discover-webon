@@ -2,12 +2,16 @@
 	"name": "webon-discovery",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "vite dev --host",
-		"build": "vite build",
-		"preview": "vite preview",
 		"clear:cache": "./scripts/clear_cloudflare_cache.sh",
-		"stage": "npm run build && rsync -avz --progress build/ root@95.179.247.2:/var/www/playground --delete && npm run clear:cache",
-		"deploy": "npm run build && rsync -avz --progress build/ root@95.179.247.2:/var/www/discover --delete && npm run clear:cache"
+		"qa": "./scripts/qa.sh",
+		"prod": "./scripts/prod.sh",
+		"dev": "npm run prod && vite dev --host",
+		"dev:qa": "qa && vite dev --mode qa --host",
+		"build": "npm run prod  && vite build",
+		"deploy": "npm run build && rsync -avz --progress build/ root@95.179.247.2:/var/www/discover --delete && npm run clear:cache",
+		"build-tar-qa": "npm run qa && vite build --mode qa && rm -rf out && mv build out && nomo-webon-cli build out",
+		"build-tar-prod": "npm run prod && vite build --mode production && rm -rf out && mv build out && nomo-webon-cli build out",
+		"deploy-qa": "npm run build-tar-qa && nomo-webon-cli deploy nomo.tar.gz qa && ./scripts/clear_cloudflare_cache.sh"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
@@ -25,6 +29,7 @@
 		"@sveltejs/adapter-static": "^2.0.3",
 		"flowbite-svelte": "^0.44.18",
 		"moment": "^2.29.4",
+		"nomo-webon-cli": "^0.1.8",
 		"nomo-webon-kit": "^0.1.20",
 		"sass": "^1.69.2",
 		"svelte-preprocess": "^5.0.4",

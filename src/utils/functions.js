@@ -1,10 +1,15 @@
 // import {nomo} from "nomo-plugin-kit/dist/nomo_api";
-import list from '../assets/webon_list.json'
+import prod_list from '../assets/webon_list.json'
+import qa_list from '../assets/qa_webon_list.json'
 import {nomo} from "nomo-webon-kit";
 import {nomo_store} from "../stores/nomo_store.js";
 import {get} from "svelte/store";
 
+const qa = import.meta.env.VITE_QA;
+const list = qa ? qa_list : prod_list
+
 const reversed_list = list.reverse()
+
 
 export const fetchWebonList = async () => {
     return new Promise((resolve, reject) => {
