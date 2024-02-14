@@ -67,12 +67,12 @@
         {webon.description}
     </div>
     <div class="version">{webon.version}</div>
-    <div class="suggestions">
+    <!-- <div class="suggestions">
         Suggestions for you
     </div>
     <div class="page">
         <WebonList/>
-    </div>
+    </div> -->
 </div>
 
 <style lang="scss">
