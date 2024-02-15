@@ -9,5 +9,16 @@
     "version": "0.1.0",
     "id": "lfiMigration",
     "download_link": "https://nomo.app/webon/testing.nomo.app/qa-lfimigration/nomo.tar.gz"
+  },
+  {
+    "name": "QA EURK Voucher",
+    "description": "PENDING",
+    "slogan": "PENDING",
+    "images": [],
+    "icon": "",
+    "card_image": "",
+    "version": "0.1.0",
+    "id": "eurkVoucher",
+    "download_link": "https://nomo.app/webon/testing.nomo.app/qa-eurkvoucher/nomo.tar.gz"
   }
 ]
