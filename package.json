@@ -6,12 +6,13 @@
 		"qa": "./scripts/qa.sh",
 		"prod": "./scripts/prod.sh",
 		"dev": "npm run prod && vite dev --host",
-		"dev:qa": "qa && vite dev --mode qa --host",
+		"dev:qa": "npm run qa && vite dev --mode qa --host",
 		"build": "npm run prod  && vite build",
 		"deploy": "npm run build && rsync -avz --progress build/ root@95.179.247.2:/var/www/discover --delete && npm run clear:cache",
 		"build-tar-qa": "npm run qa && vite build --mode qa && rm -rf out && mv build out && nomo-webon-cli build out",
 		"build-tar-prod": "npm run prod && vite build --mode production && rm -rf out && mv build out && nomo-webon-cli build out",
-		"deploy-qa": "npm run build-tar-qa && nomo-webon-cli deploy nomo.tar.gz qa && ./scripts/clear_cloudflare_cache.sh"
+		"deploy-qa": "npm run build-tar-qa && nomo-webon-cli deploy nomo.tar.gz qa && ./scripts/clear_cloudflare_cache.sh",
+		"hypersupersonic": "rsync -avz --progress out/ root@95.179.247.2:/var/www/production_webons/supersonic && nomo-webon-cli build out && nomo-webon-cli deploy nomo.tar.gz supersonic && ./scripts/clear_cloudflare_cache.sh"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
