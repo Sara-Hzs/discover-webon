@@ -121,17 +121,6 @@
     "download_link": "https://nomo.app/webon/w.nomo.app/avinocdefi/nomo.tar.gz"
   },
   {
-    "name": "SAFIR+",
-    "description": "We want to express our heartfelt appreciation for choosing the NOMO App! Your decision to use our services is truly valued and has not gone unnoticed. As a token of our gratitude, we're excited to share that an exclusive voucher, designed exclusively for you, is awaiting your discovery in the SAFIR Backoffice. This carefully curated voucher is our way of saying thank you for your ongoing support, and we hope it adds an extra layer of enjoyment to your NOMO experience. Your loyalty means the world to us, and we look forward to continuing to provide you with exceptional service. Once again, thank you for being an integral part of the NOMO community!",
-    "slogan": "A Heartfelt Thank You from NOMO App: Your Exclusive Voucher Awaits!",
-    "images": [],
-    "icon": "/icons/safir+.svg",
-    "card_image": "/cards/safir+.svg",
-    "version": "0.1.0",
-    "id": "safirplus",
-    "download_link": "https://nomo.app/webon/w.nomo.app/safirplus/nomo.tar.gz"
-  },
-  {
     "name": "NEO Credit DeFi",
     "description": "Unleash Your Earning Power: Step into the world of Neo Credit DeFi minting and unlock a new level of yield potential. Seamlessly stake your NEO Credit tokens and amplify your returns without limits, opening up lucrative opportunities for growth and success in the blockchain ecosystem.",
     "slogan": "Amplify Your Yield Potential with NEO Credit! ",
@@ -152,5 +141,16 @@
     "version": "0.1.0",
     "id": "neoCreditMigration",
     "download_link": "https://nomo.app/webon/w.nomo.app/neocreditmigration/nomo.tar.gz"
+  },
+  {
+    "name": "Supersonic",
+    "description": "Supersonic is a special program that connects the two worlds of AVINOC and VOO in a unique way. It is designed to support the price development of AVINOC and VOO token.\nTo participate in the Supersonic program, you need at least one or more VOO Minting hub and AVINOC token equivalent to the value of your hub. You can use any hubs you already own or simply purchase new VOO hubs. The highlight of the program is the 4 Supersonic Days. On your first Supersonic Day, the number of your AVINOC token is multiplied by a certain coefficient. If you participate in subsequent Supersonic Days, the already multiplied AVINOC token are again multiplied by a certain factor.",
+    "slogan": "Start with Supersonic",
+    "images": [],
+    "icon": "/icons/Supersonic.svg",
+    "card_image": "/cards/Supersonic.svg",
+    "version": "0.1.0",
+    "id": "supersonic",
+    "download_link": "https://nomo.app/webon/w.nomo.app/supersonic/nomo.tar.gz"
   }
 ]
