@@ -53,7 +53,7 @@
 </script>
 
 <svelte:head>
-    <title>Webon Store</title>
+    <title>Discover WebOns</title>
     <meta name="description" content="Discover WebOns"/>
 </svelte:head>
 
