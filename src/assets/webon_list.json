@@ -152,5 +152,16 @@
     "version": "0.1.0",
     "id": "supersonic",
     "download_link": "https://nomo.app/webon/w.nomo.app/supersonic/nomo.tar.gz"
+  },
+  {
+    "name": "EURK Voucher",
+    "description": "Discover a new era of financial flexibility with KMall's innovative EuroCoin migration to vouchers! Seamlessly convert your EuroCoins into versatile vouchers, unlocking a world of possibilities within our digital ecosystem. Elevate your experience, simplify transactions, and embrace the future of convenience. ",
+    "slogan": "EuroCoin Migration to Vouchers within KMall's Digital Realm!",
+    "images": [],
+    "icon": "/icons/eurk.svg",
+    "card_image": "/cards/eurk.svg",
+    "version": "0.1.0",
+    "id": "eurkVoucher",
+    "download_link": "https://nomo.app/webon/w.nomo.app/eurk/nomo.tar.gz"
   }
 ]
