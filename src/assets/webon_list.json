@@ -88,6 +88,17 @@
     "download_link": "https://nomo.app/webon/swap.nomo.app"
   },
   {
+    "name": "Swap Theme",
+    "description": "Experience the ultimate flexibility with the Swap Theme WebOn, your go-to solution for effortlessly customizing and transforming the look and feel of the Nomo App. Whether you're aiming for a light, dark, or completely custom theme, the WebOn makes it simple to switch themes on-the-fly, ensuring your space always matches your mood and workflow. Tailored for ease and efficiency, Swap Theme WebOn is designed to elevate your digital experience.",
+    "slogan": "Seamlessly Transform Your Digital Space",
+    "images": [],
+    "icon": "/icons/swap_theme.svg",
+    "card_image": "/cards/swap_theme_card.svg",
+    "version": "0.1.2",
+    "id": "app.nomo.app.nomo.swaptheme",
+    "download_link": "https://nomo.app/webon/w.nomo.app/swaptheme"
+  },
+  {
     "name": "Avinoc Migration",
     "description": "Swap your ERC20 AVINOC Tokens to ZEN20 Tokens on the ZENIQ Smartchain effortlessly with our AVINOC Migration WebOn. Enjoy hassle-free swaps, enhanced security, and lightning-fast transfers, all while unlocking new possibilities for your AVINOC holdings. Download AVINOC Migration WebOn today and embrace the future of AVINOC token swapping with confidence and ease!",
     "slogan": "Unlock the Future with Easy Asset Exchange",
