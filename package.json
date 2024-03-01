@@ -6,7 +6,7 @@
 		"qa": "./scripts/qa.sh",
 		"prod": "./scripts/prod.sh",
 		"dev": "npm run prod && vite dev --host",
-		"dev:qa": "npm run qa && vite dev --mode qa --host",
+		"dev:qa": "vite dev --mode qa --host",
 		"build": "npm run prod  && vite build",
 		"deploy": "npm run build && rsync -avz --progress build/ root@95.179.247.2:/var/www/discover --delete && npm run clear:cache",
 		"build-tar-qa": "npm run qa && vite build --mode qa && rm -rf out && mv build out && nomo-webon-cli build out",

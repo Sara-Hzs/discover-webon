@@ -15,8 +15,8 @@
     "description": "Embark on a journey of financial fluidity with the ZUSD Swap WebOn. Seamlessly convert USDT (Ethereum) and USDC (Ethereum) into ZUSD tokens on the Zeniq Smartchain. Soon, expand your reach by shifting USDT and USDC from BSC. The ZUSD Swap WebOn is your key to unlocking diverse crypto landscapes, ensuring swift transactions and dynamic token management. Empower your crypto journey with agility and versatility.",
     "slogan": "Transform Your Tokens, Ignite Potential",
     "images": [],
-    "icon": "/icons/Zusd.svg",
-    "card_image": "/cards/Zusd.svg",
+    "icon": "/icons/zusd.svg",
+    "card_image": "/cards/zusd.svg",
     "version": "0.1.0",
     "id": "zusd",
     "download_link": "https://nomo.app/webon/w.nomo.app/zusd/nomo.tar.gz"
