@@ -55,6 +55,39 @@ export const downloadWebOn = (deeplink) => {
         }
     })
 }
+
+export const installUrlWebOn = (wURL, wId, wName) => {
+    return new Promise((resolve, reject) => {
+        const manifest = {
+            "nomo_manifest_version": "1.1.0",
+            "webon_id": wId,
+            "webon_name": wName,
+            "webon_version": "0.1.16",
+            "dependencies": [
+                "https://w.nomo.app/js/ethers.js",
+                "https://w.nomo.app/js/eip712.js",
+                "https://w.nomo.app/js/index.js"
+            ],
+            "permissions": [
+                "nomo.permission.GET_INSTALLED_WEBONS",
+                "nomo.permission.SIGN_EVM_TRANSACTION",
+                "nomo.permission.SIGN_EVM_MESSAGE"
+            ],
+            "webon_url": wURL,
+        }
+
+        nomo.installUrlAsWebOn({
+            // static/qa_manifest.json
+            manifest: manifest,
+            navigateBack: false,
+            skipPermissionDialog: true,
+        }).then(() => resolve()).catch((e) => {
+            reject(e)
+            console.error(e)
+        });
+    })
+}
+
 export const uninstallWebOn = (webon_url) => {
     return new Promise((resolve, reject) => {
         nomo.uninstallWebOn({
