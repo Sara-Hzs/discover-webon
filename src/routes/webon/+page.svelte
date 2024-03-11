@@ -76,7 +76,7 @@
         <div>Description</div>
         {webon.description}
     </div>
-    <div class="version">{webon.version}</div>
+    <!-- <div class="version">{webon.version}</div> -->
     <!-- <div class="suggestions">
         Suggestions for you
     </div>
