@@ -11,8 +11,8 @@
     }
 </style>
     <circle class="st0" cx="16" cy="16" r="13"/>
-    <polyline class="st0" points="20,17 16,21 12,17 "/>
     <line class="st0" x1="16" y1="21" x2="16" y2="10"/>
+    <line class="st0" x1="10" y1="16" x2="21" y2="16"/>
 </svg>
 
 <style lang="scss">
