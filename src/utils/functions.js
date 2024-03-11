@@ -35,17 +35,20 @@ export const fetchWebonList = async () => {
 }
 
 export const downloadWebOn = (deeplink) => {
+    if (deeplink.includes("uniswap")) {
+        if (!get(nomo_store).metamask_functionality) {
+            const err = "This WebOn is only supported on Nomo 0.4.0 or higher.";
+            alert(err);
+            return Promise.reject(err);
+        }
+    }
     return new Promise((resolve, reject) => {
         nomo.installWebOn({
             deeplink: deeplink,
             skipPermissionDialog: true,
             navigateBack: true,
         }).then(() => resolve()).catch((e) => {
-            if (deeplink.includes("uniswap")) {
-                reject(Error("This WebOn is only supported on Nomo 0.4.0 or higher."));
-            } else {
-                reject(e);
-            }
+            reject(e);
             console.error(e)
         }) ;
     })

@@ -24,6 +24,7 @@
         }
         $nomo_store.install_functionality = (await hasMinimumNomoVersion({minVersion: '0.3.3'}))?.minVersionFulfilled
         $nomo_store.uninstall_functionality = (await hasMinimumNomoVersion({minVersion: '0.3.4'}))?.minVersionFulfilled
+        $nomo_store.metamask_functionality = (await hasMinimumNomoVersion({minVersion: '0.4.0'}))?.minVersionFulfilled
         await injectNomoCSSVariables();
         try {
             await nomo.registerOnWebOnVisible(() => {
