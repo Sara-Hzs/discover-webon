@@ -62,7 +62,8 @@ export const installUrlWebOn = (wURL, wId, wName) => {
             "nomo_manifest_version": "1.1.0",
             "webon_id": wId,
             "webon_name": wName,
-            "webon_version": "0.1.16",
+            "min_nomo_version": "0.4.0", // min-version for MetaMask support
+            "webon_version": "0.1.0",
             "dependencies": [
                 "https://w.nomo.app/js/ethers.js",
                 "https://w.nomo.app/js/eip712.js",
