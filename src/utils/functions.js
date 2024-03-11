@@ -36,56 +36,18 @@ export const fetchWebonList = async () => {
 
 export const downloadWebOn = (deeplink) => {
     return new Promise((resolve, reject) => {
-        if (get(nomo_store).install_functionality) {
-            nomo.installWebOn({
-                deeplink: deeplink,
-                skipPermissionDialog: true,
-                navigateBack: true,
-            }).then(() => resolve()).catch((e) => {
-                reject(e)
-                console.error(e)
-            }) ;
-        } else {
-            nomo.injectQRCode({qrCode: deeplink, navigateBack: false}).then(() => {
-              resolve()
-            }).catch((e) => {
-                reject(e)
-                console.error(e)
-            })
+        if (deeplink.includes("uniswap")) {
+            reject(Error("This WebOn is only supported on Nomo 0.4.0 or higher."));
+            return;
         }
-    })
-}
-
-export const installUrlWebOn = (wURL, wId, wName) => {
-    return new Promise((resolve, reject) => {
-        const manifest = {
-            "nomo_manifest_version": "1.1.0",
-            "webon_id": wId,
-            "webon_name": wName,
-            "min_nomo_version": "0.4.0", // min-version for MetaMask support
-            "webon_version": "0.1.0",
-            "dependencies": [
-                "https://webon3.com/js/ethers.js",
-                "https://webon3.com/js/eip712.js",
-                "https://webon3.com/js/index.js"
-            ],
-            "permissions": [
-                "nomo.permission.GET_INSTALLED_WEBONS",
-                "nomo.permission.SIGN_EVM_TRANSACTION",
-                "nomo.permission.SIGN_EVM_MESSAGE"
-            ],
-            "webon_url": wURL,
-        }
-
-        nomo.installUrlAsWebOn({
-            // static/qa_manifest.json
-            manifest: manifest,
-            navigateBack: false,
+        nomo.installWebOn({
+            deeplink: deeplink,
             skipPermissionDialog: true,
+            navigateBack: true,
         }).then(() => resolve()).catch((e) => {
             reject(e)
             console.error(e)
-        });
+        }) ;
     })
 }
 

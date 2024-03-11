@@ -5,7 +5,7 @@
     import Download from "./Icons/Download.svelte";
     import Uninstall from "./Icons/Uninstall.svelte";
     import Checkmark from "./Icons/Checkmark.svelte";
-    import {downloadWebOn, installUrlWebOn, uninstallWebOn} from "../utils/functions.js";
+    import {downloadWebOn, uninstallWebOn} from "../utils/functions.js";
     import {nomo_store} from "../stores/nomo_store.js";
     import {onMount} from "svelte";
 
@@ -42,21 +42,12 @@ browser && goto('/webon?id=' + webon.id)
         {#if !webon.downloaded}
             <button on:click={async e => {
             e.stopPropagation()
-            if(webon.webon_url)
-            {
-                installUrlWebOn(webon.webon_url, webon.webon_id, webon.name).then(() => {
-                    webon.downloaded = true
-                }).catch(e => {
-                    console.error(e)
-                })
-            }else {
-                downloadWebOn(webon.download_link).then(() => {
-                    error = ''
-                    webon.downloaded = true
-                }).catch(() => {
-                    error = 'Download failed'
-                })
-            }
+            downloadWebOn(webon.download_link).then(() => {
+                error = ''
+                webon.downloaded = true
+            }).catch((e) => {
+                error = e?.toString() ?? 'Download failed'
+            })
             }}>
                 <Download/>
             </button>

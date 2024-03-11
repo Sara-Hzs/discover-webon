@@ -195,6 +195,6 @@
     "card_image": "/cards/Uniswap_card.svg",
     "id": "uniswap",
     "webon_id": "app.nomo.uniswap",
-    "webon_url": "https://app.uniswap.org/"
+    "download_link": "https://nomo.app/webon/app.uniswap.org"
   }
 ]

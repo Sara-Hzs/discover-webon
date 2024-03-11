@@ -8,7 +8,7 @@
     import {goto} from "$app/navigation";
     import WebonList from "../../components/WebonList.svelte";
     import Back from "../../components/Icons/Back.svelte";
-    import {downloadWebOn, installUrlWebOn} from "../../utils/functions.js";
+    import {downloadWebOn} from "../../utils/functions.js";
 
     let id = getParameterFromURL()
     let webon = $data[id]
@@ -35,20 +35,11 @@
         </button>
         <button class="download" on:click={async e => {
         e.stopPropagation()
-        if(webon.webon_url)
-        {
-            installUrlWebOn(webon.webon_url, webon.webon_id, webon.name).then(() => {
-                webon.downloaded = true
-            }).catch(e => {
-                console.error(e)
-            })
-        }else {
-            downloadWebOn(webon.download_link).then(() => {
-            webon.downloaded = true
-            }).catch(e => {
-                console.error(e)
-                })
-        }
+        downloadWebOn(webon.download_link).then(() => {
+        webon.downloaded = true
+        }).catch(e => {
+          console.error(e)
+        })
 
     }}>
             {#if !webon.downloaded}
