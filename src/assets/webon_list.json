@@ -174,5 +174,16 @@
     "version": "0.1.0",
     "id": "eurkVoucher",
     "download_link": "https://nomo.app/webon/w.nomo.app/eurk/nomo.tar.gz"
+  },
+  {
+    "name": "Uniswap",
+    "description": "Uniswap is a decentralized finance protocol that is used to exchange cryptocurrencies. It is an automated liquidity protocol that is based on the Ethereum blockchain. Uniswap is designed to facilitate the exchange of tokens without the need for a centralized intermediary. It is a decentralized exchange that is used to swap various ERC-20 tokens.",
+    "slogan": "Decentralized Finance Protocol",
+    "images": [],
+    "icon": "/icons/Uniswap.svg",
+    "card_image": "/cards/Uniswap_card.svg",
+    "id": "uniswap",
+    "webon_id": "app.nomo.uniswap",
+    "webon_url": "https://app.uniswap.org/"
   }
 ]
