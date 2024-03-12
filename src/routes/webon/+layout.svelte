@@ -17,7 +17,7 @@
 
     const getWebonById = async (id) => {
         webon = $data.webonList.find(el => {
-            return el.id === id
+            return el.webon_id === id
         })
         if(webon) {
             $data[id] = webon

@@ -35,7 +35,7 @@
         await fetchWebonList().then(webonList => {
             $data.webonList = webonList
         }).catch(e => {
-            console.log(e)
+            error = JSON.stringify(e)
             $data.webonList = []
         })
         loading = false

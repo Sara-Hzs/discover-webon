@@ -5,7 +5,7 @@
     import Download from "./Icons/Download.svelte";
     import Uninstall from "./Icons/Uninstall.svelte";
     import Checkmark from "./Icons/Checkmark.svelte";
-    import {downloadWebOn, uninstallWebOn} from "../utils/functions.js";
+    import {downloadWebOn, image, uninstallWebOn} from "../utils/functions.js";
     import {nomo_store} from "../stores/nomo_store.js";
     import {onMount} from "svelte";
 
@@ -22,11 +22,11 @@
 {#if !loading}
 
     <div class="container" on:click={() => {
-browser && goto('/webon?id=' + webon.id)
+browser && goto('/webon?id=' + webon.webon_id)
 }}>
         <div class="icon">
-            {#if webon.icon}
-                <img src={webon.icon} alt=''/>
+            {#if image(webon.icon)}
+                <img src={image(webon.icon)} alt=''/>
             {:else}
                 <img src={default_icon} alt=''/>
             {/if}
@@ -54,7 +54,7 @@ browser && goto('/webon?id=' + webon.id)
         {:else if $nomo_store.uninstall_functionality}
             <button on:click={async e => {
             e.stopPropagation()
-            uninstallWebOn(webon.webon_url === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz' ? 'https://w.nomo.app/demowebon/nomo.tar.gz' : webon.webon_url).then(() => {
+            uninstallWebOn(webon.download_link === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz' ? 'https://w.nomo.app/demowebon/nomo.tar.gz' : webon.download_link).then(() => {
                 error = ''
                 webon.downloaded = false
             }).catch(e => {

@@ -6,9 +6,8 @@
     import checkmark from "../../assets/checkmark.svg"
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
-    import WebonList from "../../components/WebonList.svelte";
     import Back from "../../components/Icons/Back.svelte";
-    import {downloadWebOn} from "../../utils/functions.js";
+    import {downloadWebOn, image} from "../../utils/functions.js";
 
     let id = getParameterFromURL()
     let webon = $data[id]
@@ -16,13 +15,12 @@
         const url = new URL(window.location.href)
         return url.searchParams.get('id');
     }
-
 </script>
 
 <div class="page">
     <div class="banner">
-        {#if webon.card_image}
-            <img class="card" src={webon.card_image} alt="">
+        {#if image(webon.card)}
+            <img class="card" src={image(webon.card)} alt="">
         {:else}
             <img class="card" src={card} alt="">
         {/if}
@@ -52,8 +50,8 @@
     </div>
     <div class="top">
         <div class="icon">
-            {#if webon.icon}
-                <img src={webon.icon} alt="">
+            {#if image(webon.icon)}
+                <img src={image(webon.icon)} alt="">
             {:else}
                 <img src={icon} alt="">
             {/if}
