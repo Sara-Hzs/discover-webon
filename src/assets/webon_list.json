@@ -11,6 +11,17 @@
     "download_link": "https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz"
   },
   {
+    "name": "MoonPay",
+    "description": "Buy digital assets with MoonPay",
+    "slogan": "Onboard with MoonPay",
+    "images": [],
+    "icon": "/icons/moonpay.png",
+    "card_image": "/cards/MoonPay.svg",
+    "version": "0.1.7",
+    "id": "moonpay",
+    "download_link": "https://nomo.app/webon/moonpay.nomo.zone"
+  },
+  {
     "name": "Faucet",
     "description": "As a gesture of appreciation, our users receive 0.1 Zeniq Tokens for free – a gift from Nomo. These tokens can be claimed once per wallet and are particularly useful for covering gas fees associated with transactions on Zeniq Smartchain. Whether you're transferring Zeniq Smartchain Tokens or engaging in our Smartchain, these tokens come in handy for a smooth and cost-effective experience.",
     "slogan": "Boost Your Smartchain Transactions with FAUCET",
