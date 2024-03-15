@@ -8,12 +8,33 @@
     import {goto} from "$app/navigation";
     import Back from "../../components/Icons/Back.svelte";
     import {downloadWebOn, image} from "../../utils/functions.js";
+    import QRCode from 'svelte-qrcode';
+    import { tick } from 'svelte';
 
     let id = getParameterFromURL()
     let webon = $data[id]
     function getParameterFromURL() {
         const url = new URL(window.location.href)
         return url.searchParams.get('id');
+    }
+    let qrValue = 'Your value for the QR code';
+    let qrSize = 128; // size of the QR code in pixels
+
+    async function copyToClipboard(text) {
+        if (navigator.clipboard) {
+            try {
+                await navigator.clipboard.writeText(text);
+                alert('Copied to clipboard');
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        } else {
+            console.error('Clipboard API not available.');
+        }
+    }
+
+    $: if (webon) {
+        qrValue = webon.download_link;
     }
 </script>
 
@@ -64,6 +85,14 @@
         <div>Description</div>
         {webon.description}
     </div>
+    <div class="qr-container">
+        <QRCode value={qrValue} size={qrSize} />
+    </div>
+
+    <button class="copy-btn" on:click={() => copyToClipboard(qrValue)}>
+        Copy Link
+    </button>
+
     <div class="version">{webon.version}</div>
     <!-- <div class="suggestions">
         Suggestions for you
@@ -125,6 +154,11 @@
       img {
         width: 30px;
       }
+      @media (min-width: 768px) {
+        display: none;
+      }
+
+
     }
   }
 
@@ -156,6 +190,31 @@
     }
   }
 
+  .qr-container {
+    display: none;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+  }
+
+  .copy-btn {
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #bba46f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+
+  }
+
+  .copy-btn:hover {
+    background-color: #c4ab76;
+  }
   .suggestions {
     margin-top: 20px;
     width: 100%;
@@ -163,4 +222,12 @@
     font-size: 18px;
     font-weight: bold;
   }
+  @media (min-width: 768px) {
+    .qr-container, .copy-btn {
+      display: block;
+    }
+  }
+
+
+
 </style>

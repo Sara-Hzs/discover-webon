@@ -9,6 +9,7 @@
     import {nomo_store} from "../stores/nomo_store.js";
     import {onMount} from "svelte";
 
+
     export let webon
     let loading = true
     let error = ''
@@ -17,6 +18,7 @@
         webon = webon
         loading = false
     })
+
 </script>
 
 {#if !loading}
@@ -38,6 +40,7 @@ browser && goto('/webon?id=' + webon.webon_id)
             <div class="slogan">
                 {webon.slogan}
             </div>
+
         </div>
         {#if !webon.downloaded}
             <button on:click={async e => {
@@ -87,6 +90,7 @@ browser && goto('/webon?id=' + webon.webon_id)
         height: 60px;
       }
     }
+
 
     .information {
       padding: 3px;
