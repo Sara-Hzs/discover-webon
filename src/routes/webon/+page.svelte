@@ -15,7 +15,7 @@
     let id = getParameterFromURL()
     let webon = $data[id]
     let isInNomoEnvironment = isFallbackModeActive();
-    let qrValue = 'Your value for the QR code';
+    let qrValue = 'value for the QR code';
     let qrSize = 128;
     function getParameterFromURL() {
         const url = new URL(window.location.href)
@@ -103,12 +103,7 @@
 
 
             <div class="version">{webon.version}
-            <!-- <div class="suggestions">
-                Suggestions for you
-            </div>
-            <div class="page">
-                <WebonList/>
-            </div> -->
+
     </div>
 </div>
 
