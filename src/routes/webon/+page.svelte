@@ -1,4 +1,5 @@
 <script>
+    import { isFallbackModeActive } from 'nomo-webon-kit';
     import {data} from "../../stores/data.js";
     import icon from "../../assets/icon.png"
     import card from "../../assets/card.png"
@@ -13,12 +14,14 @@
 
     let id = getParameterFromURL()
     let webon = $data[id]
+    let isInNomoEnvironment = isFallbackModeActive();
+    let qrValue = 'Your value for the QR code';
+    let qrSize = 128;
     function getParameterFromURL() {
         const url = new URL(window.location.href)
         return url.searchParams.get('id');
     }
-    let qrValue = 'Your value for the QR code';
-    let qrSize = 128; // size of the QR code in pixels
+
 
     async function copyToClipboard(text) {
         if (navigator.clipboard) {
@@ -52,7 +55,10 @@
         }}>
             <Back/>
         </button>
-        <button class="download" on:click={async e => {
+    </div>
+        {#if isInNomoEnvironment}
+            <!-- Show "Add Now" button only in Nomo environment -->
+            <button class="download" on:click={async e => {
         e.stopPropagation()
         downloadWebOn(webon.download_link).then(() => {
             webon.downloaded = true
@@ -60,15 +66,24 @@
             console.error(e)
         })
     }}>
-            {#if !webon.downloaded}
-                <span>Add Now</span>
-                <img src={plus} alt="">
-            {:else}
-                <span>Open</span>
-                <img src={checkmark} alt="">
-            {/if}
-        </button>
-    </div>
+                {#if !webon.downloaded}
+                    <span>Add Now</span>
+                    <img src={plus} alt="">
+                {:else}
+                    <span>Open</span>
+                    <img src={checkmark} alt="">
+                {/if}
+            </button>
+        {:else}
+            <!-- Show "Copy Link" button and QR code only outside of Nomo environment -->
+            <div class="qr-container">
+                <QRCode value={qrValue} size={qrSize} />
+            </div>
+
+            <button class="copy-btn" on:click={() => copyToClipboard(qrValue)}>
+                Copy Link
+            </button>
+        {/if}
     <div class="top">
         <div class="icon">
             {#if image(webon.icon)}
@@ -85,21 +100,16 @@
         <div>Description</div>
         {webon.description}
     </div>
-    <div class="qr-container">
-        <QRCode value={qrValue} size={qrSize} />
-    </div>
 
-    <button class="copy-btn" on:click={() => copyToClipboard(qrValue)}>
-        Copy Link
-    </button>
 
-    <div class="version">{webon.version}</div>
-    <!-- <div class="suggestions">
-        Suggestions for you
+            <div class="version">{webon.version}
+            <!-- <div class="suggestions">
+                Suggestions for you
+            </div>
+            <div class="page">
+                <WebonList/>
+            </div> -->
     </div>
-    <div class="page">
-        <WebonList/>
-    </div> -->
 </div>
 
 <style lang="scss">
@@ -141,27 +151,28 @@
       }
     }
 
-    .download {
-      background: var(--nomoPrimary);
-      color: var(--nomoOnSecondary);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-radius: 1000px;
-      padding: 0 10px 0 20px;
-      width: 200px;
 
-      img {
-        width: 30px;
-      }
-      @media (min-width: 768px) {
-        display: none;
-      }
-
-
-    }
   }
+  .download {
+    background: var(--nomoPrimary);
+    color: var(--nomoOnSecondary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 1000px;
+    padding: 10px 10px 10px 20px;
+    width: 200px;
 
+
+    img {
+      width: 30px;
+    }
+    @media (min-width: 768px) {
+      display: none;
+    }
+
+
+  }
   .top {
     width: 100%;
     display: flex;
