@@ -8,7 +8,7 @@
     "card_image": "/cards/Demo_Plugin_card.png",
     "version": "0.1.0",
     "id": "app.nomo.demowebon",
-    "download_link": "https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/demowebon.nomo.zone/nomo.tar.gz"
   },
   {
     "name": "Faucet",
@@ -19,7 +19,7 @@
     "card_image": "/cards/Faucet_card.svg",
     "version": "0.1.0",
     "id": "hjkhjkhj",
-    "download_link": "https://nomo.app/webon/w.nomo.app/faucet/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/faucet.nomo.zone/nomo.tar.gz"
   },
   {
     "name": "Token Generator",
@@ -30,7 +30,7 @@
     "card_image": "/cards/Token_Generator_card.svg",
     "version": "0.1.0",
     "id": "iohthugixfhfgj",
-    "download_link": "https://nomo.app/webon/tokengenerator.nomo.zone"
+    "download_link": "https://nomo.app/webon/tokengenerator.nomo.zone/nomo.tar.gz"
   },
   {
     "name": "Avinoc Incentive",
@@ -41,7 +41,7 @@
     "card_image": "/cards/AVINOC_Incentive_card.svg",
     "version": "0.1.0",
     "id": "fgjghvsdf",
-    "download_link": "https://nomo.app/webon/avinoc-incentive.nomo.app"
+    "download_link": "https://nomo.app/webon/incentive.avinoc.com"
   },
   {
     "name": "ZENCON DEBIT",
@@ -52,7 +52,7 @@
     "card_image": "/cards/ZENcard.png",
     "version": "0.1.0",
     "id": "hgfhfgh",
-    "download_link": "https://nomo.app/webon/debit.nomo.app"
+    "download_link": "https://nomo.app/webon/debit.zencon.cards"
   },
   {
     "name": "ZENPASS",
@@ -63,7 +63,7 @@
     "card_image": "/cards/zenpass.svg",
     "version": "0.1.0",
     "id": "fghfghfgh",
-    "download_link": "https://nomo.app/webon/zenpass.nomo.app"
+    "download_link": "https://nomo.app/webon/zenpass.cc"
   },
   {
     "name": "Swap DeFi",
@@ -85,7 +85,7 @@
     "card_image": "/cards/Swap_card.svg",
     "version": "0.1.0",
     "id": "cmxnvkjbi",
-    "download_link": "https://nomo.app/webon/swap.nomo.app"
+    "download_link": "https://nomo.app/webon/swap.nomo.zone/nomo.tar.gz"
   },
   {
     "name": "Swap Theme",
@@ -107,7 +107,7 @@
     "card_image": "/cards/AVINOC_SWAP_card.svg",
     "version": "0.1.0",
     "id": "xbvcbsifsofj",
-    "download_link": "https://nomo.app/webon/avinoc-migration.nomo.app"
+    "download_link": "https://nomo.app/webon/swap.avinoc.com"
   },
   {
     "name": "Voo Miles",
@@ -129,7 +129,7 @@
     "card_image": "/cards/avinoc_DeFi.svg",
     "version": "0.1.0",
     "id": "avinocDeFi",
-    "download_link": "https://nomo.app/webon/w.nomo.app/avinocdefi/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/w.nomo.app/defi.avinoc.com/nomo.tar.gz"
   },
   {
     "name": "NEO Credit DeFi",
@@ -140,7 +140,7 @@
     "card_image": "/cards/NEO_credit_DeFi.svg",
     "version": "0.1.0",
     "id": "neoCreditDeFi",
-    "download_link": "https://nomo.app/webon/w.nomo.app/neocreditdefi/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/nrt.st/nomo.tar.gz"
   },
   {
     "name": "NEO Credit Migration",
@@ -162,7 +162,7 @@
     "card_image": "/cards/Supersonic.svg",
     "version": "0.1.0",
     "id": "supersonic",
-    "download_link": "https://nomo.app/webon/w.nomo.app/supersonic/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/supersonic.avinoc.com/nomo.tar.gz"
   },
   {
     "name": "EURK Voucher",
@@ -173,7 +173,7 @@
     "card_image": "/cards/eurk.svg",
     "version": "0.1.0",
     "id": "eurkVoucher",
-    "download_link": "https://nomo.app/webon/w.nomo.app/eurk/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/eurk.top/nomo.tar.gz"
   },
   {
     "name": "ZUSD Swap",
@@ -184,6 +184,6 @@
     "card_image": "/cards/zusd.svg",
     "version": "0.1.0",
     "id": "zusd",
-    "download_link": "https://nomo.app/webon/zusd.cc"
+    "download_link": "https://nomo.app/webon/zusd.cc/nomo.tar.gz"
   }
 ]
