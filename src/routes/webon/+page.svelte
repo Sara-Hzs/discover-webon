@@ -255,54 +255,6 @@
     font-size: 18px;
     font-weight: bold;
   }
-
-  .reviews-section {
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-  }
-
-  .reviews-section h2 {
-    font-size: 1.5rem;
-    color: var(--nomoPrimary);
-    margin-bottom: 15px;
-  }
-
-  .review-container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .review-card {
-    padding: 15px;
-    border-bottom: 1px solid #e1e1e1;
-    margin-bottom: 10px;
-    last-child: {
-      border-bottom: none;
-    }
-  }
-
-  .review-header {
-    font-size: 0.9rem;
-    color: #333;
-    margin-bottom: 5px;
-  }
-
-  .review-name {
-    font-weight: bold;
-  }
-
-  .review-stars {
-    color: #ffc107;
-    margin-bottom: 5px;
-  }
-
-  .review-comment {
-    font-size: 0.9rem;
-    color: #666;
-  }
   @media (min-width: 768px) {
     .qr-container, .copy-btn {
       display: block;
