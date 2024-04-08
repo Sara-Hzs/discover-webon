@@ -1,138 +1,78 @@
 <script>
-    import default_icon from '../assets/icon.png'
-    import {browser} from "$app/environment";
-    import {goto} from "$app/navigation";
-    import Download from "./Icons/Download.svelte";
-    import Uninstall from "./Icons/Uninstall.svelte";
-    import Checkmark from "./Icons/Checkmark.svelte";
-    import {downloadWebOn, image, uninstallWebOn} from "../utils/functions.js";
-    import {nomo_store} from "../stores/nomo_store.js";
     import {onMount} from "svelte";
+    import { fetchWebons } from '../api/mock-api.js';
 
+    let webons = [];
+    let loading = true;
+    let error = '';
 
-
-
-    export let webon
-    let loading = true
-    let error = ''
-
-    onMount(() => {
-        webon = webon
-        loading = false
-    })
-
+    onMount(async () => {
+        try {
+            webons = await fetchWebons();
+        } catch (e) {
+            error = 'Failed to fetch webons.';
+            console.error(e);
+        }
+        loading = false;
+    });
 </script>
 
-{#if !loading}
 
-    <div class="container" on:click={() => {
-browser && goto('/webon?id=' + webon.webon_id)
-}}>
-        <div class="icon">
-            {#if image(webon.icon)}
-                <img src={image(webon.icon)} alt=''/>
-            {:else}
-                <img src={default_icon} alt=''/>
-            {/if}
-        </div>
-        <div class="information">
-            <div class="name">
-                {webon.name}
-            </div>
-            <div class="slogan">
-                {webon.slogan}
-            </div>
+{#if loading}
+    <p>Loading...</p>
+{:else if error}
+    <p>{error}</p>
+{:else}
+    <div class="webons-container">
+        {#each webons as webon}
+            <div class="webon" on:click={() => window.open(webon.download_link, '_blank')}>
+                <img class="icon" src={webon.icon} alt={webon.name} />
+                <div class="content">
+                    <h2>{webon.name}</h2>
+                    <p class="slogan">{webon.slogan}</p>
 
-        </div>
-        {#if !webon.downloaded}
-            <button on:click={async e => {
-            e.stopPropagation()
-            downloadWebOn(webon.download_link).then(() => {
-                error = ''
-                webon.downloaded = true
-            }).catch(() => {
-                error = 'Download failed'
-            })
-            }}>
-                <Download/>
-            </button>
-        {:else if $nomo_store.uninstall_functionality}
-            <button on:click={async e => {
-            e.stopPropagation()
-            uninstallWebOn(webon.download_link === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz' ? 'https://w.nomo.app/demowebon/nomo.tar.gz' : webon.download_link).then(() => {
-                error = ''
-                webon.downloaded = false
-            }).catch(e => {
-            error = 'Uninstall failed: ' + JSON.stringify(e)
-            })
-    }}>
-                <Uninstall/>
-            </button>
-        {:else}
-            <button disabled>
-                <Checkmark/>
-            </button>
-        {/if}
+                </div>
+            </div>
+        {/each}
     </div>
 {/if}
-{#if error}
-    <div class="error">{error}</div>
-{/if}
 
-<style lang="scss">
-  .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+<style>
+    .webons-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: flex-start;
+        flex-direction: column;
+
+    }
+
+    .webon {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        width: calc(33.333% - 20px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .webon:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
 
     .icon {
-      img {
-        border-radius: 12px;
-        height: 60px;
-      }
+        width: 100%;
+        max-width: 120px;
+        margin-bottom: 20px;
     }
 
-
-    .information {
-      padding: 3px;
-      height: 100%;
-      flex: 1;
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
-
-      .name {
-        font-size: 14px;
-        letter-spacing: 0.5px;
-        color: var(--nomoForeground1);
-      }
-
-      .slogan {
-        font-size: 12px;
-        filter: brightness(0.7);
-        color: var(--nomoForeground2);
-      }
+    .content h2 {
+        margin: 0 0 10px;
     }
 
-    button {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 50px;
-
-      img {
-        height: 30px;
-        border-radius: 1000px;
-      }
+    .slogan {
+        font-style: italic;
+        color: #666;
     }
-  }
-
-  .error {
-    color: red;
-    font-size: 12px;
-    margin: 5px 5px 15px;
-    padding: 5px;
-  }
 </style>

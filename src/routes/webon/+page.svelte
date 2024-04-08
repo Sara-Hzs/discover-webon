@@ -10,6 +10,7 @@
     import Back from "../../components/Icons/Back.svelte";
     import {downloadWebOn, image} from "../../utils/functions.js";
     import QRCode from 'svelte-qrcode';
+    import { onMount } from 'svelte';
     import { tick } from 'svelte';
 
     let id = getParameterFromURL()
@@ -39,6 +40,19 @@
     $: if (webon) {
         qrValue = webon.download_link;
     }
+
+    let reviews = [];
+
+    //for fetching reviews from the backend
+    async function fetchReviews() {
+        const response = await fetch(`/api/reviews?id=${id}`);
+        reviews = await response.json();
+    }
+
+    onMount(() => {
+        fetchReviews();
+    });
+
 </script>
 
 <div class="page">
@@ -104,6 +118,19 @@
 
             <div class="version">{webon.version}
 
+    </div>
+    <div class="reviews-section">
+        <h2>Ratings and Reviews</h2>
+        {#each reviews as review}
+            <div class="review">
+                <div class="review-header">
+                    <span class="review-name">{review.name}</span>
+                    <span class="review-date">{review.date}</span>
+                </div>
+                <div class="review-rating">{"★".repeat(review.rating)}</div>
+                <p class="review-comment">{review.comment}</p>
+            </div>
+        {/each}
     </div>
 </div>
 
@@ -227,6 +254,54 @@
     padding: 0 10px;
     font-size: 18px;
     font-weight: bold;
+  }
+
+  .reviews-section {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+
+  .reviews-section h2 {
+    font-size: 1.5rem;
+    color: var(--nomoPrimary);
+    margin-bottom: 15px;
+  }
+
+  .review-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .review-card {
+    padding: 15px;
+    border-bottom: 1px solid #e1e1e1;
+    margin-bottom: 10px;
+    last-child: {
+      border-bottom: none;
+    }
+  }
+
+  .review-header {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 5px;
+  }
+
+  .review-name {
+    font-weight: bold;
+  }
+
+  .review-stars {
+    color: #ffc107;
+    margin-bottom: 5px;
+  }
+
+  .review-comment {
+    font-size: 0.9rem;
+    color: #666;
   }
   @media (min-width: 768px) {
     .qr-container, .copy-btn {
