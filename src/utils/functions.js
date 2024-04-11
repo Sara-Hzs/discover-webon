@@ -4,7 +4,7 @@ import qa_list from '../assets/qa_webon_list.json'
 import {nomo} from "nomo-webon-kit";
 import {nomo_store} from "../stores/nomo_store.js";
 import {get} from "svelte/store";
-
+import mockData from '../assets/webon_list.json';
 const qa = import.meta.env.VITE_QA;
 const list = qa ? qa_list : prod_list
 
@@ -12,28 +12,11 @@ const reversed_list = list.reverse()
 
 
 export const fetchWebonList = async () => {
-    return new Promise((resolve, reject) => {
-        nomo.getInstalledWebOns().then(installed_webons => {
-            // console.log(installed_webons)
-            // console.log(reversed_list)
-            reversed_list.forEach(available_webon => {
-                available_webon.webon_url = available_webon.download_link.replace('nomo.app/pluginv1/', '');
-                available_webon.webon_url = available_webon.download_link.replace('nomo.app/webon/', '');
-                let match = installed_webons.manifests.find(installed_webon => {
-                    return installed_webon.webon_url === available_webon.webon_url || installed_webon.webon_id === available_webon.id
-                });
-                if (match) {
-                    available_webon.downloaded = true;
-                }
-            });
-            resolve(reversed_list)
-        }).catch(e => {
-            console.log(e)
-            resolve(reversed_list)
-        })
-    })
-}
-
+    // Simulate an asynchronous API call with static data
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(mockData), 500); // Delay to simulate network call
+    });
+};
 export const downloadWebOn = (deeplink) => {
     if (deeplink.includes("uniswap")) {
         if (!get(nomo_store).metamask_functionality) {

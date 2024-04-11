@@ -1,18 +1,36 @@
-<script>
-import {data} from "../stores/data.js";
-import WebonElement from "./WebonElement.svelte";
-import {onMount} from "svelte";
+<!-- WebonList.svelte -->
 
-onMount(() => {
-    $data.webonList = $data.webonList
-})
+<script>
+    import { onMount } from "svelte";
+    import WebonElement from "./WebonElement.svelte";
+    import { fetchWebonList } from "../utils/functions.js";
+
+    let webons = [];
+    let loading = true;
+    let error = '';
+
+    onMount(async () => {
+        try {
+            webons = await fetchWebonList();
+        } catch (e) {
+            error = 'Failed to fetch webons: ' + e.message;
+        }
+        loading = false;
+    });
 </script>
 
-<div class="container">
-    {#each $data.webonList as webon}
-        <WebonElement {webon}/>
-    {/each}
-</div>
+{#if loading}
+    <p>Loading...</p>
+{:else if error}
+    <p class="error">{error}</p>
+{:else}
+    <div class="container">
+        {#each webons as webon}
+            <WebonElement {webon}/>
+        {/each}
+    </div>
+{/if}
+
 
 <style lang="scss">
   .container {
