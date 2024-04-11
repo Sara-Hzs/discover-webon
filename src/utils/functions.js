@@ -9,13 +9,14 @@ const qa = import.meta.env.VITE_QA;
 const list = qa ? qa_list : prod_list
 
 const reversed_list = list.reverse()
-
-
-export const fetchWebonList = async () => {
-    // Simulate an asynchronous API call with static data
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(mockData), 500); // Delay to simulate network call
+export const fetchWebonList = async (selectedLanguage, selectedTags) => {
+    const filteredList = list.filter(webon => {
+        const languageMatch = selectedLanguage ? webon.language === selectedLanguage : true;
+        const tagsMatch = selectedTags.length > 0 ? selectedTags.every(tag => webon.tags && webon.tags.includes(tag)) : true;
+        return languageMatch && tagsMatch;
     });
+
+    return Promise.resolve(filteredList);
 };
 export const downloadWebOn = (deeplink) => {
     if (deeplink.includes("uniswap")) {

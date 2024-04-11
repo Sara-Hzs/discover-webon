@@ -8,7 +8,9 @@
     "card_image": "/cards/Demo_Plugin_card.png",
     "version": "0.1.0",
     "id": "app.nomo.demowebon",
-    "download_link": "https://nomo.app/webon/demowebon.nomo.zone/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/demowebon.nomo.zone/nomo.tar.gz",
+    "language": "de",
+    "tags": ["tag2", "tag3"]
   },
   {
     "name": "Faucet",
@@ -19,7 +21,9 @@
     "card_image": "/cards/Faucet_card.svg",
     "version": "0.1.0",
     "id": "hjkhjkhj",
-    "download_link": "https://nomo.app/webon/faucet.nomo.zone/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/faucet.nomo.zone/nomo.tar.gz",
+    "language": "en",
+    "tags": ["tag1", "tag3"]
   },
   {
     "name": "Token Generator",
@@ -30,7 +34,9 @@
     "card_image": "/cards/Token_Generator_card.svg",
     "version": "0.1.0",
     "id": "iohthugixfhfgj",
-    "download_link": "https://nomo.app/webon/tokengenerator.nomo.zone/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/tokengenerator.nomo.zone/nomo.tar.gz",
+    "language": "en",
+    "tags": ["tag2", "tag3"]
   },
   {
     "name": "Avinoc Incentive",
@@ -41,7 +47,9 @@
     "card_image": "/cards/AVINOC_Incentive_card.svg",
     "version": "0.1.0",
     "id": "fgjghvsdf",
-    "download_link": "https://nomo.app/webon/incentive.avinoc.com"
+    "download_link": "https://nomo.app/webon/incentive.avinoc.com",
+    "language": "en",
+    "tags": ["tag4", "tag7"]
   },
   {
     "name": "ZENCON DEBIT",
@@ -52,7 +60,9 @@
     "card_image": "/cards/ZENcard.png",
     "version": "0.1.0",
     "id": "hgfhfgh",
-    "download_link": "https://nomo.app/webon/debit.zencon.cards"
+    "download_link": "https://nomo.app/webon/debit.zencon.cards",
+    "language": "en",
+    "tags": ["tag2", "tag3"]
   },
   {
     "name": "ZENPASS",
@@ -63,7 +73,9 @@
     "card_image": "/cards/zenpass.svg",
     "version": "0.1.0",
     "id": "fghfghfgh",
-    "download_link": "https://nomo.app/webon/zenpass.cc"
+    "download_link": "https://nomo.app/webon/zenpass.cc",
+    "language": "en",
+    "tags": ["tag5", "tag9"]
   },
   {
     "name": "Swap DeFi",
@@ -74,7 +86,9 @@
     "card_image": "/cards/defi_swap_card.svg",
     "version": "0.2.12",
     "id": "app.nomo.swapdefi",
-    "download_link": "https://nomo.app/webon/w.nomo.app/swapdefi/nomo.tar.gz"
+    "download_link": "https://nomo.app/webon/w.nomo.app/swapdefi/nomo.tar.gz",
+    "language": "en",
+    "tags": ["tag9", "tag3"]
   },
   {
     "name": "Swap WebOn",
