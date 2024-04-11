@@ -1,23 +1,42 @@
 // import {nomo} from "nomo-plugin-kit/dist/nomo_api";
-import prod_list from '../assets/webon_list.json'
-import qa_list from '../assets/qa_webon_list.json'
 import {nomo} from "nomo-webon-kit";
 import {nomo_store} from "../stores/nomo_store.js";
 import {get} from "svelte/store";
-import mockData from '../assets/webon_list.json';
-const qa = import.meta.env.VITE_QA;
-const list = qa ? qa_list : prod_list
 
-const reversed_list = list.reverse()
-export const fetchWebonList = async (selectedLanguage, selectedTags) => {
+
+const backend_url = "https://webon.info/api/"
+export const getData = (endpoint) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const res = await (await fetch(backend_url + endpoint)).json()
+            console.log(res)
+            resolve(res)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+export const fetchWebonList = async () => {
+    const list = await getData('webons/en')
+    return Promise.resolve(list);
+};
+
+export const filterWebonList = async (list, selectedLanguage, selectedTags) => {
     const filteredList = list.filter(webon => {
         const languageMatch = selectedLanguage ? webon.language === selectedLanguage : true;
         const tagsMatch = selectedTags.length > 0 ? selectedTags.every(tag => webon.tags && webon.tags.includes(tag)) : true;
         return languageMatch && tagsMatch;
     });
-
     return Promise.resolve(filteredList);
 };
+
+export const fetchTagsList = async () => {
+    const tags = await getData('tags/en')
+    console.log(tags)
+    return Promise.resolve(tags);
+}
+
 export const downloadWebOn = (deeplink) => {
     if (deeplink.includes("uniswap")) {
         if (!get(nomo_store).metamask_functionality) {

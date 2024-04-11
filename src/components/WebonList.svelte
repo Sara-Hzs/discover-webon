@@ -1,43 +1,22 @@
-<!-- WebonList.svelte -->
-
 <script>
-    import { onMount } from "svelte";
+    import {data} from "../stores/data.js";
     import WebonElement from "./WebonElement.svelte";
-    import { fetchWebonList } from "../utils/functions.js";
-    import mockWebons from '../assets/webon_list.json';
+    import { filterWebonList } from "../utils/functions.js";
 
-    let webons = [];
-    let loading = true;
-    let error = '';
     let selectedLanguage;
     let selectedTags = [];
-    let availableTags = extractTags(mockWebons);
-
-    function extractTags(list) {
-        const tags = new Set();
-        list.forEach(webon => webon.tags?.forEach(tag => tags.add(tag)));
-        return Array.from(tags);
-    }
-
-    async function updateWebonList() {
-        loading = true;
-        try {
-            webons = await fetchWebonList(selectedLanguage, selectedTags);
-        } catch (e) {
-            error = 'Failed to fetch webons: ' + e.message;
-        }
-        loading = false;
-    }
-
-    onMount(updateWebonList);
-
-    $: if (selectedLanguage != null || selectedTags.length > 0) {
-        updateWebonList();
-    }
     let searchQuery = '';
 
-    $: filteredWebons = webons.filter(webon =>
-        webon.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    const getFilteredList = async () => {
+        await filterWebonList($data.webonList, selectedLanguage, selectedTags)
+    }
+
+    $: $data.filteredList = $data.webonList.filter(webon => webon.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    $: if (selectedLanguage != null || selectedTags.length > 0) {
+        $data.filteredList = getFilteredList()
+    }
+
 </script>
 
 <!-- Filter UI -->
@@ -46,38 +25,32 @@
         <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={searchQuery} />
     </div>
 
-    <div class="filters">
-        <div class="filter-select">
-            <select bind:value={selectedLanguage} class="select-css">
-                <option value="">All Languages</option>
-                <option value="en">English</option>
-                <option value="de">German</option>
 
-            </select>
-        </div>
+    <div class="filters">
+<!--        <div class="filter-select">-->
+<!--            <select bind:value={selectedLanguage} class="select-css">-->
+<!--                <option value="">All Languages</option>-->
+<!--                <option value="en">English</option>-->
+<!--                <option value="de">German</option>-->
+<!--            </select>-->
+<!--        </div>-->
 
         <div class="tag-filter">
-            {#each availableTags as tag, index}
-                <div class="tag">
-                    <input type="checkbox" bind:group={selectedTags} value={tag} id={'tag-' + index}>
-                    <label class="tag-label" for={'tag-' + index}>{tag}</label>
-                </div>
+            {#each $data.tagsList as tag}
+                <button class={tag?.selected ? "tag selected" : "tag"} on:click={() => {
+                    tag.selected = !tag?.selected
+                }}>
+                    <span class="tag-label">{tag.name}</span>
+                </button>
             {/each}
         </div>
     </div>
 </div>
-
-{#if loading}
-    <p>Loading...</p>
-{:else if error}
-    <p class="error">{error}</p>
-{:else}
-    <div class="container">
-        {#each webons as webon}
-            <WebonElement {webon} />
-        {/each}
-    </div>
-{/if}
+<div class="container">
+    {#each $data.filteredList as webon}
+        <WebonElement {webon} />
+    {/each}
+</div>
 
 <style lang="scss">
   .container {
@@ -127,8 +100,34 @@
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    max-width: 100%;
+    overflow-x: scroll;
+    padding-bottom: 10px;
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 7px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #faf6f6;
+      border-radius: 10px;
+      box-shadow: inset 0 0 6px rgba(255,255,255,0.1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #fcf4f4;
+      border-radius: 10px;
+      background-image: linear-gradient(180deg, #cecccc 25%, #bebebe 75%);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+      background-image: linear-gradient(180deg, #666 25%, #777 50%, #666 75%);
+    }
+
   }
 
   .filter-select {
@@ -157,16 +156,11 @@
     align-items: center;
     padding: 0.3rem 1rem;
     transition: all 0.2s;
-    &:hover {
-      background: #e2e2e2;
-    }
-    input {
-      margin-right: 0.5rem;
-      accent-color: #007bff;
-    }
-    .tag-label {
-      cursor: pointer;
-    }
+    cursor: pointer;
+  }
+
+  .selected {
+    background: #9b9b9b;
   }
 </style>
 

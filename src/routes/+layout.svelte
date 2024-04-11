@@ -9,7 +9,7 @@
     import {data} from "../stores/data.js";
     import {nomo_store} from "../stores/nomo_store.js";
     import Reload from "../components/Reload.svelte";
-    import {fetchWebonList} from "../utils/functions.js";
+    import {fetchTagsList, fetchWebonList} from "../utils/functions.js";
     import cross from "../assets/cross.svg";
     import {nomo} from "nomo-webon-kit";
     import {hasMinimumNomoVersion} from "nomo-webon-kit";
@@ -26,6 +26,7 @@
         $nomo_store.uninstall_functionality = (await hasMinimumNomoVersion({minVersion: '0.3.4'}))?.minVersionFulfilled
         $nomo_store.metamask_functionality = (await hasMinimumNomoVersion({minVersion: '0.4.0'}))?.minVersionFulfilled
         await injectNomoCSSVariables();
+        $data.isBrowser = (await nomo.getExecutionMode())?.executionMode === 'FALLBACK'
         try {
             await nomo.registerOnWebOnVisible(() => {
                 refetchDataOnPluginVisible()
@@ -35,13 +36,20 @@
         }
         await fetchWebonList().then(webonList => {
             $data.webonList = webonList
+            $data.filteredList = webonList
         }).catch(e => {
             console.log(e)
             $data.webonList = []
+            $data.filteredList = []
+        })
+        await fetchTagsList().then(tagsList => {
+            $data.tagsList = tagsList
+        }).catch(e => {
+            console.log(e)
+            $data.tagsList = []
         })
         loading = false
     })
-
     const refetchDataOnPluginVisible = async () => {
         await fetchWebonList().then(webonList => {
             $data.webonList = webonList

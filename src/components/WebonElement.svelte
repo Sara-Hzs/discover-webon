@@ -1,6 +1,7 @@
 <script>
     import default_icon from '../assets/icon.png'
     import {browser} from "$app/environment";
+    import {data} from "../stores/data.js";
     import {goto} from "$app/navigation";
     import Download from "./Icons/Download.svelte";
     import Uninstall from "./Icons/Uninstall.svelte";
@@ -8,6 +9,7 @@
     import {downloadWebOn, uninstallWebOn} from "../utils/functions.js";
     import {nomo_store} from "../stores/nomo_store.js";
     import {onMount} from "svelte";
+
 
     export let webon
     let loading = true
@@ -39,28 +41,32 @@ browser && goto('/webon?id=' + webon.id)
                 {webon.slogan}
             </div>
         </div>
-        {#if !webon.downloaded}
+        {#if $data.isBrowser}
+            <button disabled>
+                <Download/>
+            </button>
+        {:else if !webon.downloaded}
             <button on:click={async e => {
-            e.stopPropagation()
-            downloadWebOn(webon.download_link).then(() => {
-                error = ''
-                webon.downloaded = true
-            }).catch((e) => {
-                error = e?.toString() ?? 'Download failed'
-            })
-            }}>
+        e.stopPropagation()
+        downloadWebOn(webon.download_link).then(() => {
+            error = ''
+            webon.downloaded = true
+        }).catch((e) => {
+            error = e?.toString() ?? 'Download failed'
+        })
+        }}>
                 <Download/>
             </button>
         {:else if $nomo_store.uninstall_functionality}
             <button on:click={async e => {
-            e.stopPropagation()
-            uninstallWebOn(webon.webon_url === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz' ? 'https://w.nomo.app/demowebon/nomo.tar.gz' : webon.webon_url).then(() => {
-                error = ''
-                webon.downloaded = false
-            }).catch(e => {
-            error = 'Uninstall failed: ' + JSON.stringify(e)
-            })
-    }}>
+        e.stopPropagation()
+        uninstallWebOn(webon.webon_url === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz' ? 'https://w.nomo.app/demowebon/nomo.tar.gz' : webon.webon_url).then(() => {
+            error = ''
+            webon.downloaded = false
+        }).catch(e => {
+        error = 'Uninstall failed: ' + JSON.stringify(e)
+        })
+}}>
                 <Uninstall/>
             </button>
         {:else}

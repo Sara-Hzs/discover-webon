@@ -5,8 +5,9 @@ import WebonList from "../components/WebonList.svelte";
 
 </script>
 
+
 <div class="page">
-    <WebonList/>
+    <WebonList />
 </div>
 <Reload/>
 
@@ -15,3 +16,5 @@ import WebonList from "../components/WebonList.svelte";
         min-height: 100vh;
     }
 </style>
+
+
