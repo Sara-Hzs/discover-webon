@@ -18,9 +18,14 @@
     let error = false
 
     onMount(async () => {
-        if (location.hostname.includes("store")) {
-            // get rid of the old store because it is both outdated and non-compliant with Apple guidelines
-            await nomo.migrateAndSelfDestroy({new_deeplink: "https://nomo.app/webon/discover.nomo.app"})
+        if (location.hostname.includes("")) {
+            try {
+                await nomo.migrateAndSelfDestroy({new_deeplink: ""});
+
+            } catch (e) {
+                console.error('Migration failed:', e);
+
+            }
         }
         $nomo_store.install_functionality = (await hasMinimumNomoVersion({minVersion: '0.3.3'}))?.minVersionFulfilled
         $nomo_store.uninstall_functionality = (await hasMinimumNomoVersion({minVersion: '0.3.4'}))?.minVersionFulfilled

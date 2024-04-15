@@ -1,3 +1,4 @@
+
 <script>
     import {data} from "../../stores/data.js";
     import icon from "../../assets/icon.png"
@@ -54,18 +55,18 @@
             </button>
         {/if}
     </div>
-        <div class="top">
-            <div class="icon">
-                {#if webon.icon}
-                    <img src={webon.icon} alt="">
-                {:else}
-                    <img src={icon} alt="">
-                {/if}
-            </div>
-            <div class="name">
-                {webon.name}
-            </div>
+    <div class="top">
+        <div class="icon">
+            {#if webon.icon}
+                <img src={webon.icon} alt="">
+            {:else}
+                <img src={icon} alt="">
+            {/if}
         </div>
+        <div class="name">
+            {webon.name}
+        </div>
+    </div>
     {#if $data.isBrowser}
         <div class="qr-container">
             <QrCode value={"https://" + webon.domain} size={200}/>
@@ -77,10 +78,10 @@
             Copy Link
         </button>
     {/if}
-        <div class="description">
-            <div>Description</div>
-            {webon.description}
-        </div>
+    <div class="description">
+        <div>Description</div>
+        {webon.description}
+    </div>
     <div class="tag-filter">
         {#each webon.tags as tag}
             <button class={tag?.selected ? "tag selected" : "tag"} on:click={() => {
@@ -90,16 +91,17 @@
             </button>
         {/each}
     </div>
-        <!-- <div class="version">{webon.version}</div> -->
-        <!-- <div class="suggestions">
-            Suggestions for you
-        </div>
-        <div class="page">
-            <WebonList/>
-        </div> -->
+    <!-- <div class="version">{webon.version}</div> -->
+    <!-- <div class="suggestions">
+        Suggestions for you
     </div>
+    <div class="page">
+        <WebonList/>
+    </div> -->
+</div>
 
-    <style lang="scss">
+
+<style lang="scss">
       .page {
         max-width: 800px;
         min-height: 90%;

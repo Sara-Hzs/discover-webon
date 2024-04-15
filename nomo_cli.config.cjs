@@ -2,9 +2,9 @@ const nomoCliConfig = {
     deployTargets: {
         production: {
             rawSSH: {
-                sshHost: "root@95.179.247.2",
-                sshBaseDir: "/var/www/production_webons/discovery/",
-                publicBaseUrl: "https://w.nomo.app/discovery",
+                sshHost: "root@188.34.178.77",
+                sshBaseDir: "/var/www/production_webons/discover/",
+                publicBaseUrl: "https://discover.webon.info",
             },
         },
     },
