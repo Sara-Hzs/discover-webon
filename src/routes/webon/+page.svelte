@@ -68,11 +68,11 @@
         </div>
     {#if $data.isBrowser}
         <div class="qr-container">
-            <QrCode value={webon.download_link} size={200}/>
+            <QrCode value={"https://" + webon.domain} size={200}/>
         </div>
 
         <button class="copy-btn" on:click={() => {
-                navigator.clipboard.writeText(webon.download_link);
+                navigator.clipboard.writeText("https://" + webon.domain);
             }}>
             Copy Link
         </button>
@@ -81,6 +81,15 @@
             <div>Description</div>
             {webon.description}
         </div>
+    <div class="tag-filter">
+        {#each webon.tags as tag}
+            <button class={tag?.selected ? "tag selected" : "tag"} on:click={() => {
+                    tag.selected = !tag?.selected
+                }} disabled={true}>
+                <span class="tag-label">{tag.name}</span>
+            </button>
+        {/each}
+    </div>
         <!-- <div class="version">{webon.version}</div> -->
         <!-- <div class="suggestions">
             Suggestions for you
@@ -145,6 +154,7 @@
         }
       }
 
+
       .top {
         width: 100%;
         display: flex;
@@ -163,14 +173,41 @@
           word-break: break-word;
         }
       }
+      .qr-container {
+        text-align: center;
+        background: #f9f9f9;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+      }
+      .copy-btn {
+        background: linear-gradient(45deg, #efcc80, #ad9050);
+        color: white;
+        border-radius: 30px;
+        padding: 0.6rem 1.2rem;
+        font-weight: bold;
+
+        text-transform: uppercase;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+        &:hover {
+          background: linear-gradient(45deg, #ad9050, #efcc80);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+      }
 
       .description {
-        margin: 20px 10px;
-        flex: 1;
+        background: #f7f7f7;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
 
-        div {
-          font-weight: bold;
-        }
+      .description div {
+        color: #555;
+        font-weight: 600;
+        margin-bottom: 5px;
       }
 
       .suggestions {
@@ -179,5 +216,73 @@
         padding: 0 10px;
         font-size: 18px;
         font-weight: bold;
+      }
+
+
+      .filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        max-width: 100%;
+        overflow-x: scroll;
+        padding-bottom: 10px;
+        &::-webkit-scrollbar {
+          -webkit-appearance: none;
+          width: 7px;
+          height: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: #faf6f6;
+          border-radius: 10px;
+          box-shadow: inset 0 0 6px rgba(255,255,255,0.1);
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: #fcf4f4;
+          border-radius: 10px;
+          background-image: linear-gradient(180deg, #cecccc 25%, #bebebe 75%);
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+          background-color: #555;
+          background-image: linear-gradient(180deg, #666 25%, #777 50%, #666 75%);
+        }
+
+      }
+
+      .filter-select {
+        .select-css {
+          padding: 0.5rem 1rem;
+          border-radius: 0.5rem;
+          border: 1px solid #ccc;
+          font-size: 1rem;
+          background-color: white;
+          cursor: pointer;
+          &:hover {
+            background-color: #f8f8f8;
+          }
+        }
+      }
+
+      .tag-filter {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .tag {
+        background: #f2f2f2;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        padding: 0.3rem 1rem;
+        transition: all 0.2s;
+        cursor: pointer;
+      }
+
+      .selected {
+        background: #9b9b9b;
       }
     </style>
