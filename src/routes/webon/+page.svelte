@@ -10,6 +10,9 @@
     import Back from "../../components/Icons/Back.svelte";
     import QrCode from "svelte-qrcode"
     import {downloadWebOn} from "../../utils/functions.js";
+    import WebonList from '../../components/WebonList.svelte';
+    import ReviewForm from '../../components/ReviewForm.svelte';
+    import ReviewsDisplay from '../../components/ReviewsDisplay.svelte';
 
     let id = getParameterFromURL()
     let webon = $data[id]
@@ -17,6 +20,37 @@
     function getParameterFromURL() {
         const url = new URL(window.location.href)
         return url.searchParams.get('id');
+    }
+    let showCopyNotification = false;
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText("https://" + webon.domain).then(() => {
+            showCopyNotification = true;
+            setTimeout(() => {
+                showCopyNotification = false;
+            }, 2000); // Message will be visible for 2 seconds
+        }).catch(e => console.error('Copy failed', e));
+    }
+
+    let showWebonList = false;
+    let selectedTagName = null;
+
+    let showSearchBar = false;
+
+    function toggleWebonList(tagName) {
+        showWebonList = !showWebonList;
+        if (showWebonList) {
+            selectedTagName = tagName;
+            showSearchBar = false;
+        } else {
+            selectedTagName = null;
+        }
+    }
+
+    function handleReviewSubmit(newReview) {
+        $data.reviews.push(newReview);
+        data.set($data);
+
     }
 
 </script>
@@ -38,7 +72,7 @@
         {#if !$data.isBrowser}
             <button class="download" on:click={async e => {
         e.stopPropagation()
-        downloadWebOn(webon.download_link).then(() => {
+        downloadWebOn(webon.domain).then(() => {
         webon.downloaded = true
         }).catch(e => {
           console.error(e)
@@ -72,24 +106,37 @@
             <QrCode value={"https://" + webon.domain} size={200}/>
         </div>
 
-        <button class="copy-btn" on:click={() => {
-                navigator.clipboard.writeText("https://" + webon.domain);
-            }}>
+        <button class="copy-btn" on:click={copyToClipboard}>
             Copy Link
         </button>
+        {#if showCopyNotification}
+            <div class="copy-notification">
+                Link has been copied!
+            </div>
+        {/if}
     {/if}
     <div class="description">
         <div>Description</div>
         {webon.description}
     </div>
+
     <div class="tag-filter">
-        {#each webon.tags as tag}
-            <button class={tag?.selected ? "tag selected" : "tag"} on:click={() => {
-                    tag.selected = !tag?.selected
-                }} disabled={true}>
+        {#each webon.tags as tag (tag.id)}
+            <button class={tag?.selected ? "tag selected" : "tag"} on:click={() => toggleWebonList(tag.name)}>
                 <span class="tag-label">{tag.name}</span>
             </button>
         {/each}
+    </div>
+
+
+
+    {#if showWebonList}
+        <WebonList {selectedTagName} {showSearchBar} />
+    {/if}
+
+    <div class="reviews-container">
+        <ReviewsDisplay />
+        <ReviewForm />
     </div>
     <!-- <div class="version">{webon.version}</div> -->
     <!-- <div class="suggestions">
@@ -196,6 +243,19 @@
           box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
       }
+      .copy-notification {
+
+        padding: 10px;
+        background-color: #dcdcdc;
+        color: black;
+        border-radius: 30px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: inline-block;
+        z-index: 1000;
+      }
 
       .description {
         background: #f7f7f7;
@@ -287,4 +347,7 @@
       .selected {
         background: #9b9b9b;
       }
+
+
+
     </style>

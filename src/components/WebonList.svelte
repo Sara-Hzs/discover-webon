@@ -22,9 +22,17 @@
         $data.filteredList = getFilteredList()
     }
 
+    export let selectedTagName;
+    export let showSearchBar = true;
+
+
+    $: taggedWebons = selectedTagName
+        ? $data.filteredList.filter(webon => webon.tags.some(tag => tag.name === selectedTagName))
+        : $data.filteredList;
 </script>
 
 <!-- Filter UI -->
+{#if showSearchBar}
 <div class="search-filter-container">
     <div class="search-box">
         <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={searchQuery} />
@@ -43,12 +51,12 @@
 
     </div>
 </div>
+{/if}
 <div class="container">
-    {#each $data.filteredList as webon}
+    {#each taggedWebons as webon (webon.id)}
         <WebonElement {webon} />
     {/each}
 </div>
-
 <style lang="scss">
   .container {
     width: 100%;
