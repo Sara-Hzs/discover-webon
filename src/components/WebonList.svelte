@@ -1,6 +1,6 @@
 <script>
     import { data } from "../stores/data.js";
-    import { selectedTag } from "../stores/selectedTagStore.js"; // Import the store
+    import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
 
     let searchQuery = '';
@@ -12,36 +12,40 @@
     });
 
     function filterWebonList() {
-
         $data.filteredList = $data.webonList.filter(webon => {
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
+            const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName);
-            return matchesSearchQuery && (!selectedTagName || matchesTag);
+            return (matchesSearchQuery || tagMatchesSearchQuery) && (!selectedTagName || matchesTag);
         });
+    }
+
+    function clearSelectedTag() {
+        selectedTag.set("");
+        selectedTagName = "";
+    }
+
+
+    $: if (searchQuery && selectedTagName) {
+        clearSelectedTag();
     }
 
     $: searchQuery, filterWebonList();
 </script>
-
-<!-- Filter UI -->
+<!-- Filter UI and Selected Tag Display -->
 <div class="search-filter-container">
     <div class="search-box">
         <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={searchQuery} />
     </div>
 
-
-    <div class="filters">
-        <!--        <div class="filter-select">-->
-        <!--            <select bind:value={selectedLanguage} class="select-css">-->
-        <!--                <option value="">All Languages</option>-->
-        <!--                <option value="en">English</option>-->
-        <!--                <option value="de">German</option>-->
-        <!--            </select>-->
-        <!--        </div>-->
-
-
-    </div>
+    {#if selectedTagName}
+        <button class="selected-tag-display" on:click={clearSelectedTag}>
+            <span class="tag">{selectedTagName}</span>
+            <span class="clear-tag">×</span>
+        </button>
+    {/if}
 </div>
+
 <div class="container">
     {#each $data.filteredList as webon}
         <WebonElement {webon} />
@@ -92,5 +96,26 @@
     }
   }
 
+  .selected-tag-display {
+    margin: 1rem 0;
+    padding: 0.5rem;
+    border-radius: 15px;
+    background-color: #f2f2f2;
+    font-weight: bold;
+    cursor: pointer;
+
+    .tag {
+      color: black;
+      padding: 0.25rem 0.5rem;
+      border-radius: 10px;
+      background-color: #dcdcdc;
+    }
+
+    .clear-tag {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  }
 </style>
 

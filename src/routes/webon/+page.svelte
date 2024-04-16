@@ -15,7 +15,7 @@
     let webon = $data[id];
 
     function selectTag(tagName) {
-        selectedTag.set(tagName);
+        $selectedTag = tagName
         browser && goto('/');
     }
 
