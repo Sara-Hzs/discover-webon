@@ -1,27 +1,26 @@
-
 <script>
-    import {data} from "../stores/data.js";
+    import { data } from "../stores/data.js";
+    import { selectedTag } from "../stores/selectedTagStore.js"; // Import the store
     import WebonElement from "./WebonElement.svelte";
-    import { filterWebonList } from "../utils/functions.js";
 
-    let selectedLanguage;
-    let selectedTags = $data.tagsList;
     let searchQuery = '';
 
-    const getFilteredList = async () => {
-        await filterWebonList($data.webonList, selectedLanguage, selectedTags)
+    let selectedTagName = "";
+    selectedTag.subscribe(value => {
+        selectedTagName = value.toLowerCase();
+        filterWebonList();
+    });
+
+    function filterWebonList() {
+
+        $data.filteredList = $data.webonList.filter(webon => {
+            const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName);
+            return matchesSearchQuery && (!selectedTagName || matchesTag);
+        });
     }
 
-    $: $data.filteredList = $data.webonList.filter(webon => {
-        return webon.name.toLowerCase().includes(searchQuery.toLowerCase()) || (webon.tags?.length > 0 && webon.tags.find(webon_tag => {
-                return webon_tag.name.toLowerCase().includes(searchQuery.toLowerCase())
-            })
-        )});
-
-    $: if (selectedLanguage != null || selectedTags.length > 0) {
-        $data.filteredList = getFilteredList()
-    }
-
+    $: searchQuery, filterWebonList();
 </script>
 
 <!-- Filter UI -->
@@ -32,13 +31,13 @@
 
 
     <div class="filters">
-<!--        <div class="filter-select">-->
-<!--            <select bind:value={selectedLanguage} class="select-css">-->
-<!--                <option value="">All Languages</option>-->
-<!--                <option value="en">English</option>-->
-<!--                <option value="de">German</option>-->
-<!--            </select>-->
-<!--        </div>-->
+        <!--        <div class="filter-select">-->
+        <!--            <select bind:value={selectedLanguage} class="select-css">-->
+        <!--                <option value="">All Languages</option>-->
+        <!--                <option value="en">English</option>-->
+        <!--                <option value="de">German</option>-->
+        <!--            </select>-->
+        <!--        </div>-->
 
 
     </div>

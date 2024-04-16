@@ -1,23 +1,34 @@
-
 <script>
     import {data} from "../../stores/data.js";
-    import icon from "../../assets/icon.png"
-    import card from "../../assets/card.png"
-    import plus from "../../assets/plus.svg"
-    import checkmark from "../../assets/checkmark.svg"
+    import icon from "../../assets/icon.png";
+    import card from "../../assets/card.png";
+    import plus from "../../assets/plus.svg";
+    import checkmark from "../../assets/checkmark.svg";
     import {browser} from "$app/environment";
     import {goto} from "$app/navigation";
     import Back from "../../components/Icons/Back.svelte";
-    import QrCode from "svelte-qrcode"
+    import QrCode from "svelte-qrcode";
     import {downloadWebOn} from "../../utils/functions.js";
+    import { selectedTag } from "../../stores/selectedTagStore.js";
 
-    let id = getParameterFromURL()
-    let webon = $data[id]
+    let id = getParameterFromURL();
+    let webon = $data[id];
+
+    function selectTag(tagName) {
+        selectedTag.set(tagName);
+        browser && goto('/');
+    }
+
+    function backToWebonList() {
+        selectedTag.set("");
+        browser && goto('/');
+    }
 
     function getParameterFromURL() {
-        const url = new URL(window.location.href)
+        const url = new URL(window.location.href);
         return url.searchParams.get('id');
     }
+
     let showCopyNotification = false;
 
     function copyToClipboard() {
@@ -28,7 +39,6 @@
             }, 2000); // Message will be visible for 2 seconds
         }).catch(e => console.error('Copy failed', e));
     }
-
 </script>
 
 <div class="page">
@@ -40,15 +50,13 @@
         {/if}
     </div>
     <div class="back-button">
-        <button class="back" on:click={() => {
-            browser && goto('/')
-        }}>
+        <button class="back" on:click={backToWebonList}>
             <Back/>
         </button>
         {#if !$data.isBrowser}
             <button class="download" on:click={async e => {
         e.stopPropagation()
-        downloadWebOn(webon.download_link).then(() => {
+        downloadWebOn(webon.domain).then(() => {
         webon.downloaded = true
         }).catch(e => {
           console.error(e)
@@ -97,10 +105,8 @@
     </div>
     <div class="tag-filter">
         {#each webon.tags as tag}
-            <button class={tag?.selected ? "tag selected" : "tag"} on:click={() => {
-                    tag.selected = !tag?.selected
-                }} disabled={true}>
-                <span class="tag-label">{tag.name}</span>
+            <button on:click={() => selectTag(tag.name)}>
+                {tag.name}
             </button>
         {/each}
     </div>
@@ -112,8 +118,6 @@
         <WebonList/>
     </div> -->
 </div>
-
-
 <style lang="scss">
       .page {
         max-width: 800px;
