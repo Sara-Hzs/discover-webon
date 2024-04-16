@@ -18,6 +18,16 @@
         const url = new URL(window.location.href)
         return url.searchParams.get('id');
     }
+    let showCopyNotification = false;
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText("https://" + webon.domain).then(() => {
+            showCopyNotification = true;
+            setTimeout(() => {
+                showCopyNotification = false;
+            }, 2000); // Message will be visible for 2 seconds
+        }).catch(e => console.error('Copy failed', e));
+    }
 
 </script>
 
@@ -72,11 +82,14 @@
             <QrCode value={"https://" + webon.domain} size={200}/>
         </div>
 
-        <button class="copy-btn" on:click={() => {
-                navigator.clipboard.writeText("https://" + webon.domain);
-            }}>
+        <button class="copy-btn" on:click={copyToClipboard}>
             Copy Link
         </button>
+        {#if showCopyNotification}
+            <div class="copy-notification">
+                Link has been copied!
+            </div>
+        {/if}
     {/if}
     <div class="description">
         <div>Description</div>
@@ -195,6 +208,19 @@
           background: linear-gradient(45deg, #ad9050, #efcc80);
           box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
+      }
+      .copy-notification {
+
+        padding: 10px;
+        background-color: #dcdcdc;
+        color: black;
+        border-radius: 30px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: inline-block;
+        z-index: 1000;
       }
 
       .description {
