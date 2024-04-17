@@ -31,6 +31,6 @@
 
     .review .rating {
         font-weight: bold;
-        color: #333; /* Adjust the color to suit your design */
+        color: #333;
     }
 </style>
