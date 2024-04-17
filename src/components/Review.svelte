@@ -1,5 +1,6 @@
 <script>
     import { mockWebonData } from "../stores/mockData.js";
+    import { slide, fade } from 'svelte/transition';
 
     let newReview = { name: '', rating: 5, comment: '', date: new Date().toISOString() };
 
@@ -28,7 +29,7 @@
     $: displayedReviews = mockWebonData.reviews.slice(0, 2);
 
 
- 
+
     let showAll = false;
 
 
@@ -71,13 +72,14 @@
         </div>
 
         {#each displayedReviews as review}
-            <div class="review">
-                <p><strong>{review.name}</strong> ({review.date}):</p>
+            <div class="review" in:slide|local={{duration: 300}} out:slide|local={{duration: 300}}>
+                <p><strong>{review.name}</strong> </p>
+                <p>Date: {review.date}</p>
                 <p>Rating: {review.rating}</p>
                 <p>{review.comment}</p>
             </div>
         {/each}
-        <!-- Add toggle button here -->
+
         <button class="show" on:click={toggleReviewsDisplay}>
             {#if showAll}
                 Show Less
@@ -145,6 +147,31 @@
       padding: 20px;
     }
 
+    .sort-buttons {
+      text-align: center;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+
+    .sort-buttons button {
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 15px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-right: 4px;
+
+    }
+
+    .sort-buttons button:hover {
+      background-color: #e2e6ea;
+    }
+    .sort-buttons button:last-child {
+      margin-right: 0;
+      margin-top: 5px;
+    }
     .review {
       background: #ffffff;
       border: none;
@@ -152,9 +179,12 @@
       margin: 10px 0;
       border-radius: 10px;
 
+
+
       p {
         position: relative;
         padding-left: 30px;
+        word-wrap: break-word;
         &:before {
           content: '“';
           font-family: Georgia, serif;
@@ -207,6 +237,9 @@
     .review-form {
       padding: 20px;
       background: #ffffff;
+
+
+
 
       h4 {
         color: #fdfdfd;

@@ -28,7 +28,7 @@ export const mockWebonData = {
         {
             name: 'Lucas Chen',
             rating: 3,
-            comment: 'instructions were unclear!',
+            comment: 'instructions were unclear!, Frustrating experience.',
             date: '2023-01-01',
         },
         {
