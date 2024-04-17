@@ -18,9 +18,9 @@
     let error = false
 
     onMount(async () => {
-        if (location.hostname.includes("")) {
+        if (location.hostname.includes("nomo")) {
             try {
-                await nomo.migrateAndSelfDestroy({new_deeplink: ""});
+                await nomo.migrateAndSelfDestroy({new_deeplink: "https://nomo.app/webon/discover.webon.info"});
 
             } catch (e) {
                 console.error('Migration failed:', e);
@@ -73,7 +73,7 @@
 
 {#if loading}
     <div class="loading">
-        Loading...
+        Hello
     </div>
 {:else}
     {#if error}

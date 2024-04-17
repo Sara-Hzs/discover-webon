@@ -13,7 +13,5 @@ vite.config.ts.timestamp-*
 package-lock.json
 .idea
 /scripts/clear_cloudflare_cache.sh
-nomo_manifest.json
-nomo_icon.svg
 nomo.tar.gz
 /out/

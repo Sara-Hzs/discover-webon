@@ -12,12 +12,16 @@
     });
 
     function filterWebonList() {
+        let foundMatchingWebon = false;
         $data.filteredList = $data.webonList.filter(webon => {
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
             const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName);
-            return (matchesSearchQuery || tagMatchesSearchQuery) && (!selectedTagName || matchesTag);
+            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery) && (!selectedTagName || matchesTag);
+            if (itemMatches) foundMatchingWebon = true;
+            return itemMatches;
         });
+        return foundMatchingWebon;
     }
 
     function clearSelectedTag() {
@@ -26,11 +30,13 @@
     }
 
 
-    $: if (searchQuery && selectedTagName) {
-        clearSelectedTag();
-    }
+    $: if (searchQuery) {
+        const foundMatchingWebon = filterWebonList();
+        if (!foundMatchingWebon) clearSelectedTag();
+    } else {
 
-    $: searchQuery, filterWebonList();
+        filterWebonList();
+    }
 </script>
 <!-- Filter UI and Selected Tag Display -->
 <div class="search-filter-container">
