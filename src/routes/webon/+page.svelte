@@ -10,8 +10,10 @@
     import QrCode from "svelte-qrcode";
     import {downloadWebOn} from "../../utils/functions.js";
     import { selectedTag } from "../../stores/selectedTagStore.js";
-    import ReviewForm from '../../components/ReviewForm.svelte';
-    import ReviewsDisplay from '../../components/ReviewsDisplay.svelte';
+    import Review from "../../components/Review.svelte";
+
+
+
 
     let id = getParameterFromURL();
     let webon = $data[id];
@@ -41,11 +43,8 @@
             }, 2000); // Message will be visible for 2 seconds
         }).catch(e => console.error('Copy failed', e));
     }
-    function handleReviewSubmit(newReview) {
-        $data.reviews.push(newReview);
-        data.set($data);
 
-    }
+
 </script>
 
 <div class="page">
@@ -117,12 +116,8 @@
             </button>
         {/each}
     </div>
+    <Review/>
 
-
-    <div class="reviews-container">
-        <ReviewsDisplay />
-        <ReviewForm />
-    </div>
 
     <!-- <div class="version">{webon.version}</div> -->
     <!-- <div class="suggestions">
