@@ -44,7 +44,7 @@
         window.scrollTo(0, 0);
     });
 </script>
-<!-- Filter UI and Selected Tag Display -->
+<!--Selected Tag Display -->
 <div class="search-filter-container">
     <div class="search-box">
         <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={searchQuery} />
