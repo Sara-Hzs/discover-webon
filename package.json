@@ -22,6 +22,11 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^6.5.2",
+		"@fortawesome/free-brands-svg-icons": "^6.5.2",
+		"@fortawesome/free-regular-svg-icons": "^6.5.2",
+		"@fortawesome/free-solid-svg-icons": "^6.5.2",
+		"@fortawesome/svelte-fontawesome": "^0.2.2",
 		"@sveltejs/adapter-static": "^2.0.3",
 		"flowbite-svelte": "^0.44.18",
 		"moment": "^2.29.4",
