@@ -124,6 +124,7 @@
         max-width: 800px;
         min-height: 90%;
         gap: 20px;
+
       }
 
       .banner {
@@ -160,7 +161,6 @@
 
         .download {
           background: var(--nomoPrimary);
-          color: var(--nomoOnSecondary);
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -191,6 +191,7 @@
           font-size: 30px;
           font-weight: bold;
           word-break: break-word;
+          color: var(--nomoForeground2);
         }
       }
       .qr-container {
@@ -229,7 +230,7 @@
       }
 
       .description {
-        background: var(--nomoPrimaryContainer);
+        color: var(--nomoForeground2);
         padding: 1.5rem;
         border-radius: 8px;
         margin: 1.5rem 0;
@@ -238,7 +239,6 @@
       }
 
       .description div {
-        color: var(--nomoForeground3);
         font-weight: 600;
         margin-bottom: 5px;
       }
@@ -306,12 +306,12 @@
       }
 
       .tag-filter button{
-        color: var(--nomoForeground3);
-        background: var(--nomoPrimaryContainer);
+        color: var(--nomoForeground2);
+
+
       }
 
       .tag {
-        background: #f2f2f2;
         border-radius: 0.5rem;
         display: flex;
         align-items: center;

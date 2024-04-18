@@ -71,8 +71,6 @@
     align-items: center;
     flex-direction: column;
     gap: 10px;
-    background: var(--nomoPrimaryContainer);
-    color: var(--nomoForeground3);
   }
   .search-filter-container {
     display: flex;
@@ -92,9 +90,6 @@
     border-radius: 20px;
     box-shadow: 0 4px 6px var(--nomoForeground1);
     overflow: hidden;
-    &:hover {
-      box-shadow: 0 6px 8px var(--nomoForeground3);
-    }
   }
 
   .search-input {
@@ -119,7 +114,7 @@
     cursor: pointer;
 
     .tag {
-      color: var(--nomoOnSecondary);
+
       padding: 0.25rem 0.5rem;
       border-radius: 10px;
     }
