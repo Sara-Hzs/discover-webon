@@ -73,7 +73,7 @@
 
 {#if loading}
     <div class="loading">
-        Hello
+        <div class="spinner"></div> <!-- The spinner animation -->
     </div>
 {:else}
     {#if error}
@@ -102,3 +102,28 @@
 <!--}}>-->
 <!--    Theme-->
 <!--</button>-->
+
+
+<style>
+    .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .spinner {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #3498db;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 6s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
