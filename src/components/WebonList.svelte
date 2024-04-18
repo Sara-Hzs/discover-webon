@@ -79,14 +79,14 @@
     width: 100%;
     margin-bottom: 2rem;
     gap: 1rem;
-    background: transparent;
+
   }
 
   .search-box {
     display: flex;
     width: 100%;
     max-width: 500px;
-    background: var(--nomoPrimaryContainer);
+
     border-radius: 20px;
     box-shadow: 0 4px 6px var(--nomoForeground1);
     overflow: hidden;
@@ -101,7 +101,7 @@
       outline: none;
     }
     &::placeholder {
-      color: var(--nomoDisabledColor);
+      color: black;
     }
   }
 
