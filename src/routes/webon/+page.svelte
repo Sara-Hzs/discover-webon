@@ -24,6 +24,7 @@
         browser && goto('/');
     }
 
+
     function getParameterFromURL() {
         const url = new URL(window.location.href);
         return url.searchParams.get('id');
@@ -302,6 +303,11 @@
       .tag-filter {
         display: flex;
         gap: 0.5rem;
+      }
+
+      .tag-filter button{
+        color: var(--nomoForeground3);
+        background: var(--nomoPrimaryContainer);
       }
 
       .tag {

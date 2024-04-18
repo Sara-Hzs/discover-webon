@@ -2,7 +2,7 @@
     import { data } from "../stores/data.js";
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
-    import { onMount, tick } from 'svelte';
+    import { onMount } from 'svelte';
 
     let searchQuery = '';
 
@@ -40,8 +40,7 @@
     } else {
         filterWebonList();
     }
-    onMount(async () => {
-        await tick();
+    onMount(() => {
         window.scrollTo(0, 0);
     });
 </script>
@@ -72,7 +71,7 @@
     align-items: center;
     flex-direction: column;
     gap: 10px;
-    background: transparent;
+    background: var(--nomoPrimaryContainer);
     color: var(--nomoForeground3);
   }
   .search-filter-container {
@@ -94,7 +93,7 @@
     box-shadow: 0 4px 6px var(--nomoForeground1);
     overflow: hidden;
     &:hover {
-      box-shadow: 0 6px 8px var(--nomoForeground2);
+      box-shadow: 0 6px 8px var(--nomoForeground3);
     }
   }
 
@@ -123,7 +122,6 @@
       color: var(--nomoOnSecondary);
       padding: 0.25rem 0.5rem;
       border-radius: 10px;
-      background-color: var(--nomoSecondary);
     }
 
     .clear-tag {
