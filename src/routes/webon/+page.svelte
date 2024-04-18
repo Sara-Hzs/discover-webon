@@ -228,7 +228,7 @@
       }
 
       .description {
-        background: #f7f7f7;
+        background: var(--nomoPrimaryContainer);
         padding: 1.5rem;
         border-radius: 8px;
         margin: 1.5rem 0;
@@ -237,7 +237,7 @@
       }
 
       .description div {
-        color: #555;
+        color: var(--nomoForeground3);
         font-weight: 600;
         margin-bottom: 5px;
       }

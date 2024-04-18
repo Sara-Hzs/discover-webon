@@ -2,12 +2,13 @@
     import { data } from "../stores/data.js";
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
+    import { onMount, tick } from 'svelte';
 
     let searchQuery = '';
 
     let selectedTagName = "";
     selectedTag.subscribe(value => {
-        selectedTagName = value.toLowerCase();
+        selectedTagName = capitalizeFirstLetter(value.toLowerCase());
         filterWebonList();
     });
 
@@ -16,7 +17,7 @@
         $data.filteredList = $data.webonList.filter(webon => {
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
             const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
-            const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName);
+            const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
             const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery) && (!selectedTagName || matchesTag);
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
@@ -29,14 +30,20 @@
         selectedTagName = "";
     }
 
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     $: if (searchQuery) {
         const foundMatchingWebon = filterWebonList();
         if (!foundMatchingWebon) clearSelectedTag();
     } else {
-
         filterWebonList();
     }
+    onMount(async () => {
+        await tick();
+        window.scrollTo(0, 0);
+    });
 </script>
 <!-- Filter UI and Selected Tag Display -->
 <div class="search-filter-container">
@@ -57,7 +64,6 @@
         <WebonElement {webon} />
     {/each}
 </div>
-
 <style lang="scss">
   .container {
     width: 100%;
@@ -66,6 +72,8 @@
     align-items: center;
     flex-direction: column;
     gap: 10px;
+    background: transparent;
+    color: var(--nomoForeground3);
   }
   .search-filter-container {
     display: flex;
@@ -74,18 +82,19 @@
     width: 100%;
     margin-bottom: 2rem;
     gap: 1rem;
+    background: transparent;
   }
 
   .search-box {
     display: flex;
     width: 100%;
     max-width: 500px;
-    background: #fff;
+    background: var(--nomoPrimaryContainer);
     border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px var(--nomoForeground1);
     overflow: hidden;
     &:hover {
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 6px 8px var(--nomoForeground2);
     }
   }
 
@@ -98,7 +107,7 @@
       outline: none;
     }
     &::placeholder {
-      color: #aaa;
+      color: var(--nomoDisabledColor);
     }
   }
 
@@ -106,15 +115,15 @@
     margin: 1rem 0;
     padding: 0.5rem;
     border-radius: 15px;
-    background-color: #f2f2f2;
+    background-color: var(--nomoSecondaryContainer);
     font-weight: bold;
     cursor: pointer;
 
     .tag {
-      color: black;
+      color: var(--nomoOnSecondary);
       padding: 0.25rem 0.5rem;
       border-radius: 10px;
-      background-color: #dcdcdc;
+      background-color: var(--nomoSecondary);
     }
 
     .clear-tag {
@@ -124,4 +133,3 @@
     }
   }
 </style>
-
