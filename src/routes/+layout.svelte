@@ -73,7 +73,7 @@
 
 {#if loading}
     <div class="loading">
-        <div class="spinner"></div> <!-- The spinner animation -->
+        <div class="spinner"></div> 
     </div>
 {:else}
     {#if error}
