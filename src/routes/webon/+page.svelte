@@ -299,7 +299,7 @@
         }
 
         &:active {
-          transform: translateY(2px);
+          transform: translateY(3px);
         }
       }
 

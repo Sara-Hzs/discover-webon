@@ -40,6 +40,9 @@ browser && goto('/webon?id=' + webon.id)
             <div class="slogan">
                 {webon.slogan}
             </div>
+            <div class="domain">
+                https://{webon.domain}
+            </div>
         </div>
         {#if $data.isBrowser}
             <button disabled>
@@ -108,7 +111,7 @@ browser && goto('/webon?id=' + webon.id)
         color: var(--nomoForeground1);
       }
 
-      .slogan {
+      .slogan, .domain {
         font-size: 12px;
         filter: brightness(0.7);
         color: var(--nomoForeground2);
