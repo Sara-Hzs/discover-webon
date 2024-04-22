@@ -286,7 +286,7 @@
       }
 
       .tag-filter button {
-        background-color: #f2f2f2;
+
         border: none;
         border-radius: 0.5rem;
         padding: 0.5rem 1rem;
@@ -294,9 +294,7 @@
         cursor: pointer;
         transition: background-color 0.3s, transform 0.2s;
 
-        &:hover {
-          background-color: #e0e0e0;
-        }
+
 
         &:active {
           transform: translateY(3px);
