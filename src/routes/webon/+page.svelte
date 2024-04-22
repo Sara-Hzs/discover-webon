@@ -294,9 +294,7 @@
         cursor: pointer;
         transition: background-color 0.3s, transform 0.2s;
 
-
-
-        &:active {
+        &:hover {
           transform: translateY(3px);
         }
       }
