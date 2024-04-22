@@ -251,8 +251,7 @@
         font-weight: bold;
       }
 
-
-      .filters {
+      .tag-filter {
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
@@ -261,16 +260,17 @@
         max-width: 100%;
         overflow-x: scroll;
         padding-bottom: 10px;
+        scrollbar-width: thin;
+        scrollbar-color: #fcf4f4 #faf6f6;
+
         &::-webkit-scrollbar {
-          -webkit-appearance: none;
-          width: 7px;
           height: 6px;
         }
 
         &::-webkit-scrollbar-track {
           background-color: #faf6f6;
           border-radius: 10px;
-          box-shadow: inset 0 0 6px rgba(255,255,255,0.1);
+          box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.1);
         }
 
         &::-webkit-scrollbar-thumb {
@@ -283,44 +283,28 @@
           background-color: #555;
           background-image: linear-gradient(180deg, #666 25%, #777 50%, #666 75%);
         }
-
       }
 
-      .filter-select {
-        .select-css {
-          padding: 0.5rem 1rem;
-          border-radius: 0.5rem;
-          border: 1px solid #ccc;
-          font-size: 1rem;
-          background-color: white;
-          cursor: pointer;
-          &:hover {
-            background-color: #f8f8f8;
-          }
+      .tag-filter button {
+        background-color: #f2f2f2;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+
+        &:hover {
+          background-color: #e0e0e0;
+        }
+
+        &:active {
+          transform: translateY(2px);
         }
       }
 
-      .tag-filter {
-        display: flex;
-        gap: 0.5rem;
-      }
-
-      .tag-filter button{
-        color: var(--nomoForeground2);
-
-
-      }
-
-      .tag {
-        border-radius: 0.5rem;
-        display: flex;
-        align-items: center;
-        padding: 0.3rem 1rem;
-        transition: all 0.2s;
-        cursor: pointer;
-      }
-
       .selected {
-        background: #9b9b9b;
+        background-color: #9b9b9b;
+        color: #fff;
       }
     </style>
