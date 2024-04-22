@@ -11,20 +11,22 @@
         selectedTagName = capitalizeFirstLetter(value.toLowerCase());
         filterWebonList();
     });
-
     function filterWebonList() {
         let foundMatchingWebon = false;
         $data.filteredList = $data.webonList.filter(webon => {
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
             const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
+            const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(searchQuery.toLowerCase());
+            const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
-            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery) && (!selectedTagName || matchesTag);
+
+            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag);
+
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
         });
         return foundMatchingWebon;
     }
-
     function clearSelectedTag() {
         selectedTag.set("");
         selectedTagName = "";
