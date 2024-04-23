@@ -13,10 +13,12 @@
         filterWebonList();
     });
     function detectPlatform() {
-
-        const width = window.innerWidth;
-        if (width <= 768) return 'mobile';
-        else if (width <= 1024) return 'hub';
+        const effectiveWidth = window.innerWidth;
+        if (effectiveWidth <= 768) {
+            return 'mobile';
+        } else if (effectiveWidth > 768 && effectiveWidth <= 1280) {
+            return 'hub';
+        }
         return 'desktop';
     }
 
