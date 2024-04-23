@@ -3,28 +3,37 @@
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
+    import {nomo} from "nomo-webon-kit";
+
 
     let searchQuery = '';
-    let platform = detectPlatform();  // Determine the platform more reliably
+    let platform;
 
     let selectedTagName = "";
     selectedTag.subscribe(value => {
         selectedTagName = capitalizeFirstLetter(value.toLowerCase());
         filterWebonList();
     });
-    function detectPlatform() {
-        const effectiveWidth = window.innerWidth;
-        if (effectiveWidth <= 768) {
-            return 'mobile';
-        } else if (effectiveWidth > 768 && effectiveWidth <= 1280) {
-            return 'hub';
+
+    async function detectPlatformNOMO() {
+        try {
+            const platformInfo = await nomo.getPlatformInfo();
+            if (platformInfo && platformInfo.clientName === "HUB") {
+                platform = 'hub';
+            } else if (platformInfo && platformInfo.clientName === "MOBILE") {
+                platform = 'mobile';
+            } else {
+                platform = 'desktop';
+            }
+        } catch (error) {
+            console.error('Error detecting platform:', error);
+            platform = 'desktop';
         }
-        return 'desktop';
     }
 
+    async function filterWebonList() {
+        await detectPlatformNOMO();
 
-
-    function filterWebonList() {
         let foundMatchingWebon = false;
         $data.filteredList = $data.webonList.filter(webon => {
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -32,8 +41,7 @@
             const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(searchQuery.toLowerCase());
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
-            const isPlatformSupported = webon.platform && webon.platform[platform];  // Correctly access the platform object
-
+            const isPlatformSupported = webon.platform && webon.platform[platform]; // Ensure you use 'platform' here correctly
 
             const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag) && isPlatformSupported;
 
@@ -42,6 +50,7 @@
         });
         return foundMatchingWebon;
     }
+
     function clearSelectedTag() {
         selectedTag.set("");
         selectedTagName = "";
@@ -52,11 +61,11 @@
     }
 
     $: if (searchQuery) {
-        const foundMatchingWebon = filterWebonList();
-        if (!foundMatchingWebon) clearSelectedTag();
+        filterWebonList();
     } else {
         filterWebonList();
     }
+
     onMount(() => {
         window.scrollTo(0, 0);
     });

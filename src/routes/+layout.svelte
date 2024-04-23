@@ -14,6 +14,7 @@
     import {nomo} from "nomo-webon-kit";
     import {hasMinimumNomoVersion} from "nomo-webon-kit";
 
+
     let loading = true
     let error = false
 
