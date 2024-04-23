@@ -5,12 +5,23 @@
     import { onMount } from 'svelte';
 
     let searchQuery = '';
+    let platform = detectPlatform();  // Determine the platform more reliably
 
     let selectedTagName = "";
     selectedTag.subscribe(value => {
         selectedTagName = capitalizeFirstLetter(value.toLowerCase());
         filterWebonList();
     });
+    function detectPlatform() {
+
+        const width = window.innerWidth;
+        if (width <= 768) return 'mobile';
+        else if (width <= 1024) return 'hub';
+        return 'desktop';
+    }
+
+
+
     function filterWebonList() {
         let foundMatchingWebon = false;
         $data.filteredList = $data.webonList.filter(webon => {
@@ -19,8 +30,10 @@
             const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(searchQuery.toLowerCase());
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
+            const isPlatformSupported = webon.platform && webon.platform[platform];  // Correctly access the platform object
 
-            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag);
+
+            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag) && isPlatformSupported;
 
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
