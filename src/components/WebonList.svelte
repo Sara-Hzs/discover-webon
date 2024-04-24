@@ -22,13 +22,16 @@
             const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(searchQuery.toLowerCase());
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
+            // Define the platform availability based on the current environment
+            const isMobile = webon.platform.mobile || isFallbackModeActive();
+            const isDesktop = webon.platform.desktop && !isFallbackModeActive();
+            const isHub = webon.platform.hub;
+            const shouldShowOnCurrentPlatform = (webon.platform.mobile && isMobile) ||
+                (webon.platform.desktop && isDesktop) ||
+                (webon.platform.hub && isHub);
 
-            // Filter based on platform
-            const isMobile = webon.platform.mobile || isFallbackModeActive(); // True if mobile or not in Nomo App
-            const isDesktop = webon.platform.desktop && !isFallbackModeActive(); // True if desktop and in Nomo App
-            const isHub = webon.platform.hub; // True if hub
-
-            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag) && (isMobile || isDesktop || isHub);
+            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag) &&
+                shouldShowOnCurrentPlatform;
 
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
