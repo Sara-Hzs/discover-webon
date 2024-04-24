@@ -46,7 +46,7 @@ export const downloadWebOn = (deeplink) => {
         nomo.installWebOn({
             deeplink: deeplink,
             skipPermissionDialog: true,
-            navigateBack: true,
+            navigateBack: false,
         }).then(() => resolve()).catch((e) => {
             reject(e);
             console.error(e)
