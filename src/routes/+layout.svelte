@@ -1,3 +1,4 @@
+
 <script>
     import './global.scss';
     import {onMount} from "svelte";

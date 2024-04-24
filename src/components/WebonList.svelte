@@ -1,11 +1,11 @@
+
 <script>
     import { data } from "../stores/data.js";
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
-    import { nomo } from "nomo-webon-kit";
 
-    let platform = 'desktop'; // default platform
+
     let searchQuery = '';
 
     let selectedTagName = "";
@@ -14,30 +14,8 @@
         filterWebonList();
     });
 
-    onMount(async () => {
-        platform = await detectPlatform(); // Detect platform on mount
-        filterWebonList();
-        window.scrollTo(0, 0);
-    });
 
-    // Platform detection function
-    async function detectPlatform() {
-        try {
-            const executionMode = await nomo.getExecutionMode();
-            if (executionMode.executionMode === 'NOMO') {
-                // If it's inside Nomo, only mobile and hub are possible
-                return 'mobile';
-            } else {
-                // If it's outside of Nomo, it could be mobile, desktop, or hub
-                const isHub = window.innerWidth === 1280 && window.innerHeight === 800;
-                return isHub ? 'hub' : window.innerWidth <= 768 ? 'mobile' : 'desktop';
-            }
-        } catch (error) {
-            console.error('Error detecting platform:', error);
-            return 'desktop'; // Default to desktop in case of an error
-        }
-    }
-    // Filter webon list based on search query, selected tag, and platform
+
     function filterWebonList() {
         let foundMatchingWebon = false;
         $data.filteredList = $data.webonList.filter(webon => {
@@ -46,10 +24,8 @@
             const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(searchQuery.toLowerCase());
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
-            const isPlatformSupported = webon.platform[platform]; // check if platform is supported
 
-            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
-                (!selectedTagName || matchesTag) && isPlatformSupported;
+            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag);
 
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
@@ -71,7 +47,12 @@
     } else {
         filterWebonList();
     }
+    onMount(() => {
+        window.scrollTo(0, 0);
+    });
+
 </script>
+
 <!--Selected Tag Display -->
 <div class="search-filter-container">
     <div class="search-box">
