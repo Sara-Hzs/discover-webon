@@ -23,31 +23,28 @@
     // Platform detection function
     async function detectPlatform() {
         try {
-            if (nomo && typeof nomo.getExecutionMode === 'function') {
-                const executionMode = await nomo.getExecutionMode();
-                // Check for Fallback mode, which indicates a non-Nomo environment
-                if (executionMode.executionMode === 'FALLBACK') {
-                    // Logic for non-Nomo environment
-                    return window.innerWidth <= 768 ? 'mobile' : 'desktop';
-                } else {
-                    // In Nomo environment
-                    const platformInfo = await nomo.getPlatformInfo();
-                    // Explicitly check for 'MOBILE' clientName, which indicates the Nomo app on mobile
-                    if (platformInfo.clientName === 'MOBILE') {
-                        return 'mobile';
-                    } else if (platformInfo.clientName === 'HUB') {
-                        return 'hub';
-                    } else {
-                        return 'desktop';
-                    }
-                }
-            } else {
-                // Likely running in a web environment
+            const executionMode = await nomo.getExecutionMode();
+            console.log(`Execution Mode: ${executionMode.executionMode}`); // Log execution mode
+
+            if (executionMode.executionMode === 'FALLBACK') {
+                // Logic for non-Nomo environment
                 return window.innerWidth <= 768 ? 'mobile' : 'desktop';
+            } else {
+                // In Nomo environment
+                const platformInfo = await nomo.getPlatformInfo();
+                console.log(`Platform Info: ${JSON.stringify(platformInfo)}`); // Log platform info
+
+                if (platformInfo.clientName.toUpperCase().includes('MOBILE')) {
+                    return 'mobile';
+                } else if (platformInfo.clientName.toUpperCase().includes('HUB')) {
+                    return 'hub';
+                } else {
+                    return 'desktop';
+                }
             }
         } catch (error) {
             console.error('Error detecting platform:', error);
-            // Fallback to mobile if there's an error within the Nomo app
+            // If there's an error within the Nomo app, log it and default to mobile
             return 'mobile';
         }
     }
