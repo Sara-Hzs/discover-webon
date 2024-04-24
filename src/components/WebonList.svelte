@@ -31,7 +31,7 @@
             } else {
                 // If it's inside Nomo, only mobile and hub are possible
                 const platformInfo = await nomo.getPlatformInfo();
-                if (platformInfo.clientName === 'MOBILE') {
+                if (platformInfo.clientName === 'MOBILE' && platformInfo.appName === 'NOMO') {
                     return 'mobile';
                 } else {
                     return 'hub';
@@ -42,7 +42,6 @@
             return 'desktop'; // Default to desktop in case of an error
         }
     }
-
     // Filter webon list based on search query, selected tag, and platform
     function filterWebonList() {
         let foundMatchingWebon = false;
