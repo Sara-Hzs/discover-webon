@@ -3,11 +3,10 @@
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
-    import {nomo} from "nomo-webon-kit";
+    import { nomo } from "nomo-webon-kit";
 
-
+    let platform = 'desktop'; // default platform
     let searchQuery = '';
-    let platform;
 
     let selectedTagName = "";
     selectedTag.subscribe(value => {
@@ -15,25 +14,49 @@
         filterWebonList();
     });
 
-    async function detectPlatformNOMO() {
+    onMount(async () => {
+        platform = await detectPlatform(); // Detect platform on mount
+        filterWebonList();
+        window.scrollTo(0, 0);
+    });
+
+    // Platform detection function
+    async function detectPlatform() {
         try {
-            const platformInfo = await nomo.getPlatformInfo();
-            if (platformInfo && platformInfo.clientName === "HUB") {
-                platform = 'hub';
-            } else if (platformInfo && platformInfo.clientName === "MOBILE") {
-                platform = 'mobile';
+            // Check if the Nomo API is available
+            if (nomo && typeof nomo.getExecutionMode === 'function') {
+                const executionMode = await nomo.getExecutionMode();
+                if (executionMode.executionMode === 'FALLBACK') {
+                    // Not in Nomo environment, check if the size matches the hub dimensions
+                    const isHubWidth = window.innerWidth === 1280 && window.innerHeight === 800;
+                    if (isHubWidth) {
+                        return 'hub';
+                    }
+                    // Use window width for mobile/desktop detection in fallback
+                    return window.innerWidth <= 768 ? 'mobile' : 'desktop';
+                } else {
+                    // In Nomo environment, use the Nomo platform info
+                    const platformInfo = await nomo.getPlatformInfo();
+                    if (platformInfo.clientName === 'HUB') {
+                        return 'hub';
+                    } else if (platformInfo.clientName === 'MOBILE') {
+                        return 'mobile';
+                    } else {
+                        return 'desktop';
+                    }
+                }
             } else {
-                platform = 'desktop';
+                // Nomo API not available, likely running in a web environment
+                return window.innerWidth <= 768 ? 'mobile' : 'desktop';
             }
         } catch (error) {
             console.error('Error detecting platform:', error);
-            platform = 'desktop';
+            return 'desktop'; // Default to desktop in case of an error
         }
     }
 
-    async function filterWebonList() {
-        await detectPlatformNOMO();
-
+    // Filter webon list based on search query, selected tag, and platform
+    function filterWebonList() {
         let foundMatchingWebon = false;
         $data.filteredList = $data.webonList.filter(webon => {
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -41,16 +64,16 @@
             const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(searchQuery.toLowerCase());
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
-            const isPlatformSupported = webon.platform && webon.platform[platform]; // Ensure you use 'platform' here correctly
+            const isPlatformSupported = webon.platform[platform]; // check if platform is supported
 
-            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag) && isPlatformSupported;
+            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
+                (!selectedTagName || matchesTag) && isPlatformSupported;
 
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
         });
         return foundMatchingWebon;
     }
-
     function clearSelectedTag() {
         selectedTag.set("");
         selectedTagName = "";
@@ -61,14 +84,11 @@
     }
 
     $: if (searchQuery) {
-        filterWebonList();
+        const foundMatchingWebon = filterWebonList();
+        if (!foundMatchingWebon) clearSelectedTag();
     } else {
         filterWebonList();
     }
-
-    onMount(() => {
-        window.scrollTo(0, 0);
-    });
 </script>
 <!--Selected Tag Display -->
 <div class="search-filter-container">
