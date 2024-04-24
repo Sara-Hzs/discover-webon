@@ -103,41 +103,39 @@
 </div>
 <style lang="scss">
   .container {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 1rem;
+    justify-items: center;
   }
+
   .search-filter-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 2rem;
+    justify-content: center;
+    padding: 1rem;
     gap: 1rem;
-
   }
 
   .search-box {
-    display: flex;
-    width: 100%;
-    max-width: 500px;
-
-    border-radius: 20px;
+    flex-grow: 1;
+    max-width: 600px;
+    position: relative;
     box-shadow: 0 4px 6px var(--nomoForeground1);
-    overflow: hidden;
+    border-radius: 4px;
   }
 
   .search-input {
+    width: 100%;
+    padding: 10px 20px;
     border: none;
-    padding: 0.75rem 1rem;
-    flex-grow: 1;
-    font-size: 1rem;
+    border-radius: 4px;
+    font-size: 16px;
     color: black;
+
     &:focus {
       outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
     }
     &::placeholder {
       color: black;
@@ -145,22 +143,27 @@
   }
 
   .selected-tag-display {
-    margin: 1rem 0;
-    padding: 0.5rem;
-    border-radius: 15px;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 4px;
+    box-shadow: none;
     cursor: pointer;
-
     .tag {
+      margin-right: 10px;
       color: var(--nomoForeground2);
-      padding: 0.25rem 0.5rem;
-      border-radius: 10px;
     }
 
     .clear-tag {
+      display: block;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
       background: none;
       border: none;
-      cursor: pointer;
+
+      font-size: 14px;
     }
   }
 </style>
