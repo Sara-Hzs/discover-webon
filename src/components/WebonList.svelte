@@ -21,14 +21,14 @@
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
     function shouldBeShown(platform) {
-        const isDesktopEnvironment = isFallbackModeActive(); // This checks if the app is running in a desktop browser
-        const onMobileBrowser = isMobileBrowser(); // Check if it's a mobile browser
+        const isDesktopEnvironment = isFallbackModeActive(); // Check if its a desktop browser
+        const onMobileBrowser = isMobileBrowser(); // Check if its a mobile browser
         console.log('Desktop Environment:', isDesktopEnvironment, 'Mobile Browser:', onMobileBrowser);
         if (onMobileBrowser) {
             return platform.mobile; // Only show if mobile is true when on a mobile browser
         }
         if (isDesktopEnvironment) {
-            return platform.desktop; // For desktop browsers, check the desktop property
+            return platform.desktop; // Only show if desktop is true when on a desktop browser
         }
         // For the Nomo app or other environments, follow the platform settings
         return platform.mobile || platform.desktop || platform.hub;
@@ -39,17 +39,19 @@
     function filterWebonList() {
         let foundMatchingWebon = false;
         $data.filteredList = $data.webonList.filter(webon => {
+            const isTrusted = webon.trusted;
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
             const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
             const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(searchQuery.toLowerCase());
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
 
+
             const isPlatformCompatible = shouldBeShown(webon.platform);
-            console.log(`Webon: ${webon.name}, Platform Compatible: ${isPlatformCompatible}`);
+            console.log(`Webon: ${webon.name}, Trusted: ${isTrusted}, Platform Compatible: ${isPlatformCompatible}`);
 
             const itemMatches = isPlatformCompatible &&
-                (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
+                (isTrusted || matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
                 (!selectedTagName || matchesTag);
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
