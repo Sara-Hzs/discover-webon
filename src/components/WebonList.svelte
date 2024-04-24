@@ -39,7 +39,10 @@
     function filterWebonList() {
         let foundMatchingWebon = false;
         $data.filteredList = $data.webonList.filter(webon => {
+            console.log('Webon:', webon);
             const isTrusted = webon.trusted;
+            console.log('Trusted:', isTrusted);
+
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
             const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
             const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -132,6 +135,7 @@
     padding: 0.75rem 1rem;
     flex-grow: 1;
     font-size: 1rem;
+    color: black;
     &:focus {
       outline: none;
     }
