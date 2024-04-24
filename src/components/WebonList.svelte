@@ -4,7 +4,9 @@
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
-    import { isFallbackModeActive } from "nomo-webon-kit";
+    import { isFallbackModeActive } from "nomo-webon-kit"; // Make sure this import is correct.
+
+
 
     let searchQuery = '';
 
@@ -14,31 +16,39 @@
         filterWebonList();
     });
 
+
+
     function filterWebonList() {
         let foundMatchingWebon = false;
+        const isFallback = isFallbackModeActive(); // Check if fallback mode is active
         $data.filteredList = $data.webonList.filter(webon => {
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
             const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
             const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(searchQuery.toLowerCase());
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
-            // Define the platform availability based on the current environment
-            const isMobile = webon.platform.mobile || isFallbackModeActive();
-            const isDesktop = webon.platform.desktop && !isFallbackModeActive();
-            const isHub = webon.platform.hub;
-            const shouldShowOnCurrentPlatform = (webon.platform.mobile && isMobile) ||
-                (webon.platform.desktop && isDesktop) ||
-                (webon.platform.hub && isHub);
 
-            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag) &&
-                shouldShowOnCurrentPlatform;
+            // Check if the item should be shown on the current platform
+            const showOnMobile = webon.platform.mobile;
+            const showOnDesktop = webon.platform.desktop;
+            const showOnHub = webon.platform.hub;
+            // Determine the current platform based on isFallback
+            const isMobilePlatform = !isFallback || (isFallback && showOnMobile);
+            const isDesktopPlatform = isFallback && showOnDesktop;
+            const isHubPlatform = !isFallback && showOnHub;
+
+            // Determine if the webon matches the current platform
+            const platformMatch = isMobilePlatform || isDesktopPlatform || isHubPlatform;
+            const itemMatches = platformMatch &&
+                (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
+                (!selectedTagName || matchesTag);
+
 
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
         });
         return foundMatchingWebon;
     }
-
     function clearSelectedTag() {
         selectedTag.set("");
         selectedTagName = "";
@@ -54,12 +64,11 @@
     } else {
         filterWebonList();
     }
-
     onMount(() => {
         window.scrollTo(0, 0);
     });
-</script>
 
+</script>
 <!--Selected Tag Display -->
 <div class="search-filter-container">
     <div class="search-box">
