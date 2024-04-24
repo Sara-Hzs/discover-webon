@@ -4,7 +4,7 @@
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
-
+    import { isFallbackModeActive } from "nomo-webon-kit";
 
     let searchQuery = '';
 
@@ -13,8 +13,6 @@
         selectedTagName = capitalizeFirstLetter(value.toLowerCase());
         filterWebonList();
     });
-
-
 
     function filterWebonList() {
         let foundMatchingWebon = false;
@@ -25,13 +23,19 @@
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
 
-            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag);
+            // Filter based on platform
+            const isMobile = isFallbackModeActive() ? true : webon.platform.mobile;
+            const isDesktop = isFallbackModeActive() ? true : webon.platform.desktop;
+            const isHub = isFallbackModeActive() ? true : webon.platform.hub;
+
+            const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag) && (isMobile || isDesktop || isHub);
 
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
         });
         return foundMatchingWebon;
     }
+
     function clearSelectedTag() {
         selectedTag.set("");
         selectedTagName = "";
@@ -47,10 +51,10 @@
     } else {
         filterWebonList();
     }
+
     onMount(() => {
         window.scrollTo(0, 0);
     });
-
 </script>
 
 <!--Selected Tag Display -->
