@@ -4,8 +4,7 @@
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
-    import { isFallbackModeActive } from "nomo-webon-kit"; // Make sure this import is correct.
-
+    import { isFallbackModeActive } from "nomo-webon-kit";
 
 
     let searchQuery = '';
@@ -17,10 +16,23 @@
     });
 
 
+    function shouldBeShown(platform) {
+        const isDesktopEnvironment = isFallbackModeActive(); // This checks if the app is running in a desktop browser
+        console.log('Desktop Environment:', isDesktopEnvironment); // Log the environment
+
+        // to determine if webon should be shown
+        if (isDesktopEnvironment) {
+            // If we are in a desktop environment, check the desktop property
+            return platform.desktop;
+        } else {
+            // If we are not in a desktop environment (thus mobile or hub), check the respective property
+            return platform.mobile || platform.hub;
+        }
+    }
+
 
     function filterWebonList() {
         let foundMatchingWebon = false;
-        const isFallback = isFallbackModeActive(); // Check if fallback mode is active
         $data.filteredList = $data.webonList.filter(webon => {
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
             const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -28,22 +40,12 @@
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
 
-            // Check if the item should be shown on the current platform
-            const showOnMobile = webon.platform.mobile;
-            const showOnDesktop = webon.platform.desktop;
-            const showOnHub = webon.platform.hub;
-            // Determine the current platform based on isFallback
-            const isMobilePlatform = !isFallback || (isFallback && showOnMobile);
-            const isDesktopPlatform = isFallback && showOnDesktop;
-            const isHubPlatform = !isFallback && showOnHub;
+            const isPlatformCompatible = shouldBeShown(webon.platform);
+            console.log(`Webon: ${webon.name}, Platform Compatible: ${isPlatformCompatible}`); // Debug log
 
-            // Determine if the webon matches the current platform
-            const platformMatch = isMobilePlatform || isDesktopPlatform || isHubPlatform;
-            const itemMatches = platformMatch &&
+            const itemMatches = isPlatformCompatible &&
                 (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
                 (!selectedTagName || matchesTag);
-
-
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
         });
@@ -69,6 +71,7 @@
     });
 
 </script>
+
 <!--Selected Tag Display -->
 <div class="search-filter-container">
     <div class="search-box">
