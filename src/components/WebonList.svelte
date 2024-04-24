@@ -15,20 +15,25 @@
         filterWebonList();
     });
 
+    // To checks if the user is on a mobile browser
+    function isMobileBrowser() {
 
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
     function shouldBeShown(platform) {
         const isDesktopEnvironment = isFallbackModeActive(); // This checks if the app is running in a desktop browser
-        console.log('Desktop Environment:', isDesktopEnvironment); // Log the environment
-
-        // to determine if webon should be shown
-        if (isDesktopEnvironment) {
-            // If we are in a desktop environment, check the desktop property
-            return platform.desktop;
-        } else {
-            // If we are not in a desktop environment (thus mobile or hub), check the respective property
-            return platform.mobile || platform.hub;
+        const onMobileBrowser = isMobileBrowser(); // Check if it's a mobile browser
+        console.log('Desktop Environment:', isDesktopEnvironment, 'Mobile Browser:', onMobileBrowser);
+        if (onMobileBrowser) {
+            return platform.mobile; // Only show if mobile is true when on a mobile browser
         }
+        if (isDesktopEnvironment) {
+            return platform.desktop; // For desktop browsers, check the desktop property
+        }
+        // For the Nomo app or other environments, follow the platform settings
+        return platform.mobile || platform.desktop || platform.hub;
     }
+
 
 
     function filterWebonList() {
@@ -41,7 +46,7 @@
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
 
             const isPlatformCompatible = shouldBeShown(webon.platform);
-            console.log(`Webon: ${webon.name}, Platform Compatible: ${isPlatformCompatible}`); // Debug log
+            console.log(`Webon: ${webon.name}, Platform Compatible: ${isPlatformCompatible}`);
 
             const itemMatches = isPlatformCompatible &&
                 (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
