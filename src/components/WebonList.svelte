@@ -24,9 +24,9 @@
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
 
             // Filter based on platform
-            const isMobile = isFallbackModeActive() ? true : webon.platform.mobile;
-            const isDesktop = isFallbackModeActive() ? true : webon.platform.desktop;
-            const isHub = isFallbackModeActive() ? true : webon.platform.hub;
+            const isMobile = webon.platform.mobile;
+            const isDesktop = webon.platform.desktop && isFallbackModeActive(); // Desktop only when not in Nomo App
+            const isHub = webon.platform.hub;
 
             const itemMatches = (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) && (!selectedTagName || matchesTag) && (isMobile || isDesktop || isHub);
 
