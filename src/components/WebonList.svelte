@@ -24,18 +24,13 @@
     async function detectPlatform() {
         try {
             const executionMode = await nomo.getExecutionMode();
-            if (executionMode.executionMode === 'FALLBACK') {
+            if (executionMode.executionMode === 'NOMO') {
+                // If it's inside Nomo, only mobile and hub are possible
+                return 'mobile';
+            } else {
                 // If it's outside of Nomo, it could be mobile, desktop, or hub
                 const isHub = window.innerWidth === 1280 && window.innerHeight === 800;
                 return isHub ? 'hub' : window.innerWidth <= 768 ? 'mobile' : 'desktop';
-            } else {
-                // If it's inside Nomo, only mobile and hub are possible
-                const platformInfo = await nomo.getPlatformInfo();
-                if (platformInfo.clientName === 'MOBILE' && platformInfo.appName === 'NOMO') {
-                    return 'mobile';
-                } else {
-                    return 'hub';
-                }
             }
         } catch (error) {
             console.error('Error detecting platform:', error);
