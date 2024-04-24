@@ -23,35 +23,32 @@
     // Platform detection function
     async function detectPlatform() {
         try {
-            // Check if the Nomo API is available
             if (nomo && typeof nomo.getExecutionMode === 'function') {
                 const executionMode = await nomo.getExecutionMode();
+                // Check for Fallback mode, which indicates a non-Nomo environment
                 if (executionMode.executionMode === 'FALLBACK') {
-                    // Not in Nomo environment, check if the size matches the hub dimensions
-                    const isHubWidth = window.innerWidth === 1280 && window.innerHeight === 800;
-                    if (isHubWidth) {
-                        return 'hub';
-                    }
-                    // Use window width for mobile/desktop detection in fallback
+                    // Logic for non-Nomo environment
                     return window.innerWidth <= 768 ? 'mobile' : 'desktop';
                 } else {
-                    // In Nomo environment, use the Nomo platform info
+                    // In Nomo environment
                     const platformInfo = await nomo.getPlatformInfo();
-                    if (platformInfo.clientName === 'HUB') {
-                        return 'hub';
-                    } else if (platformInfo.clientName === 'MOBILE') {
+                    // Explicitly check for 'MOBILE' clientName, which indicates the Nomo app on mobile
+                    if (platformInfo.clientName === 'MOBILE') {
                         return 'mobile';
+                    } else if (platformInfo.clientName === 'HUB') {
+                        return 'hub';
                     } else {
                         return 'desktop';
                     }
                 }
             } else {
-                // Nomo API not available, likely running in a web environment
+                // Likely running in a web environment
                 return window.innerWidth <= 768 ? 'mobile' : 'desktop';
             }
         } catch (error) {
             console.error('Error detecting platform:', error);
-            return 'desktop'; // Default to desktop in case of an error
+            // Fallback to mobile if there's an error within the Nomo app
+            return 'mobile';
         }
     }
 
