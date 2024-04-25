@@ -4,12 +4,10 @@
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
-    import { nomoGetPlatformInfo } from 'nomo-webon-kit';
+    import { isFallbackModeActive } from "nomo-webon-kit";
+
 
     let searchQuery = '';
-    let isMobile = false;
-    let isDesktop = false;
-    let isHub = false;
 
     let selectedTagName = "";
     selectedTag.subscribe(value => {
@@ -17,27 +15,25 @@
         filterWebonList();
     });
 
+    // To checks if the user is on a mobile browser
     function isMobileBrowser() {
+
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
-
-    async function determineEnvironment() {
-        const platformInfo = await nomoGetPlatformInfo();
-        isMobile = isMobileBrowser();
-        isDesktop = platformInfo.operatingSystem === 'Desktop' && !isMobile;
-        isHub = platformInfo.operatingSystem === 'HUB';
-
-        console.log(`Platform Info:`, platformInfo);
-        console.log('Mobile Browser:', isMobile);
-        console.log('Desktop Environment:', isDesktop);
-        console.log('HUB Environment:', isHub);
-    }
-
     function shouldBeShown(platform) {
-        return (isMobile && platform.mobile) ||
-            (isDesktop && platform.desktop) ||
-            (isHub && platform.hub);
+        const isDesktopEnvironment = isFallbackModeActive(); // Check if its a desktop browser
+        const onMobileBrowser = isMobileBrowser(); // Check if its a mobile browser
+        console.log('Desktop Environment:', isDesktopEnvironment, 'Mobile Browser:', onMobileBrowser);
+        if (onMobileBrowser) {
+            return platform.mobile; // Only show if mobile is true when on a mobile browser
+        }
+        if (isDesktopEnvironment) {
+            return platform.desktop; // Only show if desktop is true when on a desktop browser
+        }
+        // For the Nomo app or other environments, follow the platform settings
+        return platform.mobile || platform.desktop || platform.hub;
     }
+
 
 
     function filterWebonList() {
@@ -81,12 +77,8 @@
         filterWebonList();
     }
     onMount(() => {
-        determineEnvironment().then(() => {
-            filterWebonList();
-        });
         window.scrollTo(0, 0);
     });
-
 
 </script>
 
