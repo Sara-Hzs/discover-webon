@@ -4,35 +4,42 @@
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
-    import { isFallbackModeActive } from "nomo-webon-kit";
+    import { isFallbackModeActive, nomoGetPlatformInfo } from "nomo-webon-kit"; // Added nomoGetPlatformInfo
 
 
     let searchQuery = '';
-
+    let isHub = false;
     let selectedTagName = "";
     selectedTag.subscribe(value => {
         selectedTagName = capitalizeFirstLetter(value.toLowerCase());
         filterWebonList();
     });
 
-    // To checks if the user is on a mobile browser
-    function isMobileBrowser() {
 
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    function isMobileBrowser() {
+        const userAgent = navigator.userAgent;
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
     }
+    onMount(async () => { // Now async to await platform info
+        const platformInfo = await nomoGetPlatformInfo();
+        isHub = platformInfo.operatingSystem === 'HUB';
+        filterWebonList(); // Initial filter
+        window.scrollTo(0, 0);
+    });
     function shouldBeShown(platform) {
-        const isDesktopEnvironment = isFallbackModeActive(); // Check if its a desktop browser
-        const onMobileBrowser = isMobileBrowser(); // Check if its a mobile browser
+        const onMobileBrowser = isMobileBrowser();
+        const isDesktopEnvironment = isFallbackModeActive() && !isHub;
+        console.log('HUB Environment:', isHub);
         console.log('Desktop Environment:', isDesktopEnvironment, 'Mobile Browser:', onMobileBrowser);
         if (onMobileBrowser) {
-            return platform.mobile; // Only show if mobile is true when on a mobile browser
+            return platform.mobile;
+        } else if (isHub) { // Added HUB check
+            return platform.hub;
+        } else {
+            return isDesktopEnvironment && platform.desktop;
         }
-        if (isDesktopEnvironment) {
-            return platform.desktop; // Only show if desktop is true when on a desktop browser
-        }
-        // For the Nomo app or other environments, follow the platform settings
-        return platform.mobile || platform.desktop || platform.hub;
     }
+
 
 
 
@@ -76,9 +83,7 @@
     } else {
         filterWebonList();
     }
-    onMount(() => {
-        window.scrollTo(0, 0);
-    });
+
 
 </script>
 

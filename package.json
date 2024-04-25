@@ -23,6 +23,7 @@
 	"dependencies": {
 		"@sveltejs/adapter-static": "^2.0.3",
 		"flowbite-svelte": "^0.44.18",
+		"mobile-detect": "^1.4.5",
 		"moment": "^2.29.4",
 		"nomo-webon-cli": "^0.1.8",
 		"nomo-webon-kit": "^0.1.25",
