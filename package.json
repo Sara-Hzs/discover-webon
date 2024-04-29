@@ -22,6 +22,7 @@
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/adapter-static": "^2.0.3",
+		"embla-carousel": "^8.0.2",
 		"flowbite-svelte": "^0.44.18",
 		"mobile-detect": "^1.4.5",
 		"moment": "^2.29.4",

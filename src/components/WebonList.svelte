@@ -5,86 +5,105 @@
     import { onMount } from 'svelte';
     import { isFallbackModeActive, nomoGetPlatformInfo, nomoGetExecutionMode } from "nomo-webon-kit";
 
-    let searchQuery = '';
-    let executionMode = null;
-    let selectedTagName = "";
+    //variables
+    let searchQuery = ''; // To store search query
+    let executionMode = null; // To store execution mode
+    let selectedTagName = ""; // To store selected tag name
+
+
     selectedTag.subscribe(value => {
-        selectedTagName = capitalizeFirstLetter(value.toLowerCase());
-        filterWebonList();
+        selectedTagName = capitalizeFirstLetter(value.toLowerCase()); // Capitalizing and storing selected tag name
+        filterWebonList(); // Filtering webon list based on selected tag
     });
 
+    // Function to check if the browser is a mobile browser
     function isMobileBrowser() {
-        const userAgent = navigator.userAgent;
+        const userAgent = navigator.userAgent; // Getting user agent string
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
     }
 
+    // To run when the component is loaded
     onMount(async () => {
         try {
-            const modeInfo = await nomoGetExecutionMode();
-            executionMode = modeInfo;
-            console.log('Execution Mode:', executionMode);
+            const modeInfo = await nomoGetExecutionMode(); // To get information about how it's being run
+            executionMode = modeInfo?.executionMode || 'DESKTOP'; // Use 'DESKTOP' as default if mode is not defined
+            console.log('Execution Mode Info:', modeInfo); // Log the complete mode information
+            console.log('Determined Execution Mode:', executionMode);
         } catch (error) {
             console.error('Failed to get execution mode:', error);
+            executionMode = 'DESKTOP'; // Fallback to 'DESKTOP' on error
         }
         filterWebonList();
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0); // Scroll to the top
     });
 
     function shouldBeShown(platform) {
+        // Log the platform object for clarity
+        console.log(`Platform Data: mobile - ${platform.mobile}, hub - ${platform.hub}, desktop - ${platform.desktop}`);
+
+        // Check the current environment
         const onMobileBrowser = isMobileBrowser();
-        const isDesktopEnvironment = isFallbackModeActive() && executionMode?.hostingMode !== 'HUB';
-        console.log('Execution Mode:', executionMode);
-        console.log('Desktop Environment:', isDesktopEnvironment, 'Mobile Browser:', onMobileBrowser);
-        if (onMobileBrowser) {
+        console.log(`Current Environment: mobile - ${onMobileBrowser}, executionMode - ${executionMode}`);
+
+        // Logic to determine if the webon should be shown
+        if (onMobileBrowser) { // Mobile environment
             return platform.mobile;
-        } else if (executionMode?.hostingMode === 'HUB') {
+        } else if (executionMode === 'HUB') { // HUB environment
             return platform.hub;
-        } else {
-            return isDesktopEnvironment && platform.desktop;
+        } else { // Desktop or undefined environment
+            return platform.desktop;
         }
     }
-
+    // Function to filter the webon list
     function filterWebonList() {
-        let foundMatchingWebon = false;
+        let foundMatchingWebon = false; // If any matching webon is found
         $data.filteredList = $data.webonList.filter(webon => {
-            const isPublic = webon.public;
-            const isTrusted = webon.trusted;
+            console.log(`Checking Webon: ${webon.name}`, webon);
+            const isPublic = webon.public; // Checking if the webon is public
+            const isTrusted = webon.trusted; // Checking if the webon is trusted
 
+            // Checking if webon name, tags, slogan, or domain matches search query
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
             const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
             const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(searchQuery.toLowerCase());
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
+            // Checking if webon tag matches selected tag
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
 
+            // Checking if webon is compatible with platform
             const isPlatformCompatible = shouldBeShown(webon.platform);
             console.log(`Webon: ${webon.name}, Trusted: ${isTrusted}, Platform Compatible: ${isPlatformCompatible}`);
 
+            // Checking if the webon matches the criteria
             const itemMatches = isPlatformCompatible &&
                 (isTrusted || matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
                 (!selectedTagName || matchesTag);
             if (itemMatches) foundMatchingWebon = true;
-            return itemMatches;
+            return itemMatches; // Whether the webon matches the criteria
         });
-        return foundMatchingWebon;
+        return foundMatchingWebon; // Whether any matching webon is found
     }
 
+    // Function to clear selected tag
     function clearSelectedTag() {
-        selectedTag.set("");
-        selectedTagName = "";
+        selectedTag.set(""); // Setting selected tag to an empty string
+        selectedTagName = ""; // Clearing selected tag name
     }
 
+    // Function to capitalize the first letter of a string
     function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+        return string.charAt(0).toUpperCase() + string.slice(1); // Capitalizing the first letter of the string
     }
 
+    // Reactive statement to filter webon list based on search query and selected tag
     $: if (searchQuery) {
-        const foundMatchingWebon = filterWebonList();
-        if (!foundMatchingWebon) clearSelectedTag();
+        const foundMatchingWebon = filterWebonList(); // Filtering webon list based on search query
+        if (!foundMatchingWebon) clearSelectedTag(); // Clearing selected tag if no matching webon is found
     } else {
-        filterWebonList();
+        filterWebonList(); // Filtering webon list if there is no search query
     }
-
 </script>
+
 
 <!--Selected Tag Display -->
 <div class="search-filter-container">
@@ -99,7 +118,6 @@
         </button>
     {/if}
 </div>
-
 
 
 <div class="container">
