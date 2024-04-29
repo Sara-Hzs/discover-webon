@@ -6,30 +6,47 @@
     import { isFallbackModeActive, nomoGetPlatformInfo, nomoGetExecutionMode } from "nomo-webon-kit";
 
     let searchQuery = '';
+    let executionMode = null;
     let selectedTagName = "";
-    let currentPlatform = '';
     selectedTag.subscribe(value => {
         selectedTagName = capitalizeFirstLetter(value.toLowerCase());
         filterWebonList();
     });
 
+    function isMobileBrowser() {
+        const userAgent = navigator.userAgent;
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    }
+
     onMount(async () => {
-        const platformInfo = await nomoGetExecutionMode();
-        currentPlatform = platformInfo.executionMode; // Assuming 'executionMode' provides 'desktop', 'hub', or 'mobile'
-        console.log('Current execution mode:', currentPlatform);
+        try {
+            const modeInfo = await nomoGetExecutionMode();
+            executionMode = modeInfo;
+            console.log('Execution Mode:', executionMode);
+        } catch (error) {
+            console.error('Failed to get execution mode:', error);
+        }
         filterWebonList();
+        window.scrollTo(0, 0);
     });
+
+    function shouldBeShown(platform) {
+        const onMobileBrowser = isMobileBrowser();
+        const isDesktopEnvironment = isFallbackModeActive() && executionMode?.hostingMode !== 'HUB';
+        console.log('Execution Mode:', executionMode);
+        console.log('Desktop Environment:', isDesktopEnvironment, 'Mobile Browser:', onMobileBrowser);
+        if (onMobileBrowser) {
+            return platform.mobile;
+        } else if (executionMode?.hostingMode === 'HUB') {
+            return platform.hub;
+        } else {
+            return isDesktopEnvironment && platform.desktop;
+        }
+    }
 
     function filterWebonList() {
         let foundMatchingWebon = false;
         $data.filteredList = $data.webonList.filter(webon => {
-            console.log('Checking Webon:', webon.name, 'Platform:', webon.platform);
-            let matchesPlatform = false;
-            if (currentPlatform === 'FALLBACK') {
-                matchesPlatform = webon.platform.desktop;
-            } else {
-                matchesPlatform = webon.platform[currentPlatform];
-            }
             const isPublic = webon.public;
             const isTrusted = webon.trusted;
 
@@ -39,15 +56,15 @@
             const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
 
+            const isPlatformCompatible = shouldBeShown(webon.platform);
+            console.log(`Webon: ${webon.name}, Trusted: ${isTrusted}, Platform Compatible: ${isPlatformCompatible}`);
 
-            const itemMatches =
-                matchesPlatform &&
-                (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
+            const itemMatches = isPlatformCompatible &&
+                (isTrusted || matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
                 (!selectedTagName || matchesTag);
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
         });
-        console.log('Found matching Webon:', foundMatchingWebon);
         return foundMatchingWebon;
     }
 
@@ -82,6 +99,8 @@
         </button>
     {/if}
 </div>
+
+
 
 <div class="container">
     {#each $data.filteredList as webon}
