@@ -1,54 +1,37 @@
-
 <script>
     import { data } from "../stores/data.js";
     import { selectedTag } from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
-    import { isFallbackModeActive, nomoGetPlatformInfo } from "nomo-webon-kit"; // Added nomoGetPlatformInfo
-
+    import { isFallbackModeActive, nomoGetPlatformInfo, nomoGetExecutionMode } from "nomo-webon-kit";
 
     let searchQuery = '';
-    let isHub = false;
     let selectedTagName = "";
+    let currentPlatform = '';
     selectedTag.subscribe(value => {
         selectedTagName = capitalizeFirstLetter(value.toLowerCase());
         filterWebonList();
     });
 
-
-    function isMobileBrowser() {
-        const userAgent = navigator.userAgent;
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-    }
-    onMount(async () => { // Now async to await platform info
-        const platformInfo = await nomoGetPlatformInfo();
-        isHub = platformInfo.operatingSystem === 'HUB';
-        filterWebonList(); // Initial filter
-        window.scrollTo(0, 0);
+    onMount(async () => {
+        const platformInfo = await nomoGetExecutionMode();
+        currentPlatform = platformInfo.executionMode; // Assuming 'executionMode' provides 'desktop', 'hub', or 'mobile'
+        console.log('Current execution mode:', currentPlatform);
+        filterWebonList();
     });
-    function shouldBeShown(platform) {
-        const onMobileBrowser = isMobileBrowser();
-        const isDesktopEnvironment = isFallbackModeActive() && !isHub;
-        console.log('HUB Environment:', isHub);
-        console.log('Desktop Environment:', isDesktopEnvironment, 'Mobile Browser:', onMobileBrowser);
-        if (onMobileBrowser) {
-            return platform.mobile;
-        } else if (isHub) { // Added HUB check
-            return platform.hub;
-        } else {
-            return isDesktopEnvironment && platform.desktop;
-        }
-    }
-
-
-
 
     function filterWebonList() {
         let foundMatchingWebon = false;
         $data.filteredList = $data.webonList.filter(webon => {
-            console.log('Webon:', webon);
+            console.log('Checking Webon:', webon.name, 'Platform:', webon.platform);
+            let matchesPlatform = false;
+            if (currentPlatform === 'FALLBACK') {
+                matchesPlatform = webon.platform.desktop;
+            } else {
+                matchesPlatform = webon.platform[currentPlatform];
+            }
+            const isPublic = webon.public;
             const isTrusted = webon.trusted;
-            console.log('Trusted:', isTrusted);
 
             const matchesSearchQuery = webon.name.toLowerCase().includes(searchQuery.toLowerCase());
             const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -57,17 +40,17 @@
             const matchesTag = webon.tags?.some(tag => tag.name.toLowerCase() === selectedTagName.toLowerCase());
 
 
-            const isPlatformCompatible = shouldBeShown(webon.platform);
-            console.log(`Webon: ${webon.name}, Trusted: ${isTrusted}, Platform Compatible: ${isPlatformCompatible}`);
-
-            const itemMatches = isPlatformCompatible &&
-                (isTrusted || matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
+            const itemMatches =
+                matchesPlatform &&
+                (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
                 (!selectedTagName || matchesTag);
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches;
         });
+        console.log('Found matching Webon:', foundMatchingWebon);
         return foundMatchingWebon;
     }
+
     function clearSelectedTag() {
         selectedTag.set("");
         selectedTagName = "";
@@ -83,7 +66,6 @@
     } else {
         filterWebonList();
     }
-
 
 </script>
 
