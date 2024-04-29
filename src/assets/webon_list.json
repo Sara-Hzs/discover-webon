@@ -154,6 +154,17 @@
     "download_link": "https://nomo.app/webon/w.nomo.app/neocreditmigration/nomo.tar.gz"
   },
   {
+    "name": "VOO Gold",
+    "description": "This WebOn provides an overview of the VOO Gold program exclusively for all members.",
+    "slogan": "VOO Gold - your exclusive members area",
+    "images": [],
+    "icon": "/icons/Voogold.svg",
+    "card_image": "/cards/Voogold.png",
+    "version": "0.1.0",
+    "id": "voogold",
+    "download_link": "https://nomo.app/webon/voogold.avinoc.com/nomo.tar.gz"
+  },
+  {
     "name": "Supersonic",
     "description": "Supersonic is a special program that connects the two worlds of AVINOC and VOO in a unique way. It is designed to support the price development of AVINOC and VOO token.\nTo participate in the Supersonic program, you need at least one or more VOO Minting hub and AVINOC token equivalent to the value of your hub. You can use any hubs you already own or simply purchase new VOO hubs. The highlight of the program is the 4 Supersonic Days. On your first Supersonic Day, the number of your AVINOC token is multiplied by a certain coefficient. If you participate in subsequent Supersonic Days, the already multiplied AVINOC token are again multiplied by a certain factor.",
     "slogan": "Start with Supersonic",
