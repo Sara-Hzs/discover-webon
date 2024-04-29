@@ -207,5 +207,16 @@
     "id": "uniswap",
     "webon_id": "app.nomo.uniswap",
     "download_link": "https://nomo.app/webon/app.uniswap.org"
+  },
+  {
+    "name": "Moonpay",
+    "description": "MoonPay is a leading financial technology company that has revolutionized the way individuals buy and sell cryptocurrencies. It’s an on- and off-ramp service that enables customers to buy cryptocurrency assets using a whole range of traditional payment methods.",
+    "slogan": "Your gateway to Web3",
+    "images": [],
+    "icon": "/icons/moonpay.svg",
+    "card_image": "/cards/moonpay_card.svg",
+    "id": "moonpay",
+    "webon_id": "buy.moonpay.com",
+    "download_link": "https://nomo.app/webon/buy.moonpay.com/?apiKey=pk_live_P7pJoZVTKCucGm6dlYUVZCAaMckLJ&showOnlyCurrencies=eth,bch,btc,ltc,matic,usdc&defaultCurrencyCode=eth"
   }
 ]
