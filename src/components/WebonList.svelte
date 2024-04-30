@@ -9,7 +9,7 @@
     let searchQuery = ''; // To store search query
     let executionMode = null; // To store execution mode
     let selectedTagName = ""; // To store selected tag name
-
+    let tagGroups = []; // Array to store grouped Webons by tag
 
     selectedTag.subscribe(value => {
         selectedTagName = capitalizeFirstLetter(value.toLowerCase()); // Capitalizing and storing selected tag name
@@ -56,6 +56,7 @@
     }
     // Function to filter the webon list
     function filterWebonList() {
+        tagGroups = []; // Reset tag groups
         let foundMatchingWebon = false; // If any matching webon is found
         $data.filteredList = $data.webonList.filter(webon => {
             console.log(`Checking Webon: ${webon.name}`, webon);
@@ -78,7 +79,18 @@
             const itemMatches = isPlatformCompatible &&
                 (isTrusted || matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery) &&
                 (!selectedTagName || matchesTag);
-            if (itemMatches) foundMatchingWebon = true;
+            if (itemMatches) {
+                foundMatchingWebon = true;
+                // Grouping by tags
+                webon.tags.forEach(tag => {
+                    const index = tagGroups.findIndex(group => group.tag === tag.name);
+                    if (index === -1) {
+                        tagGroups.push({ tag: tag.name, webons: [webon] });
+                    } else {
+                        tagGroups[index].webons.push(webon);
+                    }
+                });
+            }
             return itemMatches; // Whether the webon matches the criteria
         });
         return foundMatchingWebon; // Whether any matching webon is found
@@ -117,29 +129,87 @@
             <span class="clear-tag">×</span>
         </button>
     {/if}
-</div>
+</div><!-- Tag Filter Section -->
+<div class="tag-filter-section">
 
 
-<div class="container">
-    {#each $data.filteredList as webon}
-        <WebonElement {webon} />
+
+
+    <!-- Group Webons by tags -->
+    {#each tagGroups as group}
+        <div class="tag-group">
+            <h2 class="tag-group-title">{group.tag}</h2>
+            <div class="webon-grid">
+
+                {#each group.webons as webon}
+                    <WebonElement {webon} />
+                {/each}
+            </div>
+        </div>
     {/each}
+    <!-- Display Webons without tags -->
+    <div class="tag-group">
+        <h2 class="tag-group-title">Untagged Webons</h2>
+        <div class="webon-grid">
+
+
+            {#each $data.filteredList as webon}
+                {#if !webon.tags || webon.tags.length === 0}
+                    <WebonElement {webon} />
+                {/if}
+            {/each}
+        </div>
+    </div>
+
 </div>
+
+
+
 <style lang="scss">
-  .container {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
+  .tag-filter-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+    padding: 20px;
+    margin-top: 1rem;
+
+  }
+
+  .tag-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    align-items: center;
+  }
+
+  .tag-group-title {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .webon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  }
+
+  .tag {
+    color: var(--nomoForeground2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 10px;
+    background-color: var(--tagBackgroundColor);
   }
   .search-filter-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     gap: 1rem;
 
   }
@@ -185,6 +255,15 @@
       background: none;
       border: none;
       cursor: pointer;
+    }
+  }
+  @media (max-width: 768px) {
+    .tag-filter-section {
+      grid-template-columns: 1fr;
+    }
+
+    .webon-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
