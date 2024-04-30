@@ -1,15 +1,17 @@
 <script>
-    import { data } from "../stores/data.js";
-    import { selectedTag } from "../stores/selectedTagStore.js";
+    import {data} from "../stores/data.js";
+    import {selectedTag} from "../stores/selectedTagStore.js";
     import WebonElement from "./WebonElement.svelte";
-    import { onMount } from 'svelte';
-    import { isFallbackModeActive, nomoGetPlatformInfo, nomoGetExecutionMode } from "nomo-webon-kit";
+    import EmblaCarousel from 'embla-carousel';
+    import {onMount} from 'svelte';
+    import {isFallbackModeActive, nomoGetPlatformInfo, nomoGetExecutionMode} from "nomo-webon-kit";
 
     //variables
     let searchQuery = ''; // To store search query
     let executionMode = null; // To store execution mode
     let selectedTagName = ""; // To store selected tag name
-
+    let embla;
+    let viewport;
 
     selectedTag.subscribe(value => {
         selectedTagName = capitalizeFirstLetter(value.toLowerCase()); // Capitalizing and storing selected tag name
@@ -18,7 +20,7 @@
 
     // Function to check if the browser is a mobile browser
     function isMobileBrowser() {
-        const userAgent = navigator.userAgent; // Getting user agent string
+        const userAgent = navigator.userAgent;
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
     }
 
@@ -35,6 +37,14 @@
         }
         filterWebonList();
         window.scrollTo(0, 0); // Scroll to the top
+        // Initialize the carousel after ensuring the viewport is correctly referenced
+        if (viewport) {
+            embla = new EmblaCarousel(viewport, {
+                loop: true,
+                align: 'start',
+                draggable: true
+            });
+        }
     });
 
     function shouldBeShown(platform) {
@@ -54,6 +64,7 @@
             return platform.desktop;
         }
     }
+
     // Function to filter the webon list
     function filterWebonList() {
         let foundMatchingWebon = false; // If any matching webon is found
@@ -84,18 +95,18 @@
         return foundMatchingWebon; // Whether any matching webon is found
     }
 
-    // Function to clear selected tag
+    // To clear selected tag
     function clearSelectedTag() {
         selectedTag.set(""); // Setting selected tag to an empty string
         selectedTagName = ""; // Clearing selected tag name
     }
 
-    // Function to capitalize the first letter of a string
+    // To capitalize the first letter of a string
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1); // Capitalizing the first letter of the string
     }
 
-    // Reactive statement to filter webon list based on search query and selected tag
+    // Reactive statement to filter webon list based on search query + selected tag
     $: if (searchQuery) {
         const foundMatchingWebon = filterWebonList(); // Filtering webon list based on search query
         if (!foundMatchingWebon) clearSelectedTag(); // Clearing selected tag if no matching webon is found
@@ -108,7 +119,7 @@
 <!--Selected Tag Display -->
 <div class="search-filter-container">
     <div class="search-box">
-        <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={searchQuery} />
+        <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={searchQuery}/>
     </div>
 
     {#if selectedTagName}
@@ -120,20 +131,33 @@
 </div>
 
 
-<div class="container">
-    {#each $data.filteredList as webon}
-        <WebonElement {webon} />
-    {/each}
+<div bind:this={viewport} class="embla">
+    <div class="embla__container">
+        {#each $data.filteredList as webon}
+            <div class="embla__slide">
+                <WebonElement {webon}/>
+            </div>
+        {/each}
+    </div>
 </div>
+<button on:click={() => embla && embla.scrollPrev()}>Prev</button>
+<button on:click={() => embla && embla.scrollNext()}>Next</button>
+
 <style lang="scss">
-  .container {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
+  .embla {
+    overflow: hidden;
+    width: 100%; // Ensure this is controlling the visible area correctly
   }
+
+  .embla__container {
+    display: flex;
+  }
+
+  .embla__slide {
+    flex: 0 0 33.333%; // Adjust based on how many items you want visible at once
+    padding: 10px;
+  }
+
   .search-filter-container {
     display: flex;
     flex-direction: column;
@@ -160,9 +184,11 @@
     flex-grow: 1;
     font-size: 1rem;
     color: black;
+
     &:focus {
       outline: none;
     }
+
     &::placeholder {
       color: black;
     }
