@@ -22,35 +22,32 @@
 </script>
 
 {#if !loading}
-
-    <div class="container" on:click={() => {
+    <div class="cards-grid">
+        <div class="container" on:click={() => {
 browser && goto('/webon?id=' + webon.id)
 }}>
-        <div class="icon">
-            {#if webon.icon}
-                <img src={webon.icon} alt=''/>
-            {:else}
-                <img src={default_icon} alt=''/>
-            {/if}
-        </div>
-        <div class="information">
-            <div class="name">
-                {webon.name}
+            <div class="card-header">
+                <div class="icon">
+                    {#if webon.icon}
+                        <img src={webon.icon} alt=''/>
+                    {:else}
+                        <img src={default_icon} alt=''/>
+                    {/if}
+                </div>
             </div>
-            <div class="slogan">
-                {webon.slogan}
+            <div class="card-body">
+                <div class="name">{webon.name}</div>
+                <div class="slogan">{webon.slogan}</div>
+                <div class="domain">https://{webon.domain}</div>
             </div>
-            <div class="domain">
-                https://{webon.domain}
-            </div>
-        </div>
-        {#if $data.isBrowser}
-            <button disabled>
-                <Download/>
-            </button>
-        {:else if !webon.downloaded}
-            <button on:click={async e => {
-        e.stopPropagation()
+            <div class="card-footer">
+                {#if $data.isBrowser}
+                    <button disabled>
+                        <Download/>
+                    </button>
+                {:else if !webon.downloaded}
+                    <button on:click={async e => {
+        e.stopPropagation();
         downloadWebOn(webon.download_link).then(() => {
             error = ''
             webon.downloaded = true
@@ -58,64 +55,90 @@ browser && goto('/webon?id=' + webon.id)
             error = e?.toString() ?? 'Download failed'
         })
         }}>
-                <Download/>
-            </button>
-        {:else if $nomo_store.uninstall_functionality}
-            <button on:click={async e => {
-        e.stopPropagation()
+                        <Download/>
+                    </button>
+                {:else if $nomo_store.uninstall_functionality}
+                    <button on:click={async e => {
+        e.stopPropagation();
         uninstallWebOn(webon.webon_url === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz' ? 'https://w.nomo.app/demowebon/nomo.tar.gz' : webon.webon_url).then(() => {
             error = ''
             webon.downloaded = false
         }).catch(e => {
-        error = 'Uninstall failed: ' + JSON.stringify(e)
+            error = 'Uninstall failed: ' + JSON.stringify(e)
         })
 }}>
-                <Uninstall/>
-            </button>
-        {:else}
-            <button disabled>
-                <Checkmark/>
-            </button>
-        {/if}
+                        <Uninstall/>
+                    </button>
+                {:else}
+                    <button disabled>
+                        <Checkmark/>
+                    </button>
+                {/if}
+            </div>
+        </div>
     </div>
 {/if}
 {#if error}
     <div class="error">{error}</div>
 {/if}
-
 <style lang="scss">
+  .cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
   .container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    width: 300px;
+    height: 300px;
+
+    &:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+
+    .card-header {
+      width: 100%;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+    }
 
     .icon {
       img {
-        border-radius: 12px;
-        height: 60px;
+        max-width: 100%; /* Ensure the icon does not exceed the container width */
+        max-height: 100px; /* Set a maximum height for consistency */
+        object-fit: contain; /* Ensure the aspect ratio is maintained without cropping */
       }
     }
 
-    .information {
-      padding: 3px;
-      height: 100%;
-      flex: 1;
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
-
-      .name {
-        font-size: 14px;
-        letter-spacing: 0.5px;
-        color: var(--nomoForeground1);
+    .card-body {
+      padding: 10px;
+      text-align: center;
+      .title {
+        font-size: 16px;
+        color: #333;
       }
-
       .slogan, .domain {
-        font-size: 12px;
-        filter: brightness(0.7);
-        color: var(--nomoForeground2);
+        font-size: 14px;
+        color: #666;
       }
+    }
+
+
+    .card-footer {
+      padding: 10px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
     }
 
     button {
