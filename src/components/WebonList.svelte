@@ -116,7 +116,7 @@
                     }
                     groups.get(tag.name).push(webon);
                 });
-            } else { // Group untagged Webons
+            } else { //  untagged Webons
                 const untagged = "Untagged";
                 if (!groups.has(untagged)) {
                     groups.set(untagged, []);
@@ -170,7 +170,6 @@
     grid-column: 1 / -1;
     text-align: left;
     padding: 20px;
-    font-size: 1.2rem;
     color: var(--nomoForeground1);
     background-color: var(--nomoBackground1);
     border-radius: 8px;
