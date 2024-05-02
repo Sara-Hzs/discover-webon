@@ -9,6 +9,7 @@
     let searchQuery = ''; // To store search query
     let executionMode = null; // To store execution mode
     let selectedTagName = ""; // To store selected tag name
+    let webonGroups = [];
 
 
     selectedTag.subscribe(value => {
@@ -84,24 +85,50 @@
         return foundMatchingWebon; // Whether any matching webon is found
     }
 
-    // Function to clear selected tag
+    // To clear selected tag
     function clearSelectedTag() {
         selectedTag.set(""); // Setting selected tag to an empty string
         selectedTagName = ""; // Clearing selected tag name
     }
 
-    // Function to capitalize the first letter of a string
+    // To capitalize the first letter of a string
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1); // Capitalizing the first letter of the string
     }
 
-    // Reactive statement to filter webon list based on search query and selected tag
+    // To filter webon list based on search query and selected tag
     $: if (searchQuery) {
         const foundMatchingWebon = filterWebonList(); // Filtering webon list based on search query
         if (!foundMatchingWebon) clearSelectedTag(); // Clearing selected tag if no matching webon is found
     } else {
         filterWebonList(); // Filtering webon list if there is no search query
     }
+
+
+    // To groups Webons by their tags
+    function groupWebonsByTag() {
+        let groups = new Map();
+        $data.filteredList.forEach(webon => {
+            if (webon.tags && webon.tags.length > 0) {
+                webon.tags.forEach(tag => {
+                    if (!groups.has(tag.name)) {
+                        groups.set(tag.name, []);
+                    }
+                    groups.get(tag.name).push(webon);
+                });
+            } else { // Group untagged Webons
+                const untagged = "Untagged";
+                if (!groups.has(untagged)) {
+                    groups.set(untagged, []);
+                }
+                groups.get(untagged).push(webon);
+            }
+        });
+        webonGroups = Array.from(groups, ([tagName, webons]) => ({ tagName, webons }));
+    }
+
+    // To update whenever the filtered list changes
+    $: $data.filteredList, groupWebonsByTag();
 </script>
 
 
@@ -119,21 +146,39 @@
     {/if}
 </div>
 
-
 <div class="container">
-    {#each $data.filteredList as webon}
-        <WebonElement {webon} />
+    {#each webonGroups as group}
+        <div class="tag-header">
+            <h2>{group.tagName}</h2>
+        </div>
+        {#each group.webons as webon}
+            <WebonElement {webon} />
+        {/each}
     {/each}
 </div>
+
+
 <style lang="scss">
   .container {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 10px;
+    justify-content: center;
   }
+  .tag-header {
+    grid-column: 1 / -1;
+    text-align: left;
+    padding: 20px;
+    font-size: 1.2rem;
+    color: var(--nomoForeground1);
+    background-color: var(--nomoBackground1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+  }
+
+
   .search-filter-container {
     display: flex;
     flex-direction: column;
@@ -141,19 +186,15 @@
     width: 100%;
     margin-bottom: 2rem;
     gap: 1rem;
-
   }
-
   .search-box {
     display: flex;
     width: 100%;
     max-width: 500px;
-
     border-radius: 20px;
     box-shadow: 0 4px 6px var(--nomoForeground1);
     overflow: hidden;
   }
-
   .search-input {
     border: none;
     padding: 0.75rem 1rem;
@@ -167,24 +208,32 @@
       color: black;
     }
   }
-
   .selected-tag-display {
     margin: 1rem 0;
     padding: 0.5rem;
     border-radius: 15px;
     font-weight: bold;
     cursor: pointer;
-
     .tag {
       color: var(--nomoForeground2);
       padding: 0.25rem 0.5rem;
       border-radius: 10px;
     }
-
     .clear-tag {
       background: none;
       border: none;
       cursor: pointer;
+    }
+  }
+  @media (max-width: 768px) {
+    .container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      grid-template-columns: 1fr;
     }
   }
 </style>

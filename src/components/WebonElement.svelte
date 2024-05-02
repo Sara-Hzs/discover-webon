@@ -27,6 +27,7 @@
 browser && goto('/webon?id=' + webon.id)
 }}>
             <div class="card-header">
+
                 <div class="icon">
                     {#if webon.icon}
                         <img src={webon.icon} alt=''/>
@@ -86,6 +87,7 @@ browser && goto('/webon?id=' + webon.id)
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
   }
   .container {
     display: flex;
@@ -94,11 +96,10 @@ browser && goto('/webon?id=' + webon.id)
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    margin: 10px;
+    margin: 5px;
     overflow: hidden;
     transition: box-shadow 0.3s ease;
-    width: 300px;
-    height: 300px;
+
 
     &:hover {
       box-shadow: 0 8px 16px rgba(0,0,0,0.2);
@@ -114,9 +115,9 @@ browser && goto('/webon?id=' + webon.id)
 
     .icon {
       img {
-        max-width: 100%; /* Ensure the icon does not exceed the container width */
-        max-height: 100px; /* Set a maximum height for consistency */
-        object-fit: contain; /* Ensure the aspect ratio is maintained without cropping */
+        max-width: 100%;
+        max-height: 100px;
+        object-fit: contain;
       }
     }
 
