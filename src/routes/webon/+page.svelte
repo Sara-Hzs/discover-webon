@@ -124,7 +124,7 @@
         max-width: 800px;
         margin: auto;
         padding: 30px;
-        background: #fff;
+
         border-radius: 10px;
         box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         overflow: hidden;
@@ -205,7 +205,6 @@
           font-size: 24px;
           font-weight: bold;
           word-break: break-word;
-          color: var(--nomoForeground2);
           padding-top: 20px;
         }
       }
@@ -247,11 +246,10 @@
       }
 
       .description {
-        color: var(--nomoForeground2);
         padding: 20px;
         margin-top: 20px;
         border-radius: 8px;
-        background: #f9f9f9;
+
         font-size: 16px;
         line-height: 1.6;
       }
