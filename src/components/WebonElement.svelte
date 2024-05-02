@@ -126,11 +126,11 @@ browser && goto('/webon?id=' + webon.id)
       text-align: center;
       .title {
         font-size: 16px;
-        color: #333;
+        color: var(--nomoForeground1);
       }
       .slogan, .domain {
         font-size: 14px;
-        color: #666;
+        color: var(--nomoForeground2);
       }
     }
 
