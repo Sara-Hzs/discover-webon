@@ -122,42 +122,47 @@
 <style lang="scss">
       .page {
         max-width: 800px;
-        min-height: 90%;
-        gap: 20px;
-
+        margin: auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        overflow: hidden;
       }
 
-      .banner {
-        width: 100%;
-        max-width: 500px;
-        aspect-ratio: 5/3;
-        position: relative;
+        .banner {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 30px;
+        }
 
         .card {
           width: 100%;
-          height: 100%;
           border-radius: 10px;
+          box-shadow: 0 10px 8px rgba(0,0,0,0.05);
         }
-      }
+
 
       .back-button {
         width: 100%;
+        margin-bottom: 20px;
         min-height: 50px;
         display: flex;
         justify-content: space-between;
+        button {
+          border: none;
+          background-color: #f0f0f0;
+          color: #333;
+          padding: 10px 15px;
+          border-radius: 50px;
+          cursor: pointer;
+          transition: all 0.3s ease;
 
-        .back {
-          border-radius: 1000px;
-          background: var(--nomoPrimary);
-          width: 50px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          img {
-            width: 30px;
+          &:hover {
+            background-color: #e0e0e0;
           }
         }
+
 
         .download {
           background: var(--nomoPrimary);
@@ -181,38 +186,50 @@
         justify-content: flex-start;
         gap: 20px;
 
-        img {
-          border-radius: 15px;
-          width: 90px;
-          min-width: 90px;
+        .icon {
+          width: 80px;
+          height: 80px;
+          margin-right: 20px;
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10%;
+            object-fit: cover;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            padding: 10px;
+          }
         }
 
+
         .name {
-          font-size: 30px;
+          font-size: 24px;
           font-weight: bold;
           word-break: break-word;
           color: var(--nomoForeground2);
+          padding-top: 20px;
         }
       }
       .qr-container {
-        text-align: center;
+        padding: 20px;
         background: #f9f9f9;
-        padding: 1rem;
         border-radius: 8px;
-        margin: 1.5rem 0;
+        text-align: center;
+        margin-bottom: 20px;
       }
-      .copy-btn {
-        background: linear-gradient(45deg, #efcc80, #ad9050);
-        color: white;
-        border-radius: 30px;
-        padding: 0.6rem 1.2rem;
-        font-weight: bold;
 
-        text-transform: uppercase;
-        box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      .copy-btn {
+        display: block;
+        width: auto;
+        margin: auto;
+        padding: 10px 20px;
+        background-color: #ddd;
+        color: #333;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
         &:hover {
-          background: linear-gradient(45deg, #ad9050, #efcc80);
-          box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+          background-color: #ccc;
         }
       }
       .copy-notification {
@@ -231,11 +248,12 @@
 
       .description {
         color: var(--nomoForeground2);
-        padding: 1.5rem;
+        padding: 20px;
+        margin-top: 20px;
         border-radius: 8px;
-        margin: 1.5rem 0;
-        font-size: 0.95rem;
-        line-height: 1.5;
+        background: #f9f9f9;
+        font-size: 16px;
+        line-height: 1.6;
       }
 
       .description div {
