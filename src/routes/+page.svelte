@@ -10,7 +10,8 @@ import WebonList from "../components/WebonList.svelte";
 <div class="page">
     <WebonList />
 </div>
-<Reload/>
+
+
 
 <style>
     .page {

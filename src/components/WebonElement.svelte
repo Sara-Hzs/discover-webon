@@ -38,6 +38,7 @@
                     <img src={default_icon} alt="Default icon"/>
                 {/if}
             </div>
+            <div class="details"></div>
             <div class="name">{webon.name}</div>
             <div class="slogan">{webon.slogan}</div>
             <div class="domain">https://{webon.domain}</div>
@@ -79,38 +80,58 @@
     .container {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         width: 100%;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin: 10px;
         transition: box-shadow 0.3s ease;
-        &:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
     }
+
+    .container:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .card-image {
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+    }
+
     .card-image img {
         width: 100%;
-        height: auto;
-        max-height: 140px;
-        max-width: 300px;
-        object-fit: cover;
+        height: 100%;
+        object-fit: contain;
     }
+
+
     .card-content {
         padding: 10px;
         text-align: left;
+        width: 100%;
     }
-    .icon{
+
+    .icon {
         width: 40px;
         padding-bottom: 10px;
     }
-    .name, .slogan, .domain {
-        margin-bottom: 5px;
+
+    .details {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
     }
+
+    .name,
+    .slogan,
+    .domain {
+        margin-bottom: 5px;
+        margin-left: 5px;
+    }
+
     .card-actions button {
         margin: 10px;
     }
-
 
     .error {
         color: red;
@@ -118,4 +139,5 @@
         margin: 5px 5px 15px;
         padding: 5px;
     }
+
 </style>
