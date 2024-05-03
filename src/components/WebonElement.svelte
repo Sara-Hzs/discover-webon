@@ -31,6 +31,13 @@
             {/if}
         </div>
         <div class="card-content">
+            <div class="icon">
+                {#if webon.icon}
+                    <img src={webon.icon} alt="{webon.name}"/>
+                {:else}
+                    <img src={default_icon} alt="Default icon"/>
+                {/if}
+            </div>
             <div class="name">{webon.name}</div>
             <div class="slogan">{webon.slogan}</div>
             <div class="domain">https://{webon.domain}</div>
@@ -74,7 +81,6 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        border: 1px solid #ccc;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin: 10px;
@@ -86,12 +92,17 @@
     .card-image img {
         width: 100%;
         height: auto;
-        max-height: 150px;
+        max-height: 140px;
+        max-width: 300px;
         object-fit: cover;
     }
     .card-content {
         padding: 10px;
         text-align: left;
+    }
+    .icon{
+        width: 40px;
+        padding-bottom: 10px;
     }
     .name, .slogan, .domain {
         margin-bottom: 5px;
