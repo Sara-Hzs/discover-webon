@@ -88,8 +88,9 @@
     </div>
     {#if $data.isBrowser}
         <div class="qr-container">
-            <QrCode value={"https://" + webon.domain} size={200}/>
+            <QrCode value={"https://nomo.app/webon/" + webon.domain} size={200}/>
         </div>
+
 
         <button class="copy-btn" on:click={copyToClipboard}>
             Copy Link

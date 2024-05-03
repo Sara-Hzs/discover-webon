@@ -56,16 +56,25 @@
                 })
             }}><Download/></button>
             {:else if $nomo_store.uninstall_functionality}
-                <button on:click|stopPropagation={async () => {
-                uninstallWebOn(webon.webon_url === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz'
-                    ? 'https://w.nomo.app/demowebon/nomo.tar.gz'
-                    : webon.webon_url).then(() => {
-                        error = '';
-                        webon.downloaded = false;
-                    }).catch(e => {
-                        error = 'Uninstall failed: ' + JSON.stringify(e);
-                    })
-            }}><Uninstall/></button>
+                <button on:click={async e => {
+    e.stopPropagation();
+    if (webon.domain) {
+        const uninstallUrl = webon.domain === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz'
+            ? 'https://w.nomo.app/demowebon/nomo.tar.gz'
+            : webon.domain;
+        console.log("Attempting to uninstall with URL:", uninstallUrl);
+        uninstallWebOn(uninstallUrl).then(() => {
+            error = '';
+            webon.downloaded = false;
+        }).catch(e => {
+            error = 'Uninstall failed: ' + JSON.stringify(e);
+        });
+    } else {
+        error = 'Invalid URL for uninstallation';
+    }
+}}>
+                    <Uninstall/>
+                </button>
             {:else}
                 <button disabled><Checkmark/></button>
             {/if}
