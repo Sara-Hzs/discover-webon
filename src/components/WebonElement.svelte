@@ -38,25 +38,31 @@
                     <img src={default_icon} alt="Default icon"/>
                 {/if}
             </div>
-            <div class="details"></div>
+            <div class="details">
             <div class="name">{webon.name}</div>
             <div class="slogan">{webon.slogan}</div>
             <div class="domain">https://{webon.domain}</div>
         </div>
-        <div class="card-actions">
-            {#if $data.isBrowser}
-                <button disabled><Download/></button>
-            {:else if !webon.downloaded}
-                <button on:click|stopPropagation={async () => {
-                downloadWebOn(webon.download_link).then(() => {
-                    error = '';
-                    webon.downloaded = true;
-                }).catch((e) => {
-                    error = e?.toString() ?? 'Download failed';
-                })
-            }}><Download/></button>
-            {:else if $nomo_store.uninstall_functionality}
-                <button on:click={async e => {
+    </div>
+        {#if $data.isBrowser}
+            <button disabled>
+                <Download/>
+            </button>
+        {:else if !webon.downloaded}
+            <button on:click={async e => {
+        e.stopPropagation()
+        downloadWebOn(webon.domain).then(() => {
+            error = ''
+            webon.downloaded = true
+        }).catch((e) => {
+            error = e?.toString() ?? 'Download failed'
+        })
+        }}>
+                <Download/>
+            </button>
+
+        {:else if $nomo_store.uninstall_functionality}
+            <button on:click={async e => {
     e.stopPropagation();
     if (webon.domain) {
         const uninstallUrl = webon.domain === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz'
@@ -73,18 +79,18 @@
         error = 'Invalid URL for uninstallation';
     }
 }}>
-                    <Uninstall/>
-                </button>
-            {:else}
-                <button disabled><Checkmark/></button>
-            {/if}
-        </div>
+                <Uninstall/>
+            </button>
+        {:else}
+            <button disabled>
+                <Checkmark/>
+            </button>
+        {/if}
     </div>
 {/if}
 {#if error}
     <div class="error">{error}</div>
 {/if}
-
 <style>
     .container {
         display: flex;
@@ -138,7 +144,7 @@
     }
 
     .card-actions button {
-        margin: 10px;
+        margin-bottom: 10px;
     }
 
     .error {
