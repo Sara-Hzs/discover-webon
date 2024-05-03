@@ -227,12 +227,14 @@
   @media (max-width: 768px) {
     .container {
       grid-template-columns: repeat(2, 1fr);
+
     }
   }
 
   @media (max-width: 480px) {
     .container {
       grid-template-columns: 1fr;
+
     }
   }
 </style>
