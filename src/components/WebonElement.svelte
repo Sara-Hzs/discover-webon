@@ -19,6 +19,11 @@
         webon = webon
         loading = false
     })
+    // Helper function to format numbers (e.g., 1354 becomes 1k+)
+    function formatNumber(num) {
+        if (num < 1000) return num; // return the number directly if less than 1000
+        if (num >= 1000) return `${Math.round(num / 1000)}k+`; // convert to 'k+' notation for thousands
+    }
 </script>
 
 {#if !loading}
@@ -43,8 +48,12 @@
             <div class="slogan">{webon.slogan}</div>
             <div class="domain">https://{webon.domain}</div>
         </div>
+            <div class="metrics">
+                Installs: {formatNumber(webon.metrics.installs)}
+            </div>
     </div>
         {#if $data.isBrowser}
+
             <button disabled>
                 <Download/>
             </button>
@@ -143,9 +152,7 @@
         margin-left: 5px;
     }
 
-    .card-actions button {
-        margin-bottom: 10px;
-    }
+
 
     .error {
         color: red;
