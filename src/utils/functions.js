@@ -36,8 +36,8 @@ export const fetchTagsList = async () => {
     console.log(tags)
     return Promise.resolve(tags);
 }
-
 export const downloadWebOn = (deeplink) => {
+    const prefixedDeeplink = "https://nomo.app/webon/" + deeplink;
     if (deeplink.includes("uniswap")) {
         if (!get(nomo_store).metamask_functionality) {
             const err = "This WebOn is only supported on Nomo 0.4.0 or higher.";
@@ -47,23 +47,32 @@ export const downloadWebOn = (deeplink) => {
     }
     return new Promise((resolve, reject) => {
         nomo.installWebOn({
-            deeplink: deeplink,
+            deeplink: prefixedDeeplink,
             skipPermissionDialog: true,
             navigateBack: true,
         }).then(() => resolve()).catch((e) => {
             reject(e);
             console.error(e)
-        }) ;
-    })
+        });
+    });
 }
+export const uninstallWebOn = (deeplink) => {
+    if (typeof deeplink !== 'string' || deeplink.trim() === '') {
+        console.error("Invalid deeplink:", deeplink);
+        return Promise.reject("Deeplink is invalid, null, or undefined");
+    }
 
-export const uninstallWebOn = (webon_url) => {
+    const prefixedDeeplink = `https://nomo.app/webon/${deeplink.trim()}`;
+    console.log("Attempting to uninstall WebOn with URL:", prefixedDeeplink);
+
     return new Promise((resolve, reject) => {
         nomo.uninstallWebOn({
-            webon_url: webon_url
-        }).then(() => resolve()).catch((e) => {
-            reject(e)
-            console.error(e)
-        }) ;
-    })
+            webon_url: prefixedDeeplink
+        })
+            .then(resolve)
+            .catch((error) => {
+                console.error("Failed to uninstall WebOn:", error);
+                reject(error);
+            });
+    });
 }
