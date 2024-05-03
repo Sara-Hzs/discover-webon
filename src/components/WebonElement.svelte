@@ -63,10 +63,10 @@ browser && goto('/webon?id=' + webon.id)
         {:else if $nomo_store.uninstall_functionality}
             <button on:click={async e => {
     e.stopPropagation();
-    if (webon.webon_url) {
-        const uninstallUrl = webon.webon_url === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz'
+    if (webon.domain) {
+        const uninstallUrl = webon.domain === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz'
             ? 'https://w.nomo.app/demowebon/nomo.tar.gz'
-            : webon.webon_url;
+            : webon.domain;
         console.log("Attempting to uninstall with URL:", uninstallUrl);
         uninstallWebOn(uninstallUrl).then(() => {
             error = '';

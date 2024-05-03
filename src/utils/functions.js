@@ -62,7 +62,7 @@ export const uninstallWebOn = (deeplink) => {
         return Promise.reject("Deeplink is invalid, null, or undefined");
     }
 
-    const prefixedDeeplink = `https://nomo.app/webon/${deeplink.trim()}`;
+    const prefixedDeeplink = `https://${deeplink.trim()}`;
     console.log("Attempting to uninstall WebOn with URL:", prefixedDeeplink);
 
     return new Promise((resolve, reject) => {
