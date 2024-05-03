@@ -2,7 +2,7 @@
     import './global.scss';
     import {onMount} from "svelte";
     import {
-        getCurrentNomoTheme,  // now uncommented to be used
+        getCurrentNomoTheme,
         injectNomoCSSVariables,
         // switchNomoTheme  // only if needed for theme switching
     } from "nomo-webon-kit";

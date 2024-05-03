@@ -122,7 +122,7 @@
 </div>
 <style lang="scss">
       .page {
-        max-width: 800px;
+        max-width: 1300px;
         margin: auto;
         padding: 30px;
 
