@@ -11,6 +11,7 @@
     import {onMount} from "svelte";
 
 
+
     export let webon
     let loading = true
     let error = ''
@@ -107,8 +108,8 @@
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: box-shadow 0.3s ease;
-        position: relative; /* Added to position the download button absolutely within it */
-        margin-bottom: 20px; /* Ensure there is space between cards if stacked or in a grid */
+        position: relative;
+        margin-bottom: 20px;
     }
 
     .container:hover {

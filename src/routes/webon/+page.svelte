@@ -153,6 +153,7 @@
 
         .card {
           width: 100%;
+          max-width: 400px;
           border-radius: 10px;
           box-shadow: 0 10px 8px rgba(0,0,0,0.05);
         }
