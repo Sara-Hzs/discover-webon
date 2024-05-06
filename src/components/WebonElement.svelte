@@ -17,13 +17,10 @@
 
     onMount(() => {
         webon = webon
+        console.log("Complete Webon Object:", webon);
         loading = false
     })
-    // Helper function to format numbers (e.g., 1354 becomes 1k+)
-    function formatNumber(num) {
-        if (num < 1000) return num; // return the number directly if less than 1000
-        if (num >= 1000) return `${Math.round(num / 1000)}k+`; // convert to 'k+' notation for thousands
-    }
+
 </script>
 
 {#if !loading}
@@ -48,10 +45,9 @@
             <div class="slogan">{webon.slogan}</div>
             <div class="domain">https://{webon.domain}</div>
         </div>
-            <div class="metrics">
-                Installs: {formatNumber(webon.metrics.installs)}
-            </div>
+
     </div>
+        <div class="download">
         {#if $data.isBrowser}
 
             <button disabled>
@@ -96,7 +92,9 @@
             </button>
         {/if}
     </div>
+    </div>
 {/if}
+
 {#if error}
     <div class="error">{error}</div>
 {/if}
@@ -109,6 +107,8 @@
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: box-shadow 0.3s ease;
+        position: relative; /* Added to position the download button absolutely within it */
+        margin-bottom: 20px; /* Ensure there is space between cards if stacked or in a grid */
     }
 
     .container:hover {
@@ -124,6 +124,7 @@
         width: 100%;
         height: 100%;
         object-fit: contain;
+        padding: 10px;
     }
 
 
@@ -152,7 +153,12 @@
         margin-left: 5px;
     }
 
-
+    .download {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 5px;
+    }
 
     .error {
         color: red;

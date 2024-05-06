@@ -1,6 +1,7 @@
 <script>
     import { data } from "../stores/data.js";
     import { selectedTag } from "../stores/selectedTagStore.js";
+    import { sortOrder } from '../stores/sortOrderStore.js';
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
     import { isFallbackModeActive, nomoGetPlatformInfo, nomoGetExecutionMode } from "nomo-webon-kit";
@@ -11,6 +12,17 @@
     let selectedTagName = ""; // To store selected tag name
     let webonGroups = [];
 
+
+    let localSortOrder;
+    sortOrder.subscribe(value => {
+        localSortOrder = value;
+        filterWebonList();
+    });
+
+    // Update the sort button event handlers
+    function updateSortOrder(newOrder) {
+        sortOrder.set(newOrder);
+    }
 
     selectedTag.subscribe(value => {
         selectedTagName = capitalizeFirstLetter(value.toLowerCase()); // Capitalizing and storing selected tag name
@@ -36,6 +48,8 @@
         }
         filterWebonList();
         window.scrollTo(0, 0); // Scroll to the top
+
+        sortOrder.update(current => current);
     });
 
     function shouldBeShown(platform) {
@@ -55,6 +69,13 @@
             return platform.desktop;
         }
     }
+
+    function sortWebonList() {
+        // Sorting within each group inside the groupWebonsByTag function
+        groupWebonsByTag();
+    }
+
+
     // Function to filter the webon list
     function filterWebonList() {
         let foundMatchingWebon = false; // If any matching webon is found
@@ -82,9 +103,15 @@
             if (itemMatches) foundMatchingWebon = true;
             return itemMatches; // Whether the webon matches the criteria
         });
+
+        // Sort the filtered list by popularity
+        sortWebonList();
         return foundMatchingWebon; // Whether any matching webon is found
     }
-
+    $: if (searchQuery || selectedTagName || sortOrder) {
+        filterWebonList();
+    }
+    $: $data.filteredList, sortWebonList();
     // To clear selected tag
     function clearSelectedTag() {
         selectedTag.set(""); // Setting selected tag to an empty string
@@ -109,26 +136,35 @@
     function groupWebonsByTag() {
         let groups = new Map();
         $data.filteredList.forEach(webon => {
-            if (webon.tags && webon.tags.length > 0) {
-                webon.tags.forEach(tag => {
-                    if (!groups.has(tag.name)) {
-                        groups.set(tag.name, []);
-                    }
-                    groups.get(tag.name).push(webon);
-                });
-            } else { //  untagged Webons
-                const untagged = "Untagged";
-                if (!groups.has(untagged)) {
-                    groups.set(untagged, []);
+            const tagName = webon.tags.length > 0 ? webon.tags.map(tag => tag.name) : ["Untagged"];
+            tagName.forEach(name => {
+                if (!groups.has(name)) {
+                    groups.set(name, []);
                 }
-                groups.get(untagged).push(webon);
+                groups.get(name).push(webon);
+            });
+        });
+
+        groups.forEach((webons, tag) => {
+            if (localSortOrder === 'ascending') {
+                webons.sort((a, b) => parseInt(a.metrics.adds) - parseInt(b.metrics.adds));
+            } else if (localSortOrder === 'descending') {
+                webons.sort((a, b) => parseInt(b.metrics.adds) - parseInt(a.metrics.adds));
+            } else {
+                webons.sort((a, b) => a.name.localeCompare(b.name));
             }
         });
+
         webonGroups = Array.from(groups, ([tagName, webons]) => ({ tagName, webons }));
     }
 
+
+
     // To update whenever the filtered list changes
-    $: $data.filteredList, groupWebonsByTag();
+    $: $data.filteredList, groupWebonsByTag(), sortWebonList();
+
+
+
 </script>
 
 
@@ -138,14 +174,21 @@
         <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={searchQuery} />
     </div>
 
-    {#if selectedTagName}
-        <button class="selected-tag-display" on:click={clearSelectedTag}>
-            <span class="tag">{selectedTagName}</span>
-            <span class="clear-tag">×</span>
-        </button>
-    {/if}
 </div>
-
+<div class="btns">
+<button on:click={() => updateSortOrder(localSortOrder === 'ascending' ? 'none' : 'ascending')} class={localSortOrder === 'ascending' ? 'active' : ''}>
+    Sort Ascending
+</button>
+<button on:click={() => updateSortOrder(localSortOrder === 'descending' ? 'none' : 'descending')} class={localSortOrder === 'descending' ? 'active' : ''}>
+    Sort Descending
+</button>
+</div>
+{#if selectedTagName}
+    <button class="selected-tag-display" on:click={clearSelectedTag}>
+        <span class="tag">{selectedTagName}</span>
+        <span class="clear-tag">×</span>
+    </button>
+{/if}
 <div class="container">
     {#each webonGroups as group}
         <div class="tag-header">
@@ -207,10 +250,32 @@
       color: black;
     }
   }
+
+  button {
+    min-width: 120px;
+    margin: 0 5px;
+    padding: 8px 10px;
+    border: 1px solid var(--nomoForeground1);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    color: var(--nomoForeground1);
+    outline: none;
+
+    &:hover, &:focus {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+  }
+  button.active {
+    font-weight: bold;
+    border: 2px solid var(--nomoForeground1);
+  }
+
   .selected-tag-display {
     margin: 1rem 0;
     padding: 0.5rem;
-    border-radius: 15px;
+    border-radius: 20px;
     font-weight: bold;
     cursor: pointer;
     .tag {

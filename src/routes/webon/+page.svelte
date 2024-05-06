@@ -40,6 +40,14 @@
             }, 2000); // Message will be visible for 2 seconds
         }).catch(e => console.error('Copy failed', e));
     }
+
+    // numbers
+    function formatNumber(num) {
+        num = parseInt(num);
+        if (num < 1000) return num.toString();
+        return `${Math.round(num / 1000)}k+`;
+    }
+
 </script>
 
 <div class="page">
@@ -84,7 +92,13 @@
         </div>
         <div class="name">
             {webon.name}
+            <div class="metrics">
+                Installs: {webon.metrics && webon.metrics.adds ? formatNumber(webon.metrics.adds) : '0'}
+            </div>
         </div>
+
+
+
     </div>
     {#if $data.isBrowser}
         <div class="qr-container">
@@ -207,6 +221,10 @@
           font-weight: bold;
           word-break: break-word;
           padding-top: 20px;
+
+          .metrics{
+            font-size: 16px;
+          }
         }
       }
       .qr-container {
