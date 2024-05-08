@@ -1,3 +1,4 @@
+
 <script>
     import default_icon from '../assets/icon.png'
     import {browser} from "$app/environment";
@@ -11,7 +12,6 @@
     import {onMount} from "svelte";
 
 
-
     export let webon
     let loading = true
     let error = ''
@@ -21,6 +21,16 @@
         console.log("Complete Webon Object:", webon);
         loading = false
     })
+    async function handleUninstall(domain) {
+        try {
+            await uninstallWebOn(domain);
+            webon.downloaded = false;  // Update the local state to reflect the change
+            error = '';  // Reset any previous errors
+        } catch (err) {
+            console.error("Uninstall failed:", err);
+            error = err.toString();
+        }
+    }
 
 </script>
 
@@ -42,57 +52,44 @@
                 {/if}
             </div>
             <div class="details">
-            <div class="name">{webon.name}</div>
-            <div class="slogan">{webon.slogan}</div>
-            <div class="domain">https://{webon.domain}</div>
+                <div class="name">{webon.name}</div>
+                <div class="slogan">{webon.slogan}</div>
+                <div class="domain">https://{webon.domain}</div>
+            </div>
+
         </div>
-
-    </div>
         <div class="download">
-        {#if $data.isBrowser}
+            {#if $data.isBrowser}
 
-            <button disabled>
-                <Download/>
-            </button>
-        {:else if !webon.downloaded}
-            <button on:click={async e => {
-        e.stopPropagation()
+                <button disabled>
+                    <Download/>
+                </button>
+            {:else if !webon.downloaded}
+                <button on:click={async e => {
+        e.stopPropagation();
         downloadWebOn(webon.domain).then(() => {
-            error = ''
-            webon.downloaded = true
-        }).catch((e) => {
-            error = e?.toString() ?? 'Download failed'
-        })
-        }}>
-                <Download/>
-            </button>
-
-        {:else if $nomo_store.uninstall_functionality}
-            <button on:click={async e => {
-    e.stopPropagation();
-    if (webon.domain) {
-        const uninstallUrl = webon.domain === 'https://nomo.app/webon/w.nomo.app/demowebon/nomo.tar.gz'
-            ? 'https://w.nomo.app/demowebon/nomo.tar.gz'
-            : webon.domain;
-        console.log("Attempting to uninstall with URL:", uninstallUrl);
-        uninstallWebOn(uninstallUrl).then(() => {
             error = '';
-            webon.downloaded = false;
-        }).catch(e => {
-            error = 'Uninstall failed: ' + JSON.stringify(e);
-        });
-    } else {
-        error = 'Invalid URL for uninstallation';
-    }
-}}>
-                <Uninstall/>
-            </button>
-        {:else}
-            <button disabled>
-                <Checkmark/>
-            </button>
-        {/if}
-    </div>
+            webon.downloaded = true;
+        }).catch((e) => {
+            error = e?.toString() ?? 'Download failed';
+        })
+    }}>
+                    <Download/>
+                </button>
+
+            {:else if webon.downloaded}
+                <button on:click={async e => {
+        e.stopPropagation();
+        await handleUninstall(webon.domain);
+    }}>
+                    <Uninstall/>
+                </button>
+            {:else}
+                <button disabled>
+                    <Checkmark/>
+                </button>
+            {/if}
+        </div>
     </div>
 {/if}
 
@@ -115,6 +112,7 @@
     .container:hover {
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
+
     .card-image {
         width: 100%;
         height: 220px;

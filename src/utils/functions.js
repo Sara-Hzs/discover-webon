@@ -52,28 +52,23 @@ export const downloadWebOn = (deeplink) => {
             skipPermissionDialog: true,
             navigateBack: true,
         }).then(() => resolve()).catch((e) => {
+            console.error("Error during installation:", e);
             reject(e);
-            console.error(e)
         });
     });
 }
-export const uninstallWebOn = (deeplink) => {
-    if (typeof deeplink !== 'string' || deeplink.trim() === '') {
-        console.error("Invalid deeplink:", deeplink);
-        return Promise.reject("Deeplink is invalid, null, or undefined");
-    }
 
-    const prefixedDeeplink = `https://${deeplink.trim()}`;
-    console.log("Attempting to uninstall WebOn with URL:", prefixedDeeplink);
-
+export const uninstallWebOn = (webon_url) => {
+    const fullUrl = "https://nomo.app/webon/" + webon_url;
     return new Promise((resolve, reject) => {
         nomo.uninstallWebOn({
-            webon_url: prefixedDeeplink
-        })
-            .then(resolve)
-            .catch((error) => {
-                console.error("Failed to uninstall WebOn:", error);
-                reject(error);
-            });
+            webon_url: fullUrl
+        }).then(() => {
+            console.log("WebOn uninstalled successfully");
+            resolve();
+        }).catch((e) => {
+            console.error("Error during uninstallation:", e);
+            reject(e);
+        });
     });
-}
+};
