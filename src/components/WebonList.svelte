@@ -40,8 +40,6 @@
         try {
             const modeInfo = await nomoGetExecutionMode(); // To get information about how it's being run
             executionMode = modeInfo?.executionMode || 'DESKTOP'; // Use 'DESKTOP' as default if mode is not defined
-            console.log('Execution Mode Info:', modeInfo); // Log the complete mode information
-            console.log('Determined Execution Mode:', executionMode);
         } catch (error) {
             console.error('Failed to get execution mode:', error);
             executionMode = 'DESKTOP'; // Fallback to 'DESKTOP' on error
@@ -54,11 +52,9 @@
 
     function shouldBeShown(platform) {
         // Log the platform object for clarity
-        console.log(`Platform Data: mobile - ${platform.mobile}, hub - ${platform.hub}, desktop - ${platform.desktop}`);
 
         // Check the current environment
         const onMobileBrowser = isMobileBrowser();
-        console.log(`Current Environment: mobile - ${onMobileBrowser}, executionMode - ${executionMode}`);
 
         // Logic to determine if the webon should be shown
         if (onMobileBrowser) { // Mobile environment
@@ -80,7 +76,6 @@
     function filterWebonList() {
         let foundMatchingWebon = false; // If any matching webon is found
         $data.filteredList = $data.webonList.filter(webon => {
-            console.log(`Checking Webon: ${webon.name}`, webon);
             const isPublic = webon.public; // Checking if the webon is public
             const isTrusted = webon.trusted; // Checking if the webon is trusted
 
@@ -94,7 +89,6 @@
 
             // Checking if webon is compatible with platform
             const isPlatformCompatible = shouldBeShown(webon.platform);
-            console.log(`Webon: ${webon.name}, Trusted: ${isTrusted}, Platform Compatible: ${isPlatformCompatible}`);
 
             // Checking if the webon matches the criteria
             const itemMatches = isPlatformCompatible &&
@@ -206,12 +200,23 @@
 
 
 <style lang="scss">
+
+  .header {
+    display: block;
+    padding: 40px 20px;
+    text-align: center;
+    background-color: var(--nomoBackground1);
+    color: var(--nomoForeground1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
   .container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
     padding: 10px;
     justify-content: center;
+
   }
   .tag-header {
     grid-column: 1 / -1;
@@ -303,6 +308,10 @@
 
     .search-input, button {
       font-size: 14px;
+    }
+
+    .header{
+      display: none;
     }
   }
 

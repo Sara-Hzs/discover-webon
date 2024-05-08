@@ -18,12 +18,11 @@
 
     onMount(() => {
         webon = webon
-        console.log("Complete Webon Object:", webon);
         loading = false
     })
     async function handleUninstall() {
         try {
-            await uninstallWebOn(webon.domain);
+            await uninstallWebOn(webon.webon_url);
             webon.downloaded = false;
             error = '';
         } catch (err) {
@@ -67,7 +66,7 @@
             {:else if !webon.downloaded}
                 <button on:click={async e => {
         e.stopPropagation();
-        downloadWebOn(webon.domain).then(() => {
+        downloadWebOn(webon.domain).then(() =>  {
             error = '';
             webon.downloaded = true;
         }).catch((e) => {

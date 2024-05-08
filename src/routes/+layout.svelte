@@ -16,7 +16,7 @@
 
     let loading = true;
     let error = false;
-    let currentThemeDetails;  // Store theme details if needed
+    let currentThemeDetails;
 
     onMount(async () => {
         try {
@@ -44,6 +44,7 @@
             });
 
             await fetchWebonList().then(webonList => {
+                await merge
                 $data.webonList = webonList;
                 $data.filteredList = webonList;
             }).catch(e => {
