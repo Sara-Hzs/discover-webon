@@ -57,9 +57,8 @@ export const downloadWebOn = (deeplink) => {
         });
     });
 }
-
-export const uninstallWebOn = (webon_url) => {
-    const fullUrl = "https://nomo.app/webon/" + webon_url;
+export const uninstallWebOn = (domain) => {
+    const fullUrl = `${domain}`;
     return new Promise((resolve, reject) => {
         nomo.uninstallWebOn({
             webon_url: fullUrl
@@ -67,7 +66,7 @@ export const uninstallWebOn = (webon_url) => {
             console.log("WebOn uninstalled successfully");
             resolve();
         }).catch((e) => {
-            console.error("Error during uninstallation:", e);
+            console.error("Error during uninstallation:", JSON.stringify(e, null, 2));
             reject(e);
         });
     });

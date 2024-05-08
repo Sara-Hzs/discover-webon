@@ -21,13 +21,13 @@
         console.log("Complete Webon Object:", webon);
         loading = false
     })
-    async function handleUninstall(domain) {
+    async function handleUninstall() {
         try {
-            await uninstallWebOn(domain);
-            webon.downloaded = false;  // Update the local state to reflect the change
-            error = '';  // Reset any previous errors
+            await uninstallWebOn(webon.domain);
+            webon.downloaded = false;
+            error = '';
         } catch (err) {
-            console.error("Uninstall failed:", err);
+            console.error("Uninstall failed:", JSON.stringify(err, null, 2));
             error = err.toString();
         }
     }
@@ -79,9 +79,9 @@
 
             {:else if webon.downloaded}
                 <button on:click={async e => {
-        e.stopPropagation();
-        await handleUninstall(webon.domain);
-    }}>
+    e.stopPropagation();
+    await handleUninstall();
+}}>
                     <Uninstall/>
                 </button>
             {:else}
@@ -165,5 +165,52 @@
         margin: 5px 5px 15px;
         padding: 5px;
     }
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
 
+        .card-image {
+            display: none;
+        }
+
+        .card-content {
+            flex-grow: 1;
+            padding: 0 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+
+
+        .download {
+            position: static;
+            margin: 0 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .name,
+        .slogan,
+        .domain {
+            text-align: left;
+            font-size: 0.9em;
+        }
+
+        .slogan {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+
+        .download button {
+            padding: 5px 8px;
+            font-size: 0.8em;
+            margin: 5px 0;
+        }
+    }
 </style>

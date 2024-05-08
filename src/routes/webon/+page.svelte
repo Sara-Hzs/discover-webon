@@ -93,7 +93,7 @@
         <div class="name">
             {webon.name}
             <div class="metrics">
-                Installs: {webon.metrics && webon.metrics.adds ? formatNumber(webon.metrics.adds) : '0'}
+               Bookmarked: {webon.metrics && webon.metrics.adds ? formatNumber(webon.metrics.adds) : '0'}
             </div>
         </div>
 

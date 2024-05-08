@@ -204,7 +204,7 @@
 <style lang="scss">
   .container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
     padding: 10px;
     justify-content: center;
@@ -227,7 +227,7 @@
     align-items: center;
     width: 100%;
     margin-bottom: 2rem;
-    gap: 1rem;
+    gap: 10px;
   }
   .search-box {
     display: flex;
@@ -291,15 +291,12 @@
   }
   @media (max-width: 768px) {
     .container {
-      grid-template-columns: repeat(2, 1fr);
-
-    }
-  }
-
-  @media (max-width: 480px) {
-    .container {
       grid-template-columns: 1fr;
+    }
 
+    .search-input, button {
+      font-size: 14px;
     }
   }
+
 </style>
