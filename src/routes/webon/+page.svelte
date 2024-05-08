@@ -33,14 +33,48 @@
     let showCopyNotification = false;
 
     function copyToClipboard() {
-        navigator.clipboard.writeText("https://" + webon.domain).then(() => {
-            showCopyNotification = true;
-            setTimeout(() => {
-                showCopyNotification = false;
-            }, 2000); // Message will be visible for 2 seconds
-        }).catch(e => console.error('Copy failed', e));
-    }
+        const urlToCopy = "https://" + webon.domain;
+        if (!urlToCopy) {
+            alert('Nothing to copy');
+            return;
+        }
 
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(urlToCopy)
+                .then(() => {
+                    showCopyNotification = true;
+                    setTimeout(() => showCopyNotification = false, 2000);
+                    console.log('Copied successfully:', urlToCopy);
+                })
+                .catch(err => {
+                    console.error('Copy failed:', err);
+                    alert('Copy to clipboard failed. Try manually copying.');
+                });
+        } else {
+
+            const textArea = document.createElement('textarea');
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.value = urlToCopy;
+            textArea.focus();
+            textArea.select();
+            try {
+                if (document.execCommand('copy')) {
+                    showCopyNotification = true;
+                    setTimeout(() => showCopyNotification = false, 2000);
+                    console.log('Copied successfully using fallback:', urlToCopy);
+                } else {
+                    throw new Error('Command failed');
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                alert('Unable to copy. Please try manually.');
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+    }
     // numbers
     function formatNumber(num) {
         num = parseInt(num);

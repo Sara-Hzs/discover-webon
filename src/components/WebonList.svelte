@@ -175,14 +175,18 @@
     </div>
 
 </div>
-<div class="btns">
-<button on:click={() => updateSortOrder(localSortOrder === 'ascending' ? 'none' : 'ascending')} class={localSortOrder === 'ascending' ? 'active' : ''}>
-    Sort Ascending
-</button>
-<button on:click={() => updateSortOrder(localSortOrder === 'descending' ? 'none' : 'descending')} class={localSortOrder === 'descending' ? 'active' : ''}>
-    Sort Descending
-</button>
+<div class="sorting-label">
+    Sort by:
 </div>
+<div class="btns">
+    <button on:click={() => updateSortOrder(localSortOrder === 'ascending' ? 'none' : 'ascending')} class={localSortOrder === 'ascending' ? 'active' : ''}>
+         Popularity ↑
+    </button>
+    <button on:click={() => updateSortOrder(localSortOrder === 'descending' ? 'none' : 'descending')} class={localSortOrder === 'descending' ? 'active' : ''}>
+         Popularity ↓
+    </button>
+</div>
+
 {#if selectedTagName}
     <button class="selected-tag-display" on:click={clearSelectedTag}>
         <span class="tag">{selectedTagName}</span>
@@ -250,7 +254,10 @@
       color: black;
     }
   }
-
+  .sorting-label {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
   button {
     min-width: 120px;
     margin: 0 5px;
