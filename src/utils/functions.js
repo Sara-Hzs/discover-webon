@@ -42,7 +42,9 @@ export const fetchWebonList = async () => {
     const discover = list.find(webon => {
         return webon.id === 'info.webon.discover'
     })
-    list.splice(list.indexOf(discover), 1)
+    if(!get(data).isBrowser) {
+        list.splice(list.indexOf(discover), 1)
+    }
     console.log('WebonList:', list)
     return Promise.resolve(list);
 };
