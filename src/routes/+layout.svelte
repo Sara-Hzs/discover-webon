@@ -13,6 +13,7 @@
     import cross from "../assets/cross.svg";
     import {nomo} from "nomo-webon-kit";
     import {hasMinimumNomoVersion} from "nomo-webon-kit";
+    import {mergeInstalledList} from "../utils/functions.js";
 
     let loading = true;
     let error = false;
@@ -43,10 +44,10 @@
                 refetchDataOnPluginVisible();
             });
 
-            await fetchWebonList().then(webonList => {
-                await merge
+            await fetchWebonList().then(async webonList => {
                 $data.webonList = webonList;
                 $data.filteredList = webonList;
+                await mergeInstalledList()
             }).catch(e => {
                 console.error('Error fetching WebOn list:', e);
                 $data.webonList = [];
