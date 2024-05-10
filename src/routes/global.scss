@@ -22,7 +22,7 @@
 }
 
 :root {
-	--nomoPrimary: #bca570ff;
+	--nomoPrimary: #27eaf7;
 	--nomoOnPrimary: #ffffffff;
 	--nomoPrimaryContainer: #fcfaf7ff;
 	--nomoSecondary: #d1af72ff;
@@ -41,10 +41,10 @@
 }
 
 html, body {
-	//background: white; // EVIL
+	background: #000000; // EVIL
 	height: 100%;
 	width: 100%;
-	color: var(--nomoForeground1);
+	color: white;
 	overflow-x: hidden;
 	margin: 0;
 	font-family: "Vito", serif;

@@ -37,7 +37,7 @@
                 await getWebonById(id)
             })
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     })
 

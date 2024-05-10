@@ -1,5 +1,6 @@
 <script>
     import {data} from "../../stores/data.js";
+    import {filters} from "../../stores/filters.js";
     import icon from "../../assets/icon.png";
     import card from "../../assets/card.png";
     import plus from "../../assets/plus.svg";
@@ -8,22 +9,14 @@
     import {goto} from "$app/navigation";
     import Back from "../../components/Icons/Back.svelte";
     import QrCode from "svelte-qrcode";
-    import {downloadWebOn} from "../../utils/functions.js";
-    import { selectedTag } from "../../stores/selectedTagStore.js";
+    import {downloadWebOn, formatAddNumber, copyToClipboard} from "../../utils/functions.js";
 
     let id = getParameterFromURL();
     let webon = $data[id];
 
-    function selectTag(tagName) {
-        $selectedTag = tagName
-        browser && goto('/');
-    }
-
     function backToWebonList() {
-        selectedTag.set("");
         browser && goto('/');
     }
-
 
     function getParameterFromURL() {
         const url = new URL(window.location.href);
@@ -32,54 +25,8 @@
 
     let showCopyNotification = false;
 
-    function copyToClipboard() {
-        const urlToCopy = "https://" + webon.domain;
-        if (!urlToCopy) {
-            alert('Nothing to copy');
-            return;
-        }
-
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(urlToCopy)
-                .then(() => {
-                    showCopyNotification = true;
-                    setTimeout(() => showCopyNotification = false, 2000);
-                    console.log('Copied successfully:', urlToCopy);
-                })
-                .catch(err => {
-                    console.error('Copy failed:', err);
-                    alert('Copy to clipboard failed. Try manually copying.');
-                });
-        } else {
-
-            const textArea = document.createElement('textarea');
-            textArea.style.position = 'fixed';
-            textArea.style.opacity = '0';
-            document.body.appendChild(textArea);
-            textArea.value = urlToCopy;
-            textArea.focus();
-            textArea.select();
-            try {
-                if (document.execCommand('copy')) {
-                    showCopyNotification = true;
-                    setTimeout(() => showCopyNotification = false, 2000);
-                    console.log('Copied successfully using fallback:', urlToCopy);
-                } else {
-                    throw new Error('Command failed');
-                }
-            } catch (err) {
-                console.error('Fallback copy failed:', err);
-                alert('Unable to copy. Please try manually.');
-            } finally {
-                document.body.removeChild(textArea);
-            }
-        }
-    }
-    // numbers
-    function formatNumber(num) {
-        num = parseInt(num);
-        if (num < 1000) return num.toString();
-        return `${Math.round(num / 1000)}k+`;
+    $: if (showCopyNotification) {
+        setTimeout(() => showCopyNotification = false, 2000);
     }
 
 </script>
@@ -99,8 +46,8 @@
         {#if !$data.isBrowser}
             <button class="download" on:click={async e => {
         e.stopPropagation()
-        downloadWebOn(webon.domain).then(() => {
-        webon.downloaded = true
+        downloadWebOn(webon).then(() => {
+            webon.downloaded = true
         }).catch(e => {
           console.error(e)
         })
@@ -127,20 +74,17 @@
         <div class="name">
             {webon.name}
             <div class="metrics">
-               Bookmarked: {webon.metrics && webon.metrics.adds ? formatNumber(webon.metrics.adds) : '0'}
+               {webon?.metrics?.adds ? formatAddNumber(webon.metrics.adds) : '0'} 🤍
             </div>
         </div>
-
-
-
     </div>
     {#if $data.isBrowser}
         <div class="qr-container">
             <QrCode value={"https://nomo.app/webon/" + webon.domain} size={200}/>
         </div>
-
-
-        <button class="copy-btn" on:click={copyToClipboard}>
+        <button class="copy-btn" on:click={() => {
+            showCopyNotification = copyToClipboard("https://nomo.app/webon/" + webon.domain)
+        }}>
             Copy Link
         </button>
         {#if showCopyNotification}
@@ -155,19 +99,16 @@
     </div>
     <div class="tag-filter">
         {#each webon.tags as tag}
-            <button on:click={() => selectTag(tag.name)}>
+            <button on:click={() => {
+                $filters.tag = tag
+                goto('/')
+            }}>
                 {tag.name}
             </button>
         {/each}
     </div>
-    <!-- <div class="version">{webon.version}</div> -->
-    <!-- <div class="suggestions">
-        Suggestions for you
-    </div>
-    <div class="page">
-        <WebonList/>
-    </div> -->
 </div>
+
 <style lang="scss">
       .page {
         max-width: 1300px;
@@ -239,14 +180,12 @@
         .icon {
           width: 80px;
           height: 80px;
-          margin-right: 20px;
           img {
             width: 100%;
             height: 100%;
-            border-radius: 10%;
             object-fit: cover;
             box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-            padding: 10px;
+            border-radius: 10px;
           }
         }
 
@@ -255,7 +194,9 @@
           font-size: 24px;
           font-weight: bold;
           word-break: break-word;
-          padding-top: 20px;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
 
           .metrics{
             font-size: 16px;
@@ -300,10 +241,9 @@
       }
 
       .description {
-        padding: 20px;
         margin-top: 20px;
         border-radius: 8px;
-
+        text-align: justify;
         font-size: 16px;
         line-height: 1.6;
       }

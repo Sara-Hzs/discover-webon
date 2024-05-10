@@ -1,4 +1,3 @@
-
 <script>
     import default_icon from '../assets/icon.png'
     import {browser} from "$app/environment";
@@ -8,7 +7,6 @@
     import Uninstall from "./Icons/Uninstall.svelte";
     import Checkmark from "./Icons/Checkmark.svelte";
     import {downloadWebOn, uninstallWebOn} from "../utils/functions.js";
-    import {nomo_store} from "../stores/nomo_store.js";
     import {onMount} from "svelte";
 
 
@@ -22,7 +20,7 @@
     })
     async function handleUninstall() {
         try {
-            await uninstallWebOn(webon.webon_url);
+            await uninstallWebOn(webon);
             webon.downloaded = false;
             error = '';
         } catch (err) {
@@ -36,93 +34,94 @@
 {#if !loading}
     <div class="container" on:click={() => browser && goto('/webon?id=' + webon.id)}>
         <div class="card-image">
-            {#if webon.icon}
+            {#if webon.card}
                 <img src={webon.card} alt="{webon.name}"/>
             {:else}
                 <img src={default_icon} alt="Default icon"/>
             {/if}
         </div>
         <div class="card-content">
-            <div class="icon">
-                {#if webon.icon}
-                    <img src={webon.icon} alt="{webon.name}"/>
-                {:else}
-                    <img src={default_icon} alt="Default icon"/>
-                {/if}
-            </div>
-            <div class="details">
-                <div class="name">{webon.name}</div>
-                <div class="slogan">{webon.slogan}</div>
-                <div class="domain">https://{webon.domain}</div>
-            </div>
+            <div class="icon-container">
+                <div class="left">
+                    <div class="icon">
+                        {#if webon.icon}
+                            <img src={webon.icon} alt="{webon.name}"/>
+                        {:else}
+                            <img src={default_icon} alt="Default icon"/>
+                        {/if}
+                    </div>
+                    <div class="name">{webon.name}</div>
+                </div>
+                <div class="download">
+                    {#if $data.isBrowser}
 
-        </div>
-        <div class="download">
-            {#if $data.isBrowser}
-
-                <button disabled>
-                    <Download/>
-                </button>
-            {:else if !webon.downloaded}
-                <button on:click={async e => {
+                        <button disabled>
+                            <Download/>
+                        </button>
+                    {:else if !webon.downloaded}
+                        <button on:click={async e => {
         e.stopPropagation();
-        downloadWebOn(webon.domain).then(() =>  {
+        downloadWebOn(webon).then(() =>  {
             error = '';
             webon.downloaded = true;
         }).catch((e) => {
             error = e?.toString() ?? 'Download failed';
         })
     }}>
-                    <Download/>
-                </button>
+                            <Download/>
+                        </button>
 
-            {:else if webon.downloaded}
-                <button on:click={async e => {
+                    {:else if webon.downloaded}
+                        <button on:click={async e => {
     e.stopPropagation();
     await handleUninstall();
 }}>
-                    <Uninstall/>
-                </button>
-            {:else}
-                <button disabled>
-                    <Checkmark/>
-                </button>
-            {/if}
+                            <Uninstall/>
+                        </button>
+                    {:else}
+                        <button disabled>
+                            <Checkmark/>
+                        </button>
+                    {/if}
+                </div>
+            </div>
+            <div class="details">
+                <div class="slogan">{webon.slogan}</div>
+<!--                <div class="domain">https://{webon.domain}</div>-->
+            </div>
+
         </div>
     </div>
 {/if}
-
 {#if error}
     <div class="error">{error}</div>
 {/if}
-<style>
+
+<style lang="scss">
     .container {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        background: #333333;
         width: 100%;
         border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: box-shadow 0.3s ease;
         position: relative;
-        margin-bottom: 20px;
-    }
-
-    .container:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        margin-bottom: 10px;
     }
 
     .card-image {
         width: 100%;
-        height: 220px;
+        height: 230px;
         overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .card-image img {
         width: 100%;
-        height: 100%;
         object-fit: contain;
-        padding: 10px;
     }
 
 
@@ -132,9 +131,29 @@
         width: 100%;
     }
 
+    .icon-container {
+        display: flex;
+        align-items: center;
+      justify-content: space-between;
+        width: 100%;
+      font-size: 22px;
+      font-weight: bold;
+      gap: 10px;
+    }
+
     .icon {
-        width: 40px;
+        width: 50px;
         padding-bottom: 10px;
+      overflow: hidden;
+        img {
+          border-radius: 5px;
+        }
+    }
+
+    .left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     .details {
@@ -149,6 +168,10 @@
     .domain {
         margin-bottom: 5px;
         margin-left: 5px;
+    }
+
+    .slogan {
+        width: 70%;
     }
 
     .download {
@@ -169,16 +192,27 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            padding: 10px;
+            overflow: hidden;
+            position: relative;
+          background: none;
+          isolation: isolate;
+          background: #333333;
+          padding: 10px;
         }
 
         .card-image {
-            display: none;
+          z-index: -1;
+          position: absolute;
+          inset: 0 0 0 0;
+            img {
+                opacity: 0.03;
+                transform: translateY(-8px);
+            }
         }
 
         .card-content {
             flex-grow: 1;
-            padding: 0 10px;
+            padding: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -189,7 +223,6 @@
 
         .download {
             position: static;
-            margin: 0 10px;
             display: flex;
             align-items: center;
         }
@@ -204,6 +237,8 @@
         .slogan {
             font-size: 0.8em;
             opacity: 0.9;
+          width: 100%;
+
         }
 
         .download button {
