@@ -210,5 +210,16 @@
     "id": "uniswap",
     "webon_id": "app.nomo.uniswap",
     "download_link": "https://nomo.app/webon/app.uniswap.org"
+  },
+  {
+    "name": "Moonpay",
+    "description": "MoonPay is a financial technology company that builds payment infrastructure for crypto. Here are some reasons to trust our service:\n\nEasy to use — get started and buy crypto and NFTs in minutes, no prior knowledge is needed.\nTop-notch security — your information is encrypted and all our products are built with security and privacy in mind.\nGlobal compliance — we protect you in accordance with worldwide regulations.\nWe offer simple ways to buy, sell, and swap cryptocurrencies. You can use a wide range of cards, local bank transfers, and many contactless payment options. We are available in 160+ countries and trusted by 300+ top wallets, websites, and apps.",
+    "slogan": "Experience the best of Web3 using MoonPay.",
+    "images": [],
+    "icon": "/icons/moonpay.jpg",
+    "card_image": "/cards/moonpay.jpg",
+    "id": "moonpay",
+    "webon_id": "com.moonpay.buy",
+    "download_link": "https://nomo.app/webon/buy.moonpay.com"
   }
 ]

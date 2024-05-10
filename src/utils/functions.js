@@ -22,6 +22,7 @@ export const getData = (endpoint) => {
 export const mergeInstalledList = async () => {
     try {
         const installed_webons = (await nomo.getInstalledWebOns())?.manifests
+        console.log('InstalledWebons:', installed_webons)
         if (installed_webons?.length > 0) {
             for (const webon of get(data).webonList) {
                 webon.downloaded = !!(installed_webons.find(install => {
@@ -42,6 +43,7 @@ export const fetchWebonList = async () => {
         return webon.id === 'info.webon.discover'
     })
     list.splice(list.indexOf(discover), 1)
+    console.log('WebonList:', list)
     return Promise.resolve(list);
 };
 
