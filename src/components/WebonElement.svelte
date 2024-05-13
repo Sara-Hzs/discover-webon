@@ -42,6 +42,9 @@
         </div>
         <div class="card-content">
             <div class="icon-container">
+
+
+
                 <div class="left">
                     <div class="icon">
                         {#if webon.icon}
@@ -50,7 +53,11 @@
                             <img src={default_icon} alt="Default icon"/>
                         {/if}
                     </div>
-                    <div class="name">{webon.name}</div>
+                    <div>
+                        <div class="name">{webon.name}</div>
+                        <a href="https://{webon.domain}" class="domain">https://{webon.domain}</a>
+                    </div>
+
                 </div>
                 <div class="download">
                     {#if $data.isBrowser}
@@ -86,8 +93,9 @@
                 </div>
             </div>
             <div class="details">
+
                 <div class="slogan">{webon.slogan}</div>
-<!--                <div class="domain">https://{webon.domain}</div>-->
+
             </div>
 
         </div>
@@ -164,14 +172,25 @@
     }
 
     .name,
-    .slogan,
-    .domain {
+    .slogan
+     {
         margin-bottom: 5px;
         margin-left: 5px;
     }
 
+    .domain {
+      font-size: 14px;
+      text-decoration: none;
+      margin-left: 5px;
+    }
+
+    .domain:hover {
+      text-decoration: underline;
+    }
+
     .slogan {
         width: 70%;
+      margin-top: 10px;
     }
 
     .download {

@@ -3,8 +3,19 @@
     import { filters } from "../stores/filters.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
+    import QrCode from 'svelte-qrcode';
     import logo from '../assets/logo.svg';
+    let showCopyNotification = false;
 
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            console.log('Copying to clipboard was successful!');
+        }, err => {
+            console.error('Could not copy text: ', err);
+        });
+        return true;
+    }
     onMount(async () => {
         window.scrollTo(0, 0);
     });
@@ -16,13 +27,12 @@
     <div class="search-box">
         <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search} />
     </div>
-</div>
-<div class="btns">
+    <div class="btns">
     <h1>Sort by</h1>
     <button on:click={() => {
         $filters.sortBy = 'popularity'
     }} class={$filters.sortBy === 'popularity' ? 'active' : ''}>
-         Popularity
+        Popularity
     </button>
     <button on:click={() => {
         $filters.sortBy = 'name'
@@ -30,6 +40,20 @@
         Name
     </button>
 </div>
+
+    <div class="qr-container">
+    <QrCode value="https://nomo.app/webon/discover.webon.info" size={200} />
+</div>
+
+    <button class="copy-btn" on:click={() => {
+    showCopyNotification = copyToClipboard("https://nomo.app/webon/discover.webon.info")
+}}>
+       scan here
+    </button>
+
+</div>
+
+
 {#if $filters.tag}
     <div class="tag" on:click={() => $filters.tag = null}>
         <div>Selected Tag:</div>
@@ -155,7 +179,24 @@
     font-weight: bold;
     border: 1px solid white;
   }
-
+  .qr-container {
+    margin: 10px 0 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .copy-btn {
+    display: block;
+    margin: 10px auto;
+    background-color: #f65cc9;
+    color: white;
+  }
+  .copy-notification {
+    text-align: center;
+    color: #ff4081;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
   @media (max-width: 768px) {
     .container {
       grid-template-columns: 1fr;
