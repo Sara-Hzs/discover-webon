@@ -42,9 +42,6 @@
         </div>
         <div class="card-content">
             <div class="icon-container">
-
-
-
                 <div class="left">
                     <div class="icon">
                         {#if webon.icon}
@@ -62,7 +59,7 @@
                 <div class="download">
                     {#if $data.isBrowser}
 
-                        <button disabled>
+                        <button>
                             <Download/>
                         </button>
                     {:else if !webon.downloaded}
@@ -113,18 +110,22 @@
         background: #333333;
         width: 100%;
         border-radius: 8px;
-        transition: box-shadow 0.3s ease;
         position: relative;
         margin-bottom: 10px;
+      transition: transform 0.4s ease;
     }
-
+    .container:hover {
+      transform: translateY(-4px);
+    }
     .card-image {
-        width: 100%;
-        height: 230px;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      width: 100%;
+height: 180px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
     }
 
     .card-image img {
@@ -134,16 +135,17 @@
 
 
     .card-content {
-        padding: 10px;
-        text-align: left;
-        width: 100%;
+      padding: 10px;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
     }
 
     .icon-container {
-        display: flex;
-        align-items: center;
+      display: flex;
+      align-items: center;
       justify-content: space-between;
-        width: 100%;
+      width: 100%;
       font-size: 22px;
       font-weight: bold;
       gap: 10px;
@@ -217,6 +219,7 @@
           isolation: isolate;
           background: #333333;
           padding: 10px;
+          padding-right: 50px;
         }
 
         .card-image {
@@ -240,19 +243,30 @@
 
 
 
-        .download {
-            position: static;
-            display: flex;
-            align-items: center;
-        }
-
+      .download {
+        position: absolute;
+        bottom: 10px;
+        right: 3px;
+        padding: 5px;
+      }
+      .download button {
+        padding: 2px 1px;
+        font-size: 0.8em;
+        margin: 5px 0;
+      }
         .name,
-        .slogan,
-        .domain {
+        .slogan
+       {
             text-align: left;
-            font-size: 0.9em;
+            font-size: 0.8em;
         }
 
+
+.domain{
+  text-align: left;
+  font-size: 0.5em;
+
+}
         .slogan {
             font-size: 0.8em;
             opacity: 0.9;
@@ -260,10 +274,6 @@
 
         }
 
-        .download button {
-            padding: 5px 8px;
-            font-size: 0.8em;
-            margin: 5px 0;
-        }
+
     }
 </style>

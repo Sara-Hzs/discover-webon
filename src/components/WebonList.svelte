@@ -5,17 +5,10 @@
     import { onMount } from 'svelte';
     import QrCode from 'svelte-qrcode';
     import logo from '../assets/logo.svg';
-    let showCopyNotification = false;
 
 
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            console.log('Copying to clipboard was successful!');
-        }, err => {
-            console.error('Could not copy text: ', err);
-        });
-        return true;
-    }
+
+
     onMount(async () => {
         window.scrollTo(0, 0);
     });
@@ -40,19 +33,13 @@
         Name
     </button>
 </div>
-
-    <div class="qr-container">
-    <QrCode value="https://nomo.app/webon/discover.webon.info" size={200} />
 </div>
-
-    <button class="copy-btn" on:click={() => {
-    showCopyNotification = copyToClipboard("https://nomo.app/webon/discover.webon.info")
-}}>
-       scan here
-    </button>
-
+<div class="qr-container">
+    <div class="qr-wrapper">
+        <QrCode value="https://nomo.app/webon/discover.webon.info" size={200}/>
+        <span>Scan to install Discover Webons</span>
+    </div>
 </div>
-
 
 {#if $filters.tag}
     <div class="tag" on:click={() => $filters.tag = null}>
@@ -81,8 +68,9 @@
   .container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 5px;
+    gap: 15px;
     justify-content: center;
+
   }
 
   .tag {
@@ -116,7 +104,7 @@
     margin-bottom: 1rem;
     gap: 10px;
     img {
-      width: 50px;
+      width: 90px;
     }
   }
   .search-box {
@@ -180,23 +168,31 @@
     border: 1px solid white;
   }
   .qr-container {
-    margin: 10px 0 20px 0;
+    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-  }
-  .copy-btn {
-    display: block;
-    margin: 10px auto;
-    background-color: #f65cc9;
-    color: white;
-  }
-  .copy-notification {
-    text-align: center;
-    color: #ff4081;
+    margin-bottom: 20px;
+    text-align: right;
+    gap: 10px;
     font-weight: bold;
-    margin-bottom: 10px;
+
   }
+
+  .qr-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 150px;
+  }
+
+  .qr-wrapper > span {
+    margin-top: 10px;
+  }
+
+
+
   @media (max-width: 768px) {
     .container {
       grid-template-columns: 1fr;
@@ -209,6 +205,46 @@
     .header{
       display: none;
     }
+  }
+  @media (max-width: 425px) {
+    .search-filter-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .btns {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+      width: 100%;
+    }
+
+    .btns h1 {
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    button {
+      margin: 5px 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    .search-box {
+      width: 100%;
+    }
+
+    .search-input {
+      font-size: 14px;
+    }
+
+    .qr-container {
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+
+
   }
 
 </style>
