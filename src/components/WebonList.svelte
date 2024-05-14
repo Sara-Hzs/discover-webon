@@ -6,13 +6,9 @@
     import QrCode from 'svelte-qrcode';
     import logo from '../assets/logo.svg';
 
-
-
-
     onMount(async () => {
         window.scrollTo(0, 0);
     });
-
 </script>
 
 <div class="search-filter-container">
@@ -20,7 +16,8 @@
     <div class="search-box">
         <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search} />
     </div>
-    <div class="btns">
+</div>
+<div class="btns">
     <h1>Sort by</h1>
     <button on:click={() => {
         $filters.sortBy = 'popularity'
@@ -32,7 +29,6 @@
     }} class={$filters.sortBy === 'name' ? 'active' : ''}>
         Name
     </button>
-</div>
 </div>
 <div class="qr-container">
     <div class="qr-wrapper">
@@ -54,7 +50,6 @@
     {/each}
 </div>
 
-
 <style lang="scss">
   .header {
     display: block;
@@ -67,10 +62,9 @@
   }
   .container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 15px;
     justify-content: center;
-
   }
 
   .tag {
@@ -137,10 +131,11 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-align: right;
     gap: 10px;
     font-weight: bold;
+
     h1 {
       width: 100%;
       font-weight: bold;
@@ -160,7 +155,6 @@
     &:hover, &:focus {
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
-
   }
   button.active {
     background-color: #9c63ee;
@@ -176,7 +170,6 @@
     text-align: right;
     gap: 10px;
     font-weight: bold;
-
   }
 
   .qr-wrapper {
@@ -191,8 +184,6 @@
     margin-top: 10px;
   }
 
-
-
   @media (max-width: 768px) {
     .container {
       grid-template-columns: 1fr;
@@ -202,48 +193,104 @@
       font-size: 14px;
     }
 
-    .header{
+    .header {
       display: none;
-    }
-  }
-  @media (max-width: 425px) {
-    .search-filter-container {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .btns {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-      width: 100%;
-    }
-
-    .btns h1 {
-      margin-bottom: 10px;
-      text-align: left;
-    }
-
-    button {
-      margin: 5px 0;
-      width: 100%;
-      text-align: center;
-    }
-
-    .search-box {
-      width: 100%;
-    }
-
-    .search-input {
-      font-size: 14px;
     }
 
     .qr-container {
-      width: 100%;
-      justify-content: center;
-      align-items: center;
+      display: none;
     }
 
+    .search-filter-container {
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 10px;
+      border-radius: 10px;
+      gap: 10px;
+    }
+
+    .search-filter-container img {
+      width: 50px;
+    }
+
+    .btns {
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btns h1 {
+      margin-bottom: 0;
+      color: #fff;
+    }
+
+    button {
+      background-color: #444;
+      color: #fff;
+      flex: 1;
+    }
+
+    button.active {
+      background-color: #9c63ee;
+      font-weight: bold;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .search-filter-container {
+      flex-direction: row;
+      align-items: center;
+      padding: 10px;
+
+      border-radius: 10px;
+      gap: 10px;
+    }
+
+    .search-filter-container img {
+      width: 40px;
+    }
+
+    .search-box {
+      flex-grow: 1;
+    }
+
+    .btns {
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btns h1 {
+      color: #fff;
+      margin-bottom: 5px;
+      width: 100%;
+      text-align: right;
+    }
+
+    button {
+      background-color: #444;
+      color: #fff;
+      width: 100%;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    button.active {
+      background-color: #9c63ee;
+      font-weight: bold;
+    }
+  }
+
+  @media (min-width: 920px){
+
+    .sorting-label {
+      transform: translateY(-20px);
+    }
+    .btns {
+      transform: translateY(-65px);
+    }
 
   }
 

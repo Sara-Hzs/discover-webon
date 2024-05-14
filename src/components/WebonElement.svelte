@@ -29,6 +29,18 @@
         }
     }
 
+    async function handleDownload(e) {
+        e.stopPropagation();
+        try {
+            await downloadWebOn(webon);
+            error = '';
+            webon.downloaded = true;
+        } catch (e) {
+            error = e?.toString() ?? 'Download failed';
+        }
+    }
+
+
 </script>
 
 {#if !loading}
@@ -52,7 +64,9 @@
                     </div>
                     <div>
                         <div class="name">{webon.name}</div>
-                        <a href="https://{webon.domain}" class="domain">https://{webon.domain}</a>
+                        <a href="https://{webon.domain}" class="domain" on:click|preventDefault={e => {
+                            if (window.innerWidth < 768) handleDownload(e);
+                        }}>https://{webon.domain}</a>
                     </div>
 
                 </div>
@@ -103,177 +117,185 @@
 {/if}
 
 <style lang="scss">
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: #333333;
+    width: 100%;
+    border-radius: 8px;
+    position: relative;
+    margin-bottom: 10px;
+    transition: transform 0.4s ease;
+  }
+
+  .container:hover {
+    transform: translateY(-4px);
+  }
+
+  .card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+
+  }
+
+  .card-image img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+
+  .card-content {
+    padding: 10px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: clamp(18px, 3vw, 20px);
+    font-weight: bold;
+    gap: 10px;
+  }
+
+  .icon {
+    width: 60px;
+    padding-bottom: 10px;
+    overflow: hidden;
+
+    img {
+      border-radius: 5px;
+    }
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .name,
+  .slogan {
+    margin-bottom: 5px;
+    margin-left: 5px;
+  }
+
+  .name {
+    font-size: clamp(15px, 3vw, 18px);
+  }
+
+  .domain {
+    font-size: 14px;
+    text-decoration: none;
+    margin-left: 5px;
+  }
+
+  .domain:hover {
+    text-decoration: underline;
+  }
+
+  .slogan {
+    width: 70%;
+    margin-top: 10px;
+  }
+
+  .download {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px;
+  }
+
+  .error {
+    color: red;
+    font-size: 12px;
+    margin: 5px 5px 15px;
+    padding: 5px;
+  }
+
+  @media (max-width: 768px) {
     .container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        background: #333333;
-        width: 100%;
-        border-radius: 8px;
-        position: relative;
-        margin-bottom: 10px;
-      transition: transform 0.4s ease;
-    }
-    .container:hover {
-      transform: translateY(-4px);
-    }
-    .card-image {
-      width: 100%;
-height: 180px;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-
-    }
-
-    .card-image img {
-        width: 100%;
-        object-fit: contain;
-    }
-
-
-    .card-content {
-      padding: 10px;
-      text-align: left;
-      width: 100%;
-      cursor: pointer;
-    }
-
-    .icon-container {
-      display: flex;
+      flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      width: 100%;
-      font-size: 22px;
-      font-weight: bold;
-      gap: 10px;
-    }
-
-    .icon {
-        width: 50px;
-        padding-bottom: 10px;
       overflow: hidden;
-        img {
-          border-radius: 5px;
-        }
+      position: relative;
+      background: none;
+      isolation: isolate;
+      background: #333333;
+      padding: 10px;
+      padding-right: 50px;
     }
 
-    .left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+    .card-image {
+      z-index: -1;
+      position: absolute;
+      inset: 0 0 0 0;
+
+      img {
+        opacity: 0.03;
+        transform: translateY(-8px);
+      }
     }
 
-    .details {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
+    .card-content {
+      flex-grow: 1;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
     }
 
-    .name,
-    .slogan
-     {
-        margin-bottom: 5px;
-        margin-left: 5px;
-    }
-
-    .domain {
-      font-size: 14px;
-      text-decoration: none;
-      margin-left: 5px;
-    }
-
-    .domain:hover {
-      text-decoration: underline;
-    }
-
-    .slogan {
-        width: 70%;
-      margin-top: 10px;
-    }
 
     .download {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        padding: 5px;
+      position: absolute;
+      bottom: 35px;
+      right: 3px;
+      padding: 5px;
+    }
+    .download button {
+      padding: 2px 1px;
+      font-size: 0.8em;
+      margin: 5px 0;
+    }
+    .name,
+    .slogan {
+      text-align: left;
+      font-size: 0.8em;
     }
 
-    .error {
-        color: red;
-        font-size: 12px;
-        margin: 5px 5px 15px;
-        padding: 5px;
-    }
-    @media (max-width: 768px) {
-        .container {
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            overflow: hidden;
-            position: relative;
-          background: none;
-          isolation: isolate;
-          background: #333333;
-          padding: 10px;
-          padding-right: 50px;
-        }
 
-        .card-image {
-          z-index: -1;
-          position: absolute;
-          inset: 0 0 0 0;
-            img {
-                opacity: 0.03;
-                transform: translateY(-8px);
-            }
-        }
-
-        .card-content {
-            flex-grow: 1;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-
-
-      .download {
-        position: absolute;
-        bottom: 10px;
-        right: 3px;
-        padding: 5px;
-      }
-      .download button {
-        padding: 2px 1px;
-        font-size: 0.8em;
-        margin: 5px 0;
-      }
-        .name,
-        .slogan
-       {
-            text-align: left;
-            font-size: 0.8em;
-        }
-
-
-.domain{
-  text-align: left;
-  font-size: 0.5em;
-
-}
-        .slogan {
-            font-size: 0.8em;
-            opacity: 0.9;
-          width: 100%;
-
-        }
-
+    .domain {
+      text-align: left;
+      font-size: 0.7em;
 
     }
+    .slogan {
+      font-size: 0.8em;
+      opacity: 0.9;
+      width: 100%;
+
+    }
+
+
+  }
 </style>

@@ -178,8 +178,8 @@
     gap: 20px;
 
     .icon {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height:  80px;
       img {
         width: 100%;
         height: 100%;
@@ -191,7 +191,7 @@
 
 
     .name {
-      font-size: clamp(15px, 3vw, 24px);
+      font-size: clamp(15px, 3vw, 20px);
       font-weight: bold;
       word-break: break-word;
       display: flex;
