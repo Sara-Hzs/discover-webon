@@ -35,8 +35,6 @@ export const mergeInstalledList = async () => {
         get(data).installed_webons = []
     }
 }
-
-
 export const fetchWebonList = async () => {
     const list = await getData('webons/en')
     const discover = list.find(webon => {
@@ -179,9 +177,8 @@ export const filterSortSearch = async () => {
     if (previousFilters?.sortBy !== get(filters).sortBy) {
         await sortWebonList(get(filters).sortBy);
     }
-    previousFilters = {...get(filters)};
+    previousFilters = { ...get(filters) };
 }
-
 export const sortWebonList = async (sortBy) => {
     get(data).filteredList = get(data).filteredList.sort((a, b) => {
         if (sortBy === 'name') {
@@ -195,7 +192,8 @@ export const sortWebonList = async (sortBy) => {
 
 
 export const searchWebonList = async (search) => {
-    get(data).filteredList = get(data).webonList.filter(webon => {
+    const sourceList = get(filters).tag ? get(data).filteredList : get(data).webonList;
+    get(data).filteredList = sourceList.filter(webon => {
         const matchesSearchQuery = webon.name.toLowerCase().includes(search.toLowerCase());
         const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(search.toLowerCase()));
         const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(search.toLowerCase());
@@ -207,11 +205,11 @@ export const searchWebonList = async (search) => {
 
 export const filterWebonList = async (tag) => {
     if (!tag) {
-        get(data).filteredList = get(data).webonList
+        get(data).filteredList = get(data).webonList;
         return Promise.resolve();
     }
     get(data).filteredList = get(data).webonList.filter(webon => {
-        return webon.tags.includes(tag);
+        return webon.tags.some(t => t.name === tag.name);  // Check if any tag matches the selected tag's name
     });
     return Promise.resolve();
 }

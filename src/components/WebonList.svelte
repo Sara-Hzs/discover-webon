@@ -9,12 +9,20 @@
     onMount(async () => {
         window.scrollTo(0, 0);
     });
+
 </script>
 
 <div class="search-filter-container">
     <img src={logo} alt="">
     <div class="search-box">
         <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search} />
+    </div>
+</div>
+
+<div class="qr-container">
+    <div class="qr-wrapper">
+        <QrCode value="https://nomo.app/webon/discover.webon.info" size={200}/>
+        <span>Scan to install Discover Webons</span>
     </div>
 </div>
 <div class="btns">
@@ -30,18 +38,12 @@
         Name
     </button>
 </div>
-<div class="qr-container">
-    <div class="qr-wrapper">
-        <QrCode value="https://nomo.app/webon/discover.webon.info" size={200}/>
-        <span>Scan to install Discover Webons</span>
-    </div>
-</div>
 
 {#if $filters.tag}
     <div class="tag" on:click={() => $filters.tag = null}>
-        <div>Selected Tag:</div>
-        <div>{$filters.tag.name}</div>
-        <div>Delete</div>
+        <span class="tag-label">Selected Tag:</span>
+        <span class="tag-name">{$filters.tag.name}</span>
+        <span class="delete-btn">×</span>
     </div>
 {/if}
 <div class="container">
@@ -66,9 +68,9 @@
     gap: 15px;
     justify-content: center;
   }
-
   .tag {
-    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
     font-weight: bold;
     font-size: 14px;
     background: #36f3fd;
@@ -77,18 +79,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px;
+    padding: 10px 18px;
     text-align: center;
-    margin-bottom: 20px;
-    > div {
-      width: 33%;
-      &:first-child {
-        text-align: left;
-      }
-      &:last-child {
-        text-align: right;
-      }
-    }
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .tag-label {
+    margin-right: 5px;
+  }
+
+  .tag-name {
+
+    margin-left: 2px;
+    margin-right: 8px;
+  }
+
+  .delete-btn {
+    cursor: pointer;
+    font-size: larger;
+    position: absolute;
+    top: 0;
+    right: 8px;
   }
 
   .search-filter-container {
@@ -131,7 +143,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-align: right;
     gap: 10px;
     font-weight: bold;
@@ -166,7 +178,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 20px;
+
     text-align: right;
     gap: 10px;
     font-weight: bold;
@@ -283,13 +295,13 @@
     }
   }
 
-  @media (min-width: 920px){
+  @media (min-width: 768px){
 
-    .sorting-label {
-      transform: translateY(-20px);
+    .qr-container{
+      transform: translateY(-15px);
     }
-    .btns {
-      transform: translateY(-65px);
+    .qr-wrapper{
+      transform: translateY(-55px);
     }
 
   }

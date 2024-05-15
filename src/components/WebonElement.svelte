@@ -208,9 +208,7 @@
     margin-left: 5px;
   }
 
-  .domain:hover {
-    text-decoration: underline;
-  }
+
 
   .slogan {
     width: 70%;
@@ -288,6 +286,9 @@
       text-align: left;
       font-size: 0.7em;
 
+    }
+    .domain:hover {
+      text-decoration: underline;
     }
     .slogan {
       font-size: 0.8em;
