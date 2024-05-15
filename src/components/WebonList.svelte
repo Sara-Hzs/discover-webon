@@ -100,7 +100,7 @@
     cursor: pointer;
     font-size: larger;
     position: absolute;
-    top: 0;
+    top: 7px;
     right: 8px;
   }
 

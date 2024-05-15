@@ -1,71 +1,90 @@
-// import {nomo} from "nomo-plugin-kit/dist/nomo_api";
-import {nomo} from "nomo-webon-kit";
-import {nomo_store} from "../stores/nomo_store.js";
-import {data} from "../stores/data.js";
+import { nomo } from "nomo-webon-kit";
+import { nomo_store } from "../stores/nomo_store.js";
+import { data } from "../stores/data.js";
+import { get } from "svelte/store";
+import { filters } from "../stores/filters.js";
 
-import {get} from "svelte/store";
-import {filters} from "../stores/filters.js";
+const backend_url = "https://webon.info/api/";
 
-
-const backend_url = "https://webon.info/api/"
 export const getData = (endpoint) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const res = await (await fetch(backend_url + endpoint)).json()
-            resolve(res)
+            const res = await (await fetch(backend_url + endpoint)).json();
+            resolve(res);
         } catch (e) {
-            reject(e)
+            reject(e);
         }
-    })
-}
+    });
+};
 
 export const mergeInstalledList = async () => {
     try {
-        const installed_webons = (await nomo.getInstalledWebOns())?.manifests
-        console.log('InstalledWebons:', installed_webons)
+        const installed_webons = (await nomo.getInstalledWebOns())?.manifests;
+        console.log('InstalledWebons:', installed_webons);
         if (installed_webons?.length > 0) {
             for (const webon of get(data).webonList) {
                 webon.downloaded = !!(installed_webons.find(install => {
-                    return webon?.id === install.webon_id || webon?.name === install.webon_name
+                    return webon?.id === install.webon_id || webon?.name === install.webon_name;
                 }));
             }
         }
     } catch (e) {
-        console.error(e)
-        get(data).installed_webons = []
+        console.error(e);
+        get(data).installed_webons = [];
     }
-}
+};
+
 export const fetchWebonList = async () => {
-    const list = await getData('webons/en')
-    const discover = list.find(webon => {
-        return webon.id === 'info.webon.discover'
-    })
-    if(!get(data).isBrowser) {
-        list.splice(list.indexOf(discover), 1)
+    const list = await getData('webons/en');
+    const discover = list.find(webon => webon.id === 'info.webon.discover');
+    if (!get(data).isBrowser) {
+        list.splice(list.indexOf(discover), 1);
     }
-    console.log('WebonList:', list)
+
+    const platform = mapExecutionModeToPlatform(get(filters).platform);
+    console.log('Filtering WebonList for platform:', platform);
+
+    if (platform) {
+        const filteredList = list.filter(webon => webon.platform[platform]);
+        console.log('Filtered WebonList:', filteredList);
+        return Promise.resolve(filteredList);
+    }
+
+    console.log('WebonList:', list);
     return Promise.resolve(list);
 };
 
+const mapExecutionModeToPlatform = (executionMode) => {
+    switch (executionMode) {
+        case 'FALLBACK':
+            return 'desktop';
+        case 'NOMO_MOBILE':
+            return 'mobile';
+        case 'NOMO_HUB':
+            return 'hub';
+        default:
+            return null;
+    }
+};
+
 export const fetchTagsList = async () => {
-    const tags = await getData('tags/en')
+    const tags = await getData('tags/en');
     return Promise.resolve(tags);
-}
+};
 
 const updateWebonInList = (id, isDownloaded) => {
     return new Promise(async (resolve, reject) => {
         try {
             const updatedWebonList = get(data).webonList.map(webon => {
                 if (webon.id === id) {
-                    return { ...webon, downloaded: isDownloaded};
+                    return { ...webon, downloaded: isDownloaded };
                 }
                 return webon;
             });
 
-            // Update download status in filteredList
             const updatedFilteredList = get(data).filteredList.map(webon => {
                 if (webon.id === id) {
-                    return { ...webon, downloaded: isDownloaded};
+                    return { ...webon, downloaded: isDownloaded };
                 }
                 return webon;
             });
@@ -73,14 +92,14 @@ const updateWebonInList = (id, isDownloaded) => {
             get(data).webonList = updatedWebonList;
             get(data).filteredList = updatedFilteredList;
 
-            resolve(true)
+            resolve(true);
         } catch (e) {
-            reject(e)
+            reject(e);
         }
-    })
-}
+    });
+};
 
-export const downloadWebOn = ({id, domain}) => {
+export const downloadWebOn = ({ id, domain }) => {
     const prefixedDeeplink = "https://nomo.app/webon/" + domain;
     if (domain.includes("uniswap")) {
         if (!get(nomo_store).metamask_functionality) {
@@ -95,24 +114,24 @@ export const downloadWebOn = ({id, domain}) => {
             skipPermissionDialog: true,
             navigateBack: false,
         }).then(async () => {
-            await updateWebonInList(id, true)
-            resolve()
+            await updateWebonInList(id, true);
+            resolve();
         }).catch((e) => {
             console.error("Error during installation:", e);
             reject(e);
         });
     });
-}
+};
 
-export const uninstallWebOn = ({id, name}) => {
+export const uninstallWebOn = ({ id, name }) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const installedWebons = (await nomo.getInstalledWebOns()).manifests
+            const installedWebons = (await nomo.getInstalledWebOns()).manifests;
             const webon = installedWebons.find(webon => webon.webon_id === id || webon.webon_name === name);
             nomo.uninstallWebOn({
                 webon_url: webon.webon_url
             }).then(async () => {
-                await updateWebonInList(id, false)
+                await updateWebonInList(id, false);
                 resolve();
             }).catch((e) => {
                 console.error("Error during uninstallation:", JSON.stringify(e, null, 2));
@@ -128,7 +147,7 @@ export const formatAddNumber = (num) => {
     num = parseInt(num);
     if (num < 1000) return num.toString();
     return `${Math.round(num / 1000)}k+`;
-}
+};
 
 export function copyToClipboard(text) {
     if (!text) {
@@ -138,8 +157,8 @@ export function copyToClipboard(text) {
 
     if (navigator.clipboard) {
         try {
-            navigator.clipboard.writeText(text)
-            return true
+            navigator.clipboard.writeText(text);
+            return true;
         } catch (err) {
             console.error('Copy failed:', err);
             alert('Copy to clipboard failed. Try manually copying.');
@@ -154,7 +173,7 @@ export function copyToClipboard(text) {
         textArea.select();
         try {
             if (document.execCommand('copy')) {
-                return true
+                return true;
             }
         } catch (err) {
             console.error('Fallback copy failed:', err);
@@ -163,7 +182,7 @@ export function copyToClipboard(text) {
             document.body.removeChild(textArea);
         }
     }
-    return false
+    return false;
 }
 
 let previousFilters = {};
@@ -177,23 +196,25 @@ export const filterSortSearch = async () => {
     if (previousFilters?.sortBy !== get(filters).sortBy) {
         await sortWebonList(get(filters).sortBy);
     }
+    if (previousFilters?.platform !== get(filters).platform) {
+        await fetchWebonList();
+    }
     previousFilters = { ...get(filters) };
-}
+};
+
 export const sortWebonList = async (sortBy) => {
     get(data).filteredList = get(data).filteredList.sort((a, b) => {
         if (sortBy === 'name') {
-            return a.name.localeCompare(b.name)
+            return a.name.localeCompare(b.name);
         } else if (sortBy === 'popularity') {
-            return b?.metrics.adds - a?.metrics.adds
+            return b?.metrics.adds - a?.metrics.adds;
         }
-    })
+    });
     return Promise.resolve();
-}
-
+};
 
 export const searchWebonList = async (search) => {
     if (search === '') {
-        // If the search string is empty, reset to the filtered list by the tag
         await filterWebonList(get(filters).tag);
     } else {
         const sourceList = get(filters).tag ? get(data).filteredList : get(data).webonList;
@@ -206,9 +227,7 @@ export const searchWebonList = async (search) => {
         });
     }
     return Promise.resolve();
-}
-
-
+};
 
 export const filterWebonList = async (tag) => {
     if (!tag) {
@@ -216,9 +235,7 @@ export const filterWebonList = async (tag) => {
         return Promise.resolve();
     }
     get(data).filteredList = get(data).webonList.filter(webon => {
-        return webon.tags.some(t => t.name === tag.name);  // Check if any tag matches the selected tag's name
+        return webon.tags.some(t => t.name === tag.name);
     });
     return Promise.resolve();
-}
-
-
+};

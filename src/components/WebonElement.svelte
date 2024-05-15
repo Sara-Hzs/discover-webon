@@ -267,7 +267,7 @@
     .download {
       position: absolute;
      top: 10px;
-      right: 3px;
+      right: 20px;
       padding: 5px;
     }
     .download button {
