@@ -192,16 +192,23 @@ export const sortWebonList = async (sortBy) => {
 
 
 export const searchWebonList = async (search) => {
-    const sourceList = get(filters).tag ? get(data).filteredList : get(data).webonList;
-    get(data).filteredList = sourceList.filter(webon => {
-        const matchesSearchQuery = webon.name.toLowerCase().includes(search.toLowerCase());
-        const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(search.toLowerCase()));
-        const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(search.toLowerCase());
-        const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(search.toLowerCase());
-        return (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery);
-    });
+    if (search === '') {
+        // If the search string is empty, reset to the filtered list by the tag
+        await filterWebonList(get(filters).tag);
+    } else {
+        const sourceList = get(filters).tag ? get(data).filteredList : get(data).webonList;
+        get(data).filteredList = sourceList.filter(webon => {
+            const matchesSearchQuery = webon.name.toLowerCase().includes(search.toLowerCase());
+            const tagMatchesSearchQuery = webon.tags?.some(tag => tag.name.toLowerCase().includes(search.toLowerCase()));
+            const sloganMatchesSearchQuery = webon.slogan?.toLowerCase().includes(search.toLowerCase());
+            const domainMatchesSearchQuery = webon.domain?.toLowerCase().includes(search.toLowerCase());
+            return (matchesSearchQuery || tagMatchesSearchQuery || sloganMatchesSearchQuery || domainMatchesSearchQuery);
+        });
+    }
     return Promise.resolve();
 }
+
+
 
 export const filterWebonList = async (tag) => {
     if (!tag) {
@@ -213,3 +220,5 @@ export const filterWebonList = async (tag) => {
     });
     return Promise.resolve();
 }
+
+

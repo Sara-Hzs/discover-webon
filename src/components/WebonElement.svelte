@@ -266,7 +266,7 @@
 
     .download {
       position: absolute;
-      bottom: 35px;
+     top: 10px;
       right: 3px;
       padding: 5px;
     }

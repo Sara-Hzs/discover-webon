@@ -10,6 +10,7 @@
         window.scrollTo(0, 0);
     });
 
+
 </script>
 
 <div class="search-filter-container">
@@ -22,7 +23,7 @@
 <div class="qr-container">
     <div class="qr-wrapper">
         <QrCode value="https://nomo.app/webon/discover.webon.info" size={200}/>
-        <span>Scan to install Discover Webons</span>
+        <span>Scan to install Discover WebOns</span>
     </div>
 </div>
 <div class="btns">
@@ -271,7 +272,7 @@
       flex-direction: row;
       align-items: center;
       width: 100%;
-      margin-top: 10px;
+      margin-top: 4px;
     }
 
     .btns h1 {

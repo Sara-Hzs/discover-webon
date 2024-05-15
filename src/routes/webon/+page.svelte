@@ -98,16 +98,20 @@
         <div>Description</div>
         {webon.description}
     </div>
-    <div class="tag-filter">
-        {#each webon.tags as tag}
-            <button on:click={() => {
-                $filters.tag = tag
-                goto('/')
-            }}>
-                {tag.name}
-            </button>
-        {/each}
-    </div>
+
+    {#if webon.tags && webon.tags.length > 0}
+        <div class="tag-filter-label">Tags</div>
+        <div class="tag-filter">
+            {#each webon.tags as tag}
+                <button on:click={() => {
+                    $filters.tag = tag
+                    goto('/')
+                }}>
+                    {tag.name}
+                </button>
+            {/each}
+        </div>
+    {/if}
 </div>
 
 <style lang="scss">
@@ -210,6 +214,9 @@
         text-decoration: underline;
 
       }
+      @media (max-width: 768px) {
+    display: none;
+      }
     }
 
     .metrics{
@@ -262,11 +269,12 @@
     text-align: justify;
     font-size: 16px;
     line-height: 1.6;
+    margin-bottom: 20px;
   }
 
   .description div {
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
   }
 
   .suggestions {
@@ -308,9 +316,11 @@
       background-image: linear-gradient(180deg, #666 25%, #777 50%, #666 75%);
     }
   }
+  .tag-filter-label {
+    font-weight: bold;
+    }
 
-
-  .tag-filter button {
+    .tag-filter button {
     border: none;
     margin-top: 2em;
     border-radius: 0.5rem;
@@ -318,18 +328,18 @@
     font-size: 0.875rem;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    background-color: #f0f0f0; /* Add background color */
-    color: #333; /* Change text color */
+    background-color: #f0f0f0;
+    color: #333;
 
     &:hover {
-      background-color: #e0e0e0; /* Change background color on hover */
-      transform: translateY(-2px); /* Adjust upward movement on hover */
+      background-color: #cfcfcf;
+      transform: translateY(-2px);
     }
   }
 
   .selected {
-    background-color: #9b9b9b; /* Change background color for selected tags */
-    color: #fff; /* Change text color for selected tags */
+    background-color: #9b9b9b;
+    color: #fff;
   }
 
 
