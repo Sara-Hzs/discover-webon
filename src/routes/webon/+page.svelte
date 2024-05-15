@@ -209,6 +209,7 @@
 
     .name a {
       font-size: clamp(14px, 2vw, 18px);
+      font-weight: normal;
 
       &:hover {
         text-decoration: underline;

@@ -206,6 +206,7 @@
     font-size: 14px;
     text-decoration: none;
     margin-left: 5px;
+    font-weight: normal;
   }
 
 
