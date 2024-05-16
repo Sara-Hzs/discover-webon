@@ -40,6 +40,15 @@
         }
     }
 
+    function handleButtonClick(e) {
+        e.stopPropagation();
+        if (browser && window.innerWidth >= 768) {
+            goto('/webon?id=' + webon.id);
+        } else {
+            handleDownload(e);
+        }
+    }
+
 
 </script>
 
@@ -72,33 +81,23 @@
                 </div>
                 <div class="download">
                     {#if $data.isBrowser}
-
-                        <button>
-                            <Download/>
+                        <button on:click={handleButtonClick}>
+                            <Download />
                         </button>
                     {:else if !webon.downloaded}
-                        <button on:click={async e => {
-        e.stopPropagation();
-        downloadWebOn(webon).then(() =>  {
-            error = '';
-            webon.downloaded = true;
-        }).catch((e) => {
-            error = e?.toString() ?? 'Download failed';
-        })
-    }}>
-                            <Download/>
+                        <button on:click={handleButtonClick}>
+                            <Download />
                         </button>
-
                     {:else if webon.downloaded}
                         <button on:click={async e => {
-    e.stopPropagation();
-    await handleUninstall();
-}}>
-                            <Uninstall/>
+                            e.stopPropagation();
+                            await handleUninstall();
+                        }}>
+                            <Uninstall />
                         </button>
                     {:else}
                         <button disabled>
-                            <Checkmark/>
+                            <Checkmark />
                         </button>
                     {/if}
                 </div>

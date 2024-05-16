@@ -24,9 +24,10 @@
             $nomo_store.uninstall_functionality = (await hasMinimumNomoVersion({ minVersion: '0.3.4' }))?.minVersionFulfilled;
             $nomo_store.metamask_functionality = (await hasMinimumNomoVersion({ minVersion: '0.4.0' }))?.minVersionFulfilled;
 
-            const executionMode = (await nomo.getExecutionMode())?.executionMode;
-            $data.isBrowser = executionMode === 'FALLBACK';
-
+            const modeInfo = await nomo.getExecutionMode();
+            const executionMode = modeInfo?.executionMode || 'DESKTOP'; // Default to 'DESKTOP' if mode is not defined
+            console.log('Execution Mode Info:', modeInfo);
+            console.log('Determined Execution Mode:', executionMode);
             $filters.platform = executionMode;
 
             await nomo.registerOnWebOnVisible(() => {

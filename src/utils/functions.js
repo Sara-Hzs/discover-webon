@@ -34,39 +34,46 @@ export const mergeInstalledList = async () => {
     }
 };
 
+
+// Helper function to check if the browser is mobile
+function isMobileBrowser() {
+    const userAgent = navigator.userAgent; // Getting user agent string
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+}
+
+function shouldBeShown(platform) {
+    // Log the platform object for clarity
+    console.log(`Platform Data: mobile - ${platform.mobile}, hub - ${platform.hub}, desktop - ${platform.desktop}`);
+
+    // Check the current environment
+    const onMobileBrowser = isMobileBrowser();
+    const executionMode = get(filters).platform; // Use the current execution mode from the filters store
+    console.log(`Current Environment: mobile - ${onMobileBrowser}, executionMode - ${executionMode}`);
+
+    // Logic to determine if the webon should be shown
+    if (onMobileBrowser) { // Mobile environment
+        return platform.mobile;
+    } else if (executionMode === 'HUB') { // HUB environment
+        return platform.hub;
+    } else { // Desktop or undefined environment
+        return platform.desktop;
+    }
+}
+
+
+
+
+
 export const fetchWebonList = async () => {
     const list = await getData('webons/en');
     const discover = list.find(webon => webon.id === 'info.webon.discover');
-    if (!get(data).isBrowser) {
-        list.splice(list.indexOf(discover), 1);
-    }
 
-    const platform = mapExecutionModeToPlatform(get(filters).platform);
-    console.log('Filtering WebonList for platform:', platform);
+    // Use shouldBeShown to filter webons
+    const filteredList = list.filter(webon => shouldBeShown(webon.platform));
+    console.log('Filtered WebonList:', filteredList);
 
-    if (platform) {
-        const filteredList = list.filter(webon => webon.platform[platform]);
-        console.log('Filtered WebonList:', filteredList);
-        return Promise.resolve(filteredList);
-    }
-
-    console.log('WebonList:', list);
-    return Promise.resolve(list);
+    return Promise.resolve(filteredList);
 };
-
-const mapExecutionModeToPlatform = (executionMode) => {
-    switch (executionMode) {
-        case 'FALLBACK':
-            return 'desktop';
-        case 'NOMO_MOBILE':
-            return 'mobile';
-        case 'NOMO_HUB':
-            return 'hub';
-        default:
-            return null;
-    }
-};
-
 export const fetchTagsList = async () => {
     const tags = await getData('tags/en');
     return Promise.resolve(tags);
