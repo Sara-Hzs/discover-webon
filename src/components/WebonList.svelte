@@ -6,6 +6,10 @@
     import QrCode from 'svelte-qrcode';
     import logo from '../assets/logo.svg';
     import Navbar from "./Navbar.svelte";
+    import Token_Generator from '../assets/Token_Generator.svg';
+    import Swap from '../assets/Swap.svg';
+    import Eurk from '../assets/eurk.svg';
+    import Avinoc_DeFi from '../assets/avinoc_DeFi.svg';
 
 
 
@@ -20,6 +24,10 @@
 <div class="search-qr-container">
     <div class="welcome-text">
         <div class="icon-container">
+            <img src={Token_Generator} alt="Token Generator">
+            <img src={Swap} alt="Swap">
+            <img src={Eurk} alt="Eurk">
+            <img src={Avinoc_DeFi} alt="Avinoc DeFi">
         </div>
         <h2>Welcome to</h2>
         <h1>Discover WebOn</h1>
@@ -207,7 +215,7 @@
     .container {
       grid-template-columns: 1fr;
     }
-.welcome-text h1, h2{
+.welcome-text h1, h2, .icon-container{
   display: none;
 }
     .search-input, button {
@@ -322,7 +330,44 @@
       align-items: flex-start;
       color: #fff;
       width: 50%;
+      .icon-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+        gap: 8px;
+        padding-bottom: 10px;
 
+
+        img {
+          width: 45px;
+          height: auto;
+          position: relative;
+          border-radius: 12px;
+        }
+
+        img:nth-child(1) {
+          transform: rotate(-15deg);
+          z-index: 1;
+        }
+
+        img:nth-child(2) {
+          transform: rotate(5deg);
+          left: -10px;
+          z-index: 2;
+        }
+
+        img:nth-child(3) {
+          transform: rotate(-10deg);
+          left: -20px;
+          z-index: 3;
+        }
+
+        img:nth-child(4) {
+          transform: rotate(10deg);
+          left: -30px;
+          z-index: 4;
+        }
+      }
       h1 {
         font-size: 2rem;
         margin: 0;
@@ -331,7 +376,7 @@
 
       h2 {
         font-size: 1.5rem;
-        margin: 0;
+
 
       }
     }
