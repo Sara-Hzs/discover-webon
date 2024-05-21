@@ -6,6 +6,8 @@
     import QrCode from 'svelte-qrcode';
     import logo from '../assets/logo.svg';
     import Navbar from "./Navbar.svelte";
+    
+
 
     onMount(async () => {
         window.scrollTo(0, 0);
@@ -14,11 +16,19 @@
 
 </script>
 <Navbar />
+
 <div class="search-qr-container">
-    <div class="search-filter-container">
-        <img src={logo} alt="Logo">
-        <div class="search-box">
-            <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search} />
+    <div class="welcome-text">
+        <div class="icon-container">
+        </div>
+        <h2>Welcome to</h2>
+        <h1>Discover WebOn</h1>
+
+        <div class="search-filter-container">
+            <img src={logo} alt="Logo">
+            <div class="search-box">
+                <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search}/>
+            </div>
         </div>
     </div>
     <div class="qr-container">
@@ -28,6 +38,7 @@
         </div>
     </div>
 </div>
+
 
 
 <div class="btns">
@@ -58,15 +69,7 @@
 </div>
 
 <style lang="scss">
-  .header {
-    display: block;
-    padding: 40px 20px;
-    text-align: center;
-    background-color: white;
-    color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+
   .container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -194,7 +197,6 @@
     align-items: center;
     text-align: center;
     max-width: 150px;
-
   }
 
   .qr-wrapper > span {
@@ -205,7 +207,9 @@
     .container {
       grid-template-columns: 1fr;
     }
-
+.welcome-text h1, h2{
+  display: none;
+}
     .search-input, button {
       font-size: 14px;
     }
@@ -306,16 +310,38 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 20px;
-      width: 60%;
+      width: 100%;
+      background-color: #0f0f0f;
+      padding: 4rem 9rem;
     }
 
+
+    .welcome-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      color: #fff;
+      width: 50%;
+
+      h1 {
+        font-size: 2rem;
+        margin: 0;
+        color: #25dff0;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin: 0;
+
+      }
+    }
     .search-filter-container {
       flex-direction: row;
       justify-content: center;
       align-items: center;
+      margin-bottom: 40px;
 
-      gap: 10px;
+
       img {
         display: none;
       }
@@ -323,10 +349,16 @@
 
     .search-box {
       max-width: none;
+      width: 100%;
     }
 
     .qr-container {
       flex-direction: row;
+      margin-left: 2rem;
+    }
+
+    .btns{
+      margin-top: 2rem;
     }
   }
 

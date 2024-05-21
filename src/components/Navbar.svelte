@@ -19,14 +19,15 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: #000;
-        padding: 1rem 0;
+        background-color: #0f0f0f;
+        padding: 1rem;
         width: 100%;
     }
 
     .logo {
         display: flex;
         align-items: center;
+
     }
 
     .logo img {
@@ -53,7 +54,7 @@
         color: #969595;
         text-decoration: none;
         font-weight: bold;
-        font-size: calc(0.8rem + 0.5vw);
+        font-size: calc(0.7rem + 0.4vw);
     }
 
     .navbar a:hover {
