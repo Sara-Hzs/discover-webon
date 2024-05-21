@@ -6,7 +6,7 @@
     import QrCode from 'svelte-qrcode';
     import logo from '../assets/logo.svg';
     import Navbar from "./Navbar.svelte";
-    
+
 
 
     onMount(async () => {
