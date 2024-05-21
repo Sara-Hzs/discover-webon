@@ -14,18 +14,22 @@
 
 </script>
 <Navbar />
-<div class="search-filter-container">
-    <div class="search-box">
-        <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search} />
+<div class="search-qr-container">
+    <div class="search-filter-container">
+        <img src={logo} alt="Logo">
+        <div class="search-box">
+            <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search} />
+        </div>
+    </div>
+    <div class="qr-container">
+        <div class="qr-wrapper">
+            <QrCode value="https://nomo.app/webon/discover.webon.info" size={200}/>
+            <span>Scan to install Discover WebOns</span>
+        </div>
     </div>
 </div>
 
-<div class="qr-container">
-    <div class="qr-wrapper">
-        <QrCode value="https://nomo.app/webon/discover.webon.info" size={200}/>
-        <span>Scan to install Discover WebOns</span>
-    </div>
-</div>
+
 <div class="btns">
     <h1>Sort by</h1>
     <button on:click={() => {
@@ -105,7 +109,7 @@
 
   .search-filter-container {
     display: flex;
-    justify-content: center; /* Center horizontally */
+    justify-content: center;
     align-items: center;
     width: 100%;
     margin-bottom: 1rem;
@@ -176,11 +180,12 @@
   }
   .qr-container {
     display: flex;
-    justify-content: center; /* Center horizontally */
+    justify-content: center;
     align-items: center;
     text-align: center;
     gap: 10px;
     font-weight: bold;
+
   }
 
   .qr-wrapper {
@@ -189,6 +194,7 @@
     align-items: center;
     text-align: center;
     max-width: 150px;
+
   }
 
   .qr-wrapper > span {
@@ -246,6 +252,7 @@
       background-color: #9c63ee;
       font-weight: bold;
     }
+
   }
 
   @media (max-width: 425px) {
@@ -294,24 +301,24 @@
     }
   }
 
-
-  @media (min-width: 768px) {
-
-
+  @media (min-width: 769px) {
     .search-qr-container {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 20px;
-      margin-bottom: 1rem;
+      width: 60%;
     }
 
     .search-filter-container {
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      width: auto;
-      gap: 20px;
+
+      gap: 10px;
+      img {
+        display: none;
+      }
     }
 
     .search-box {
@@ -319,8 +326,7 @@
     }
 
     .qr-container {
-      justify-content: center;
-      align-items: center;
+      flex-direction: row;
     }
   }
 

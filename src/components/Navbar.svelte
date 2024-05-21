@@ -70,40 +70,8 @@
     }
 
     @media (max-width: 768px) {
-        .navbar-toggle {
-            display: block;
-            margin-left: auto;
-        }
-
-        .navbar ul {
+        .navbar{
             display: none;
-            flex-direction: column;
-            position: absolute;
-            top: 60px;
-            width: 80%;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-        }
-
-        .navbar ul li {
-            padding: 1rem;
-            border-bottom: 0.5px solid #ccc;
-        }
-
-        .navbar ul.open {
-            display: flex;
-            animation: slideDown 0.3s ease-out forwards;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
     }
 
