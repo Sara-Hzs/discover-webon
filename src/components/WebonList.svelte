@@ -5,6 +5,7 @@
     import { onMount } from 'svelte';
     import QrCode from 'svelte-qrcode';
     import logo from '../assets/logo.svg';
+    import Navbar from "./Navbar.svelte";
 
     onMount(async () => {
         window.scrollTo(0, 0);
@@ -12,9 +13,8 @@
 
 
 </script>
-
+<Navbar />
 <div class="search-filter-container">
-    <img src={logo} alt="">
     <div class="search-box">
         <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search} />
     </div>
@@ -91,7 +91,6 @@
   }
 
   .tag-name {
-
     margin-left: 2px;
     margin-right: 8px;
   }
@@ -106,6 +105,7 @@
 
   .search-filter-container {
     display: flex;
+    justify-content: center; /* Center horizontally */
     align-items: center;
     width: 100%;
     margin-bottom: 1rem;
@@ -175,12 +175,10 @@
     border: 1px solid white;
   }
   .qr-container {
-    width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center; /* Center horizontally */
     align-items: center;
-
-    text-align: right;
+    text-align: center;
     gap: 10px;
     font-weight: bold;
   }
@@ -296,15 +294,34 @@
     }
   }
 
-  @media (min-width: 768px){
 
-    .qr-container{
-      transform: translateY(-15px);
-    }
-    .qr-wrapper{
-      transform: translateY(-55px);
+  @media (min-width: 768px) {
+
+
+    .search-qr-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 1rem;
     }
 
+    .search-filter-container {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: auto;
+      gap: 20px;
+    }
+
+    .search-box {
+      max-width: none;
+    }
+
+    .qr-container {
+      justify-content: center;
+      align-items: center;
+    }
   }
 
 </style>

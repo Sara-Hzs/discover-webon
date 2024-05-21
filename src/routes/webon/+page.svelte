@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-    {#if $data.isBrowser}
+    {#if browser}
         <div class="qr-container">
             <QrCode value={"https://nomo.app/webon/" + webon.domain} size={120}/>
         </div>
@@ -232,7 +232,9 @@
     border-radius: 8px;
     text-align: center;
     margin-bottom: 20px;
-
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   .copy-btn {
@@ -249,6 +251,9 @@
     &:hover {
       background-color: #ccc;
     }
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
   .copy-notification {
 
@@ -262,6 +267,9 @@
     transform: translate(-50%, -50%);
     display: inline-block;
     z-index: 1000;
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   .description {
@@ -276,7 +284,11 @@
   .description div {
     font-weight: 600;
     margin-bottom: 8px;
+
+
   }
+
+
 
   .suggestions {
     margin-top: 20px;
