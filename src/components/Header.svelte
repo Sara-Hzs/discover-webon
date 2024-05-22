@@ -106,7 +106,9 @@
     .search-input, button {
       font-size: 14px;
     }
-
+    .search-qr-container{
+      width: 100%;
+    }
     .qr-container {
       display: none;
     }
