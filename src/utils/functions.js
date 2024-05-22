@@ -1,3 +1,4 @@
+
 import { nomo } from "nomo-webon-kit";
 import { nomo_store } from "../stores/nomo_store.js";
 import { data } from "../stores/data.js";
@@ -16,8 +17,6 @@ export const getData = (endpoint) => {
         }
     });
 };
-
-
 
 export const mergeInstalledList = async () => {
     try {

@@ -118,6 +118,7 @@
       padding: 10px;
       border-radius: 10px;
       gap: 10px;
+
     }
 
     .search-filter-container img {
@@ -133,9 +134,10 @@
       flex-direction: row;
       align-items: center;
       padding: 10px;
-
       border-radius: 10px;
       gap: 10px;
+      width: 100%;
+
     }
 
     .search-filter-container img {
@@ -144,6 +146,7 @@
 
     .search-box {
       flex-grow: 1;
+
     }
   }
 

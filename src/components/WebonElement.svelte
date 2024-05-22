@@ -1,3 +1,4 @@
+
 <script>
     import default_icon from '../assets/icon.png'
     import {browser} from "$app/environment";
@@ -17,7 +18,6 @@
     onMount(() => {
         webon = webon
         loading = false
-
     })
     async function handleUninstall() {
         try {
@@ -116,7 +116,6 @@
 {#if error}
     <div class="error">{error}</div>
 {/if}
-
 <style lang="scss">
   .container {
     display: flex;
