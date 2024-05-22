@@ -79,8 +79,8 @@
             </div>
         </div>
     </div>
-    {#if $data.isBrowser}
-        <div class="qr-container">
+    {#if browser}
+    <div class="qr-container">
             <QrCode value={"https://nomo.app/webon/" + webon.domain} size={120}/>
         </div>
         <button class="copy-btn" on:click={() => {
