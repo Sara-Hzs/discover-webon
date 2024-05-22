@@ -3,8 +3,11 @@
     import { filters } from "../stores/filters.js";
     import WebonElement from "./WebonElement.svelte";
     import { onMount } from 'svelte';
-    import QrCode from 'svelte-qrcode';
-    import logo from '../assets/logo.svg';
+    import Navbar from "./Navbar.svelte";
+    import Header from "./Header.svelte";
+
+
+
 
     onMount(async () => {
         window.scrollTo(0, 0);
@@ -13,19 +16,10 @@
 
 </script>
 
-<div class="search-filter-container">
-    <img src={logo} alt="">
-    <div class="search-box">
-        <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search} />
-    </div>
-</div>
 
-<div class="qr-container">
-    <div class="qr-wrapper">
-        <QrCode value="https://nomo.app/webon/discover.webon.info" size={200}/>
-        <span>Scan to install Discover WebOns</span>
-    </div>
-</div>
+<Navbar />
+<Header />
+
 <div class="btns">
     <h1>Sort by</h1>
     <button on:click={() => {
@@ -54,15 +48,7 @@
 </div>
 
 <style lang="scss">
-  .header {
-    display: block;
-    padding: 40px 20px;
-    text-align: center;
-    background-color: white;
-    color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+
   .container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -91,7 +77,6 @@
   }
 
   .tag-name {
-
     margin-left: 2px;
     margin-right: 8px;
   }
@@ -104,37 +89,6 @@
     right: 8px;
   }
 
-  .search-filter-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 1rem;
-    gap: 10px;
-    img {
-      width: 90px;
-    }
-  }
-  .search-box {
-    display: flex;
-    width: 100%;
-    max-width: 500px;
-    border: none;
-    border-radius: 5px;
-    overflow: hidden;
-  }
-  .search-input {
-    border: none;
-    padding: 0.75rem 1rem;
-    flex-grow: 1;
-    font-size: 1rem;
-    color: black;
-    &:focus {
-      outline: none;
-    }
-    &::placeholder {
-      color: black;
-    }
-  }
   .sorting-label {
     font-weight: bold;
     margin-bottom: 20px;
@@ -174,57 +128,14 @@
     font-weight: bold;
     border: 1px solid white;
   }
-  .qr-container {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    text-align: right;
-    gap: 10px;
-    font-weight: bold;
-  }
-
-  .qr-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    max-width: 150px;
-  }
-
-  .qr-wrapper > span {
-    margin-top: 10px;
-  }
 
   @media (max-width: 768px) {
     .container {
       grid-template-columns: 1fr;
     }
 
-    .search-input, button {
-      font-size: 14px;
-    }
 
-    .header {
-      display: none;
-    }
 
-    .qr-container {
-      display: none;
-    }
-
-    .search-filter-container {
-      flex-direction: row;
-      align-items: flex-start;
-      padding: 10px;
-      border-radius: 10px;
-      gap: 10px;
-    }
-
-    .search-filter-container img {
-      width: 50px;
-    }
 
     .btns {
       flex-direction: row;
@@ -248,25 +159,10 @@
       background-color: #9c63ee;
       font-weight: bold;
     }
+
   }
 
   @media (max-width: 425px) {
-    .search-filter-container {
-      flex-direction: row;
-      align-items: center;
-      padding: 10px;
-
-      border-radius: 10px;
-      gap: 10px;
-    }
-
-    .search-filter-container img {
-      width: 40px;
-    }
-
-    .search-box {
-      flex-grow: 1;
-    }
 
     .btns {
       flex-direction: row;
@@ -296,15 +192,11 @@
     }
   }
 
-  @media (min-width: 768px){
+  @media (min-width: 769px) {
 
-    .qr-container{
-      transform: translateY(-15px);
+    .btns{
+      margin-top: 2rem;
     }
-    .qr-wrapper{
-      transform: translateY(-55px);
-    }
-
   }
 
 </style>
