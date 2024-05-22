@@ -17,6 +17,7 @@
     onMount(() => {
         webon = webon
         loading = false
+
     })
     async function handleUninstall() {
         try {
@@ -48,7 +49,10 @@
             handleDownload(e);
         }
     }
-
+    function navigateToDetailPage(e) {
+        e.preventDefault();
+        goto('/webon?id=' + webon.id);
+    }
 
 </script>
 
@@ -73,9 +77,7 @@
                     </div>
                     <div>
                         <div class="name">{webon.name}</div>
-                        <a href="https://{webon.domain}" class="domain" on:click|preventDefault={e => {
-                            if (window.innerWidth < 768) handleDownload(e);
-                        }}>https://{webon.domain}</a>
+                        <a href="https://{webon.domain}" class="domain" on:click|preventDefault={navigateToDetailPage}>https://{webon.domain}</a>
                     </div>
 
                 </div>
@@ -92,7 +94,7 @@
                         <button on:click={async e => {
                             e.stopPropagation();
                             await handleUninstall();
-                        }}>
+                        }} class="uninstall-btn">
                             <Uninstall />
                         </button>
                     {:else}
@@ -287,9 +289,7 @@
       font-size: 0.7em;
 
     }
-    .domain:hover {
-      text-decoration: underline;
-    }
+
     .slogan {
       font-size: 0.8em;
       opacity: 0.9;

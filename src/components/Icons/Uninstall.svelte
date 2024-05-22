@@ -5,20 +5,22 @@
 </div>
 
 <style lang="scss">
+
   div {
     border-radius: 1000px;
     height: 25px;
     width: 25px;
-    border: 2px solid var(--nomoPrimary);
+    border: 2px solid var(--nomoError);
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
   svg {
     height: 15px;
     width: 15px;
     > * {
-      stroke: var(--nomoPrimary) !important;
+      stroke: var(--nomoError) !important;
     }
   }
 </style>

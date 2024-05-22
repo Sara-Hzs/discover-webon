@@ -17,6 +17,8 @@ export const getData = (endpoint) => {
     });
 };
 
+
+
 export const mergeInstalledList = async () => {
     try {
         const installed_webons = (await nomo.getInstalledWebOns())?.manifests;

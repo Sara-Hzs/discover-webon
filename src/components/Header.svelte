@@ -23,7 +23,7 @@
             <img src={Avinoc_DeFi} alt="Avinoc DeFi">
         </div>
         <h2>Welcome to</h2>
-        <h1>Discover WebOn</h1>
+        <h1>Discover WebOns</h1>
 
         <div class="search-filter-container">
             <img src={logo} alt="Logo">
