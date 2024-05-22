@@ -51,7 +51,6 @@
     align-items: center;
     width: 100%;
     margin-bottom: 1rem;
-    gap: 10px;
     img {
       width: 90px;
     }
@@ -117,8 +116,6 @@
       align-items: flex-start;
       padding: 10px;
       border-radius: 10px;
-      gap: 10px;
-
     }
 
     .search-filter-container img {
@@ -130,12 +127,14 @@
   }
 
   @media (max-width: 425px) {
+    .search-qr-container{
+      width: 100%;
+    }
     .search-filter-container {
       flex-direction: row;
       align-items: center;
       padding: 10px;
       border-radius: 10px;
-      gap: 10px;
       width: 100%;
 
     }
