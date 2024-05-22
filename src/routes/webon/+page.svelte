@@ -342,6 +342,10 @@
     background-color: #9b9b9b;
     color: #fff;
   }
-
+  @media (max-width: 768px) {
+   .qr-container, .copy-btn{
+     display: none;
+   }
+  }
 
 </style>

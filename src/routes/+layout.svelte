@@ -30,6 +30,7 @@
             console.log('Determined Execution Mode:', executionMode);
             $filters.platform = executionMode;
 
+
             await nomo.registerOnWebOnVisible(() => {
                 refetchDataOnWebonVisible();
             });

@@ -109,6 +109,7 @@
       color: #959494;
     }
   }
+
   button {
     margin: 0 5px;
     padding: 8px 20px;
@@ -118,6 +119,7 @@
     transition: box-shadow 0.3s ease;
     color: white;
     outline: none;
+    font-size: 1rem;
 
     &:hover, &:focus {
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
