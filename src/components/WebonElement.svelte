@@ -9,6 +9,7 @@
     import Checkmark from "./Icons/Checkmark.svelte";
     import {downloadWebOn, uninstallWebOn} from "../utils/functions.js";
     import {onMount} from "svelte";
+    import { constructURL } from '../utils/url';
 
 
     export let webon
@@ -53,11 +54,15 @@
         e.preventDefault();
         goto('/webon?id=' + webon.id);
     }
-
+    function handleContainerClick() {
+        const url = constructURL('/webon', { id: webon.id });
+        console.log('Container click navigating to:', url);
+        goto(url);
+    }
 </script>
 
 {#if !loading}
-    <div class="container" on:click={() => browser && goto('/webon?id=' + webon.id)}>
+    <div class="container" on:click={handleContainerClick}>
         <div class="card-image">
             {#if webon.card}
                 <img src={webon.card} alt="{webon.name}"/>
@@ -149,6 +154,8 @@
   .card-image img {
     width: 100%;
     object-fit: cover;
+    pointer-events: none;
+    user-select: none;
   }
 
 
@@ -174,8 +181,11 @@
     padding-bottom: 10px;
     overflow: hidden;
 
+
     img {
       border-radius: 5px;
+      pointer-events: none;
+      user-select: none;
     }
   }
 
@@ -214,6 +224,8 @@
   .slogan {
     width: 70%;
     margin-top: 10px;
+    pointer-events: none;
+    user-select: none;
   }
 
   .download {

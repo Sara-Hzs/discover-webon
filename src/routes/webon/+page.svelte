@@ -135,6 +135,9 @@
     max-width: 400px;
     border-radius: 10px;
     box-shadow: 0 10px 8px rgba(0,0,0,0.05);
+    pointer-events: none;
+    user-select: none;
+
   }
 
 
@@ -190,6 +193,8 @@
     .icon {
       width: 80px;
       height:  80px;
+      pointer-events: none;
+      user-select: none;
       img {
         width: 100%;
         height: 100%;
@@ -277,6 +282,8 @@
     font-size: 16px;
     line-height: 1.6;
     margin-bottom: 20px;
+    pointer-events: none;
+    user-select: none;
   }
 
   .description div {

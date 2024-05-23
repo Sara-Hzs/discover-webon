@@ -51,8 +51,11 @@
     align-items: center;
     width: 100%;
     margin-bottom: 1rem;
+
     img {
       width: 90px;
+
+
     }
   }
   .search-box {
@@ -159,6 +162,7 @@
       width: 100%;
       background-color: #0f0f0f;
       padding: 4rem 9rem;
+
     }
 
 
@@ -168,12 +172,16 @@
       align-items: flex-start;
       color: #fff;
       width: 50%;
+
+
       .icon-container {
         display: flex;
         align-items: center;
         position: relative;
         gap: 8px;
         padding-bottom: 10px;
+        pointer-events: none;
+        user-select: none;
 
 
         img {
@@ -210,10 +218,14 @@
         font-size: 2rem;
         margin: 0;
         color: #25dff0;
+        pointer-events: none;
+        user-select: none;
       }
 
       h2 {
         font-size: 1.5rem;
+        pointer-events: none;
+        user-select: none;
 
 
       }
@@ -238,6 +250,8 @@
     .qr-container {
       flex-direction: row;
       margin-left: 2rem;
+      pointer-events: none;
+      user-select: none;
     }
 
   }

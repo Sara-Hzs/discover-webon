@@ -27,6 +27,8 @@
     .logo {
         display: flex;
         align-items: center;
+        pointer-events: none;
+        user-select: none;
 
     }
 
@@ -102,6 +104,7 @@
         <li><a href="https://webon.info/#tech-overview-container">About</a></li>
         <li><a href="https://webon.info/#comparisonContainer">Compare</a></li>
         <li><a href="https://webon.info/#featuresAdvantagesContainer">Features</a></li>
-        <li><a href="https://discover.webon.info/" class="active">Discover WebOns</a></li>
+        <li><a href="#" class="active">Discover WebOns</a></li>
+
     </ul>
 </nav>
