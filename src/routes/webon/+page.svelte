@@ -171,6 +171,12 @@
       img {
         width: 30px;
       }
+
+      @media (min-width: 768px) {
+          display: none;
+
+      }
+
     }
   }
 

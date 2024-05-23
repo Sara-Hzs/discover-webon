@@ -25,7 +25,7 @@
             $nomo_store.metamask_functionality = (await hasMinimumNomoVersion({ minVersion: '0.4.0' }))?.minVersionFulfilled;
 
             const modeInfo = await nomo.getExecutionMode();
-            const executionMode = modeInfo?.executionMode || 'DESKTOP'; // Default to 'DESKTOP' if mode is not defined
+            const executionMode = modeInfo?.executionMode || 'DESKTOP';
             console.log('Execution Mode Info:', modeInfo);
             console.log('Determined Execution Mode:', executionMode);
             $filters.platform = executionMode;
