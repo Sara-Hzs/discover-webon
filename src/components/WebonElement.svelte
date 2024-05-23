@@ -9,7 +9,7 @@
     import Checkmark from "./Icons/Checkmark.svelte";
     import {downloadWebOn, uninstallWebOn} from "../utils/functions.js";
     import {onMount} from "svelte";
-    
+
 
 
     export let webon
