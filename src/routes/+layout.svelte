@@ -60,14 +60,18 @@
     });
 
     const refetchDataOnWebonVisible = async () => {
+        loading = true
         await fetchWebonList().then(async webonList => {
             $data.webonList = webonList;
             $data.filteredList = webonList;
             await mergeInstalledList();
+            await sortWebonList('popularity')
+
         }).catch(e => {
             console.error('Error refetching WebOn list:', e);
             $data.webonList = $data.webonList;
         });
+        loading = false
     };
 
     $: if ($filters) {

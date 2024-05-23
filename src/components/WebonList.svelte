@@ -6,14 +6,11 @@
     import Navbar from "./Navbar.svelte";
     import Header from "./Header.svelte";
 
-
-
-
     onMount(async () => {
         window.scrollTo(0, 0);
     });
 
-
+    $:console.log('data', $data)
 </script>
 
 

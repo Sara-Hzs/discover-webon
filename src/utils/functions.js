@@ -36,34 +36,23 @@ export const mergeInstalledList = async () => {
 };
 
 
-// Helper function to check if the browser is mobile
+
 function isMobileBrowser() {
-    const userAgent = navigator.userAgent; // Getting user agent string
+    const userAgent = navigator.userAgent;
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
 }
 
 function shouldBeShown(platform) {
-    // Log the platform object for clarity
-    console.log(`Platform Data: mobile - ${platform.mobile}, hub - ${platform.hub}, desktop - ${platform.desktop}`);
-
-    // Check the current environment
     const onMobileBrowser = isMobileBrowser();
-    const executionMode = get(filters).platform; // Use the current execution mode from the filters store
-    console.log(`Current Environment: mobile - ${onMobileBrowser}, executionMode - ${executionMode}`);
-
-    // Logic to determine if the webon should be shown
-    if (onMobileBrowser) { // Mobile environment
+    const executionMode = get(filters).platform;
+    if (onMobileBrowser) {
         return platform.mobile;
-    } else if (executionMode === 'HUB') { // HUB environment
+    } else if (executionMode === 'HUB') {
         return platform.hub;
-    } else { // Desktop or undefined environment
+    } else {
         return platform.desktop;
     }
 }
-
-
-
-
 
 export const fetchWebonList = async () => {
     const list = await getData('webons/en');
