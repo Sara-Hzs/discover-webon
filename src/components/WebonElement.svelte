@@ -9,7 +9,7 @@
     import Checkmark from "./Icons/Checkmark.svelte";
     import {downloadWebOn, uninstallWebOn} from "../utils/functions.js";
     import {onMount} from "svelte";
-
+    
 
 
     export let webon
@@ -54,15 +54,11 @@
         e.preventDefault();
         goto('/webon?id=' + webon.id);
     }
-    function handleContainerClick() {
-        const url = constructURL('/webon', { id: webon.id });
-        console.log('Container click constructed URL:', url);
-        goto(url);
-    }
+
 </script>
 
 {#if !loading}
-    <div class="container" on:click={handleContainerClick}>
+    <div class="container" on:click={() => browser && goto('/webon?id=' + webon.id)}>
         <div class="card-image">
             {#if webon.card}
                 <img src={webon.card} alt="{webon.name}"/>
