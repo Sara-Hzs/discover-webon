@@ -16,8 +16,9 @@
 
     onMount(async () => {
         try {
-            if (location.hostname.includes("nomo")) {
+            if (location.hostname.includes("discover.nomo.zone")) {
                 await nomo.migrateAndSelfDestroy({ new_deeplink: "https://nomo.app/webon/discover.webon.info" });
+                return;
             }
 
             $nomo_store.install_functionality = (await hasMinimumNomoVersion({ minVersion: '0.3.3' }))?.minVersionFulfilled;
@@ -83,6 +84,7 @@
 <svelte:head>
     <title>Discover WebOns</title>
     <meta name="description" content="Discover WebOns" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </svelte:head>
 
 {#if loading}
