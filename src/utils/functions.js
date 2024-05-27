@@ -42,7 +42,7 @@ function isMobileBrowser() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
 }
 
-function shouldBeShown(platform) {
+export function shouldBeShown(platform) {
     const onMobileBrowser = isMobileBrowser();
     const executionMode = get(filters).platform;
     if (onMobileBrowser) {
@@ -54,11 +54,11 @@ function shouldBeShown(platform) {
     }
 }
 
+
 export const fetchWebonList = async () => {
     const list = await getData('webons/en');
     const discover = list.find(webon => webon.id === 'info.webon.discover');
 
-    // Use shouldBeShown to filter webons
     const filteredList = list.filter(webon => shouldBeShown(webon.platform));
     console.log('Filtered WebonList:', filteredList);
 

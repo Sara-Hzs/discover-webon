@@ -31,9 +31,9 @@
             $filters.platform = executionMode;
 
 
-            // await nomo.registerOnWebOnVisible(() => {
-            //     refetchDataOnWebonVisible();
-            // });
+            await nomo.registerOnWebOnVisible(() => {
+                refetchDataOnWebonVisible();
+            });
 
             await fetchWebonList().then(async webonList => {
                 $data.webonList = webonList;
