@@ -16,7 +16,7 @@
 
     onMount(async () => {
         try {
-            if (location.hostname.includes("discover.nomo.zone")) {
+            if (location.hostname.includes("discover.nomo.zone") || location.hostname.includes("discover.nomo.app")) {
                 await nomo.migrateAndSelfDestroy({ new_deeplink: "https://nomo.app/webon/discover.webon.info" });
                 return;
             }
