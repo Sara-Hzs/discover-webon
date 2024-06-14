@@ -27,7 +27,7 @@
 		"mobile-detect": "^1.4.5",
 		"moment": "^2.29.4",
 		"nomo-webon-cli": "^0.1.8",
-		"nomo-webon-kit": "^0.1.27",
+		"nomo-webon-kit": "^0.1.28",
 		"sass": "^1.69.2",
 		"svelte-preprocess": "^5.0.4",
 		"svelte-qrcode": "^1.0.0"

@@ -9,6 +9,7 @@
     import Checkmark from "./Icons/Checkmark.svelte";
     import {downloadWebOn, uninstallWebOn} from "../utils/functions.js";
     import {onMount} from "svelte";
+    import {isFallbackModeActive} from "nomo-webon-kit";
 
 
 
@@ -44,7 +45,7 @@
 
     function handleButtonClick(e) {
         e.stopPropagation();
-        if (browser && window.innerWidth >= 768) {
+        if (isFallbackModeActive()) {
             goto('/webon?id=' + webon.id);
         } else {
             handleDownload(e);

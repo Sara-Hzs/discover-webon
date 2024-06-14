@@ -1,5 +1,5 @@
 
-import { nomo } from "nomo-webon-kit";
+import {isFallbackModeActive, nomo} from "nomo-webon-kit";
 import { nomo_store } from "../stores/nomo_store.js";
 import { data } from "../stores/data.js";
 import { get } from "svelte/store";
@@ -42,13 +42,13 @@ function isMobileBrowser() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
 }
 
+
 export function shouldBeShown(platform) {
-    const onMobileBrowser = isMobileBrowser();
     const executionMode = get(filters).platform;
-    if (onMobileBrowser) {
+    if (executionMode === 'HUB') {
+        return platform.hub;}
+    else if (!isFallbackModeActive()) {
         return platform.mobile;
-    } else if (executionMode === 'HUB') {
-        return platform.hub;
     } else {
         return platform.desktop;
     }
