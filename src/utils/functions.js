@@ -64,12 +64,13 @@ export function isInsideNomo() {
 
 export const fetchWebonList = async () => {
     const list = await getData('webons/en');
-    const discover = list.find(webon => webon.id === 'info.webon.discover');
-
-    const filteredList = list.filter(webon => shouldBeShown(webon.platform));
-    console.log('Filtered WebonList:', filteredList);
-
-    return Promise.resolve(filteredList);
+    if (isInsideNomo()) {
+        const filteredList = list.filter(webon => webon.id !== 'info.webon.discover');
+        return Promise.resolve(filteredList);
+    } else {
+        const filteredList = list.filter(webon => shouldBeShown(webon.platform));
+        return Promise.resolve(filteredList);
+    }
 };
 export const fetchTagsList = async () => {
     const tags = await getData('tags/en');
