@@ -36,22 +36,31 @@ export const mergeInstalledList = async () => {
 };
 
 
-export function shouldBeShown(platform) {
+
+function isMobileDevice() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+}
+
+export function shouldBeShown(platform, element)  {
     const executionMode = get(filters).platform;
+
     if (executionMode === 'HUB') {
         return platform.hub;
+    } else if (!isFallbackModeActive()) {
+        if (isMobileDevice()) {
+            return platform.mobile;
+        } else {
+            return platform.desktop;
+        }
+    } else {
+        return platform.desktop;
     }
-    const fallback = isFallbackModeActive();
-    if (executionMode === 'MOBILE' || (fallback && isMobileBrowser())) {
-        return platform.mobile;
-    }
-    return platform.desktop;
-}
-function isMobileBrowser() {
-    return /Mobi|Android/i.test(navigator.userAgent);
 }
 
-
+export function isInsideNomo() {
+    return !isFallbackModeActive();
+}
 
 export const fetchWebonList = async () => {
     const list = await getData('webons/en');

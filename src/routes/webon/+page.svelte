@@ -9,7 +9,7 @@
     import {goto} from "$app/navigation";
     import Back from "../../components/Icons/Back.svelte";
     import QrCode from "svelte-qrcode";
-    import {downloadWebOn, formatAddNumber, copyToClipboard, shouldBeShown} from "../../utils/functions.js";
+    import {downloadWebOn, formatAddNumber, copyToClipboard, shouldBeShown, isInsideNomo} from "../../utils/functions.js";
 
     let id = getParameterFromURL();
     let webon = $data[id];
@@ -43,7 +43,7 @@
         <button class="back" on:click={backToWebonList}>
             <Back/>
         </button>
-        {#if shouldBeShown({ hub: true, mobile: true, desktop: false })}
+        {#if shouldBeShown({ hub: true, mobile: true, desktop: isInsideNomo() })}
             <button class="download" on:click={async e => {
         e.stopPropagation()
         downloadWebOn(webon).then(() => {
@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-    {#if shouldBeShown({ hub: false, mobile: false, desktop: true })}
+    {#if shouldBeShown({ hub: false, mobile: false, desktop: !isInsideNomo() })}
     <div class="qr-container">
             <QrCode value={"https://nomo.app/webon/" + webon.domain} size={120}/>
         </div>
