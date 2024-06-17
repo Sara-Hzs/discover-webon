@@ -36,23 +36,21 @@ export const mergeInstalledList = async () => {
 };
 
 
-
-function isMobileBrowser() {
-    const userAgent = navigator.userAgent;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-}
-
-
 export function shouldBeShown(platform) {
     const executionMode = get(filters).platform;
     if (executionMode === 'HUB') {
-        return platform.hub;}
-    else if (!isFallbackModeActive()) {
-        return platform.mobile;
-    } else {
-        return platform.desktop;
+        return platform.hub;
     }
+    const fallback = isFallbackModeActive();
+    if (executionMode === 'MOBILE' || (fallback && isMobileBrowser())) {
+        return platform.mobile;
+    }
+    return platform.desktop;
 }
+function isMobileBrowser() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+}
+
 
 
 export const fetchWebonList = async () => {
