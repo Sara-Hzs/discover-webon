@@ -1,5 +1,5 @@
 
-import {isFallbackModeActive, nomo} from "nomo-webon-kit";
+import {isFallbackModeActive, nomo, nomoGetPlatformInfo} from "nomo-webon-kit";
 import { nomo_store } from "../stores/nomo_store.js";
 import { data } from "../stores/data.js";
 import { get } from "svelte/store";
@@ -42,20 +42,20 @@ function isMobileDevice() {
     return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
 }
 
-export function shouldBeShown(platform, element)  {
+export function shouldBeShown(platform, element) {
     const executionMode = get(filters).platform;
 
     if (executionMode === 'HUB') {
         return platform.hub;
-    } else if (!isFallbackModeActive()) {
+    }
+    if (!isFallbackModeActive()) {
         if (isMobileDevice()) {
             return platform.mobile;
         } else {
             return platform.desktop;
         }
-    } else {
-        return platform.desktop;
     }
+    return platform.desktop;
 }
 
 export function isInsideNomo() {
@@ -65,7 +65,7 @@ export function isInsideNomo() {
 export const fetchWebonList = async () => {
     const list = await getData('webons/en');
     if (isInsideNomo()) {
-        const filteredList = list.filter(webon => webon.id !== 'info.webon.discover');
+        const filteredList = list.filter(webon => webon.id !== 'info.webon.discover').filter(webon => shouldBeShown(webon.platform));
         return Promise.resolve(filteredList);
     } else {
         const filteredList = list.filter(webon => shouldBeShown(webon.platform));
