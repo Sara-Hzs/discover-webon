@@ -19,17 +19,25 @@
 
 <div class="btns">
     <h1>Sort by</h1>
+    <div class="button-group">
     <button on:click={() => {
-        $filters.sortBy = 'popularity'
+        $filters.sortBy = 'popularity';
     }} class={$filters.sortBy === 'popularity' ? 'active' : ''}>
         Popularity
     </button>
     <button on:click={() => {
-        $filters.sortBy = 'name'
+        $filters.sortBy = 'name';
     }} class={$filters.sortBy === 'name' ? 'active' : ''}>
         Name
     </button>
+    <button on:click={() => {
+        $filters.sortBy = 'newest';
+    }} class={$filters.sortBy === 'newest' ? 'active' : ''}>
+        Newest
+    </button>
+    </div>
 </div>
+
 
 {#if $filters.tag}
     <div class="tag" on:click={() => $filters.tag = null}>
@@ -93,18 +101,24 @@
   .btns {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
-    text-align: right;
-    gap: 10px;
+    text-align: center;
     font-weight: bold;
+  }
 
-    h1 {
-      width: 100%;
-      font-weight: bold;
-      color: #959494;
-    }
+  .btns h1 {
+    font-weight: bold;
+    color: #959494;
+    margin-bottom: 10px;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
   }
 
   button {
@@ -190,11 +204,74 @@
       font-weight: bold;
     }
   }
+  @media (max-width: 768px) {
+    .btns {
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .btns h1 {
+      margin-bottom: 10px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .button-group {
+      flex-direction: row;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    button {
+      flex: 1;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .btns {
+      margin-top: 4px;
+    }
+
+    .btns h1 {
+      color: #fff;
+      margin-bottom: 5px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .button-group {
+      flex-direction: row;
+      width: 100%;
+    }
+
+    button {
+      width: 100%;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+  }
 
   @media (min-width: 769px) {
+    .btns {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 1rem;
+      margin-bottom: 20px;
+    }
 
-    .btns{
-      margin-top: 2rem;
+    .btns h1 {
+      margin-bottom: 0;
+      margin-right: 10px;
+      white-space: nowrap;
+    }
+
+    .button-group {
+      gap: 10px;
+      width: auto;
+      display: flex;
     }
   }
 

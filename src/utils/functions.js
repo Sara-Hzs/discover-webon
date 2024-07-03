@@ -213,6 +213,10 @@ export const sortWebonList = async (sortBy) => {
             return a.name.localeCompare(b.name);
         } else if (sortBy === 'popularity') {
             return b?.metrics.adds - a?.metrics.adds;
+        } else if (sortBy === 'newest') {
+            const dateA = a.listed_at ? new Date(a.listed_at) : new Date(0);
+            const dateB = b.listed_at ? new Date(b.listed_at) : new Date(0);
+            return dateB - dateA;
         }
     });
     return Promise.resolve();
