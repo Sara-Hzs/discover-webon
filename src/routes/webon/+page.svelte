@@ -54,7 +54,7 @@
         }}>
 
                 {#if !webon.downloaded}
-                    <span>Add Now</span>
+                    <span>{shouldBeShown({ hub: true }) ? 'Launch Now' : 'Add Now'}</span>
                     <img src={plus} alt="">
                 {:else}
                     <span>Open</span>
