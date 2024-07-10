@@ -9,10 +9,25 @@
     import {goto} from "$app/navigation";
     import Back from "../../components/Icons/Back.svelte";
     import QrCode from "svelte-qrcode";
-    import {downloadWebOn, formatAddNumber, copyToClipboard, shouldBeShown, isInsideNomo} from "../../utils/functions.js";
+    import {
+        downloadWebOn,
+        formatAddNumber,
+        copyToClipboard,
+        whereAmI,
+        checkShouldBeVisible
+    } from "../../utils/functions.js";
+    import {platformVisibility} from "../../utils/constants.js";
+    import {onMount} from "svelte";
 
     let id = getParameterFromURL();
     let webon = $data[id];
+    let platform = 'browser'
+    let loading = true
+
+    onMount(async () => {
+        platform = await whereAmI()
+        loading = false
+    })
 
     function backToWebonList() {
         browser && goto('/');
@@ -29,90 +44,154 @@
         setTimeout(() => showCopyNotification = false, 2000);
     }
 
+    function getParamsFromComingFromWebOnInstallation(url) {
+        const urlObj = new URL(url);
+        const comingFromUrl = urlObj.searchParams.get('comingFromWebOnInstallation');
+
+        if (!comingFromUrl) {
+            return null;
+        }
+
+        const comingFromUrlObj = new URL(comingFromUrl);
+        const params = {};
+
+        for (let [key, value] of comingFromUrlObj.searchParams.entries()) {
+            params[key] = value;
+        }
+
+        return params;
+    }
+    function handleWebsiteVisit() {
+        const url = window.location.href;
+        const params = getParamsFromComingFromWebOnInstallation(url);
+
+        if (!params) {
+            console.error("comingFromWebOnInstallation parameter is missing");
+            return;
+        }
+
+        const baseUrl = `https://${webon.domain}`;
+        const urlObj = new URL(baseUrl);
+
+        for (const [key, value] of Object.entries(params)) {
+            urlObj.searchParams.append(key, value);
+        }
+
+        window.open(urlObj.toString(), '_blank');
+    }
+
 </script>
 
-<div class="page">
-    <div class="banner">
-        {#if webon.card}
-            <img class="card" src={webon.card} alt="">
-        {:else}
-            <img class="card" src={card} alt="">
-        {/if}
-    </div>
-    <div class="back-button">
-        <button class="back" on:click={backToWebonList}>
-            <Back/>
-        </button>
-        {#if shouldBeShown({ hub: true, mobile: true, desktop: isInsideNomo() })}
-            <button class="download" on:click={async e => {
-        e.stopPropagation()
-        downloadWebOn(webon).then(() => {
-            webon.downloaded = true
-        }).catch(e => {
-          console.error(e)
-        })
-        }}>
-
-                {#if !webon.downloaded}
-                    <span>{shouldBeShown({ hub: true }) ? 'Launch Now' : 'Add Now'}</span>
-                    <img src={plus} alt="">
-                {:else}
-                    <span>Open</span>
-                    <img src={checkmark} alt="">
-                {/if}
-            </button>
-        {/if}
-    </div>
-    <div class="top">
-        <div class="icon">
-            {#if webon.icon}
-                <img src={webon.icon} alt="">
+{#if loading}
+    Loading...
+{:else}
+    <div class="page">
+        <div class="banner">
+            {#if webon.card}
+                <img class="card" src={webon.card} alt="">
             {:else}
-                <img src={icon} alt="">
+                <img class="card" src={card} alt="">
             {/if}
         </div>
-        <div class="name">
-            {webon.name}
-            <a href="https://{webon.domain}" class="domain">https://{webon.domain}</a>
-            <div class="metrics">
-                {webon?.metrics?.adds ? formatAddNumber(webon.metrics.adds) : '0'} 🤍
-            </div>
-        </div>
-    </div>
-    {#if shouldBeShown({ hub: false, mobile: false, desktop: !isInsideNomo() })}
-    <div class="qr-container">
-            <QrCode value={"https://nomo.app/webon/" + webon.domain} size={120}/>
-        </div>
-        <button class="copy-btn" on:click={() => {
-            showCopyNotification = copyToClipboard("https://nomo.app/webon/" + webon.domain)
-        }}>
-            Copy Link
-        </button>
-        {#if showCopyNotification}
-            <div class="copy-notification">
-                Link has been copied!
-            </div>
-        {/if}
-    {/if}
-    <div class="description">
-        <div>Description</div>
-        {webon.description}
-    </div>
+        <div class="back-button">
+            <button class="back" on:click={backToWebonList}>
+                <Back/>
+            </button>
+            {#if checkShouldBeVisible(platform, platformVisibility.downloadButton)}
+                <button class="download" on:click={async e => {
+                    e.stopPropagation()
+                    downloadWebOn(webon).then(() => {
+                        webon.downloaded = true
+                    }).catch(e => {
+                      console.error(e)
+                    })
+                    }}>
+                    {#if !webon.downloaded}
+                        <span>{platform === 'hub' ? 'Launch Now' : 'Add Now'}</span>
+                        <img src={plus} alt="">
+                    {:else}
+                        <span>Open</span>
+                        <img src={checkmark} alt="">
+                    {/if}
+                </button>
 
-    {#if webon.tags && webon.tags.length > 0}
-        <div class="tag-filter-label">Tags</div>
-        <div class="tag-filter">
-            {#each webon.tags as tag}
-                <button on:click={() => {
+            {/if}
+        </div>
+        <div class="top">
+            <div class="icon">
+                {#if webon.icon}
+                    <img src={webon.icon} alt="">
+                {:else}
+                    <img src={icon} alt="">
+                {/if}
+            </div>
+            <div class="name">
+                {webon.name}
+                <a href="https://{webon.domain}" class="domain">https://{webon.domain}</a>
+                <div class="metrics">
+                    {webon?.metrics?.adds ? formatAddNumber(webon.metrics.adds) : '0'} 🤍
+                </div>
+            </div>
+        </div>
+        {#if checkShouldBeVisible(platform, platformVisibility.qr)}
+            <div class="qr-and-link-container">
+                <div class="qr-container">
+                    <QrCode value={"https://nomo.app/webon/" + webon.domain} size={120}/>
+                    <button class="copy-btn" on:click={() => {
+            showCopyNotification = copyToClipboard("https://nomo.app/webon/" + webon.domain)
+            }}>
+                        Copy Link
+                    </button>
+                </div>
+
+
+                {#if !webon.platform.remote}
+                    <div>
+                        <button class="website-visit-btn" on:click={handleWebsiteVisit}>
+                            Go to the Website
+                        </button>
+                    </div>
+                {/if}
+            </div>
+            {#if showCopyNotification}
+                <div class="copy-notification">
+                    Link has been copied!
+                </div>
+            {/if}
+        {/if}
+
+        {#if checkShouldBeVisible(platform, platformVisibility.downloadLink)}
+        <div class="mobile-download-container">
+            <a href={`https://nomo.app/install/ios/${webon.domain}?parameter`} class="mobile-download-btn">
+                Download Nomo App for iOS
+            </a>
+            <a href={`https://nomo.app/install/android/${webon.domain}?parameter`} class="mobile-download-btn">
+                Download Nomo App for Android
+            </a>
+        </div>
+        {/if}
+
+
+        <div class="description">
+            <div>Description</div>
+            {webon.description}
+        </div>
+
+        {#if webon.tags && webon.tags.length > 0}
+            <div class="tag-filter-label">Tags</div>
+            <div class="tag-filter">
+                {#each webon.tags as tag}
+                    <button on:click={() => {
                     $filters.tag = tag
                     goto('/')
                 }}>
-                    {tag.name}
-                </button>
-            {/each}
-        </div>
-    {/if}
-</div>
+                        {tag.name}
+                    </button>
+                {/each}
+            </div>
+        {/if}
+    </div>
+{/if}
 
 <style lang="scss">
   .page {
@@ -120,7 +199,7 @@
     margin: auto;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
     overflow: hidden;
   }
 
@@ -134,7 +213,7 @@
     width: 100%;
     max-width: 400px;
     border-radius: 10px;
-    box-shadow: 0 10px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 8px rgba(0, 0, 0, 0.05);
     pointer-events: none;
     user-select: none;
 
@@ -147,6 +226,7 @@
     min-height: 50px;
     display: flex;
     justify-content: space-between;
+
     button {
       border: none;
       background-color: #f0f0f0;
@@ -176,7 +256,6 @@
       }
 
 
-
     }
   }
 
@@ -189,14 +268,15 @@
 
     .icon {
       width: 80px;
-      height:  80px;
+      height: 80px;
       pointer-events: none;
       user-select: none;
+
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
       }
     }
@@ -223,30 +303,56 @@
         text-decoration: underline;
 
       }
+
       @media (max-width: 768px) {
-    display: none;
+        display: none;
       }
     }
 
-    .metrics{
+    .metrics {
       font-size: clamp(14px, 2vw, 18px);
     }
 
 
   }
+
+  .qr-and-link-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+  }
+
+  .qr-and-copy-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .qr-container {
     padding: 20px;
     background: #f9f9f9;
     border-radius: 8px;
     text-align: center;
-    margin-bottom: 20px;
+  }
 
+  .website-visit-btn {
+    padding: 20px;
+    background-color: #dbdbdb;
+    color: #26282e;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: 10px;
   }
 
   .copy-btn {
     display: block;
     width: auto;
-    margin: auto;
+    margin-top: 10px;
     padding: 10px 20px;
     background-color: #ddd;
     color: #333;
@@ -258,6 +364,7 @@
       background-color: #ccc;
     }
   }
+
   .copy-notification {
 
     padding: 10px;
@@ -327,11 +434,12 @@
       background-image: linear-gradient(180deg, #666 25%, #777 50%, #666 75%);
     }
   }
+
   .tag-filter-label {
     font-weight: bold;
-    }
+  }
 
-    .tag-filter button {
+  .tag-filter button {
     border: none;
     margin-top: 2em;
     border-radius: 0.5rem;
@@ -352,7 +460,6 @@
     background-color: #9b9b9b;
     color: #fff;
   }
-
 
 
 </style>
