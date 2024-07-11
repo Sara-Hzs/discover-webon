@@ -23,10 +23,13 @@
     let webon = $data[id];
     let platform = 'browser'
     let loading = true
+    let ref;
 
     onMount(async () => {
         platform = await whereAmI()
         loading = false
+        const url = new URL(window.location.href);
+        ref = url.searchParams.get('ref');
     })
 
     function backToWebonList() {
@@ -44,42 +47,18 @@
         setTimeout(() => showCopyNotification = false, 2000);
     }
 
-    function getParamsFromComingFromWebOnInstallation(url) {
-        const urlObj = new URL(url);
-        const comingFromUrl = urlObj.searchParams.get('comingFromWebOnInstallation');
-
-        if (!comingFromUrl) {
-            return null;
-        }
-
-        const comingFromUrlObj = new URL(comingFromUrl);
-        const params = {};
-
-        for (let [key, value] of comingFromUrlObj.searchParams.entries()) {
-            params[key] = value;
-        }
-
-        return params;
-    }
     function handleWebsiteVisit() {
-        const url = window.location.href;
-        const params = getParamsFromComingFromWebOnInstallation(url);
-
-        if (!params) {
-            console.error("comingFromWebOnInstallation parameter is missing");
-            return;
-        }
-
+        const currentUrl = new URL(window.location.href);
         const baseUrl = `https://${webon.domain}`;
-        const urlObj = new URL(baseUrl);
+        const destinationUrl = new URL(baseUrl);
 
-        for (const [key, value] of Object.entries(params)) {
-            urlObj.searchParams.append(key, value);
+        const ref = currentUrl.searchParams.get('ref');
+        if (ref) {
+            destinationUrl.searchParams.set('ref', ref);
         }
 
-        window.open(urlObj.toString(), '_blank');
+        window.location.href = destinationUrl.toString();
     }
-
 </script>
 
 {#if loading}
@@ -133,45 +112,54 @@
                 </div>
             </div>
         </div>
-        {#if checkShouldBeVisible(platform, platformVisibility.qr)}
-            <div class="qr-and-link-container">
+
+
+        <div class="access">
+            {#if checkShouldBeVisible(platform, platformVisibility.qr)}
                 <div class="qr-container">
                     <QrCode value={"https://nomo.app/webon/" + webon.domain} size={120}/>
                     <button class="copy-btn" on:click={() => {
-            showCopyNotification = copyToClipboard("https://nomo.app/webon/" + webon.domain)
+                showCopyNotification = copyToClipboard("https://nomo.app/webon/" + webon.domain)
             }}>
                         Copy Link
                     </button>
                 </div>
+            {/if}
 
 
-                {#if !webon.platform.remote}
-                    <div>
-                        <button class="website-visit-btn" on:click={handleWebsiteVisit}>
-                            Go to the Website
-                        </button>
-                    </div>
-                {/if}
-            </div>
-            {#if showCopyNotification}
-                <div class="copy-notification">
-                    Link has been copied!
+            {#if !webon.platform.remote && checkShouldBeVisible(platform, platformVisibility.websiteLink)}
+                <button class="website-visit-btn" on:click={handleWebsiteVisit}>
+                    <img src="/src/assets/website.svg" alt="Visit Website" class="download-icon">
+                    Go to the Website (Scan with the Nomo app required)
+                </button>
+            {/if}
+
+
+
+
+            {#if checkShouldBeVisible(platform, platformVisibility. iosDownloadLink)}
+                <div class="mobile-download-container">
+                    <a href={`https://nomo.app/install/ios/${webon.domain}?ref=${ref}`} class="mobile-download-btn">
+                        <img src="/src/assets/apple.svg" alt="Download for iOS" class="download-icon">
+                        <span>Access {webon.name} in the Nomo App</span>
+                    </a>
                 </div>
             {/if}
-        {/if}
-
-        {#if checkShouldBeVisible(platform, platformVisibility.downloadLink)}
-        <div class="mobile-download-container">
-            <a href={`https://nomo.app/install/ios/${webon.domain}?parameter`} class="mobile-download-btn">
-                Download Nomo App for iOS
-            </a>
-            <a href={`https://nomo.app/install/android/${webon.domain}?parameter`} class="mobile-download-btn">
-                Download Nomo App for Android
-            </a>
+                    {#if checkShouldBeVisible(platform, platformVisibility.androidDownloadLink)}
+                        <div class="mobile-download-container">
+                            <a href={`https://nomo.app/install/android/${webon.domain}?ref=${ref}`} class="mobile-download-btn">
+                        <img src="/src/assets/android.svg" alt="Download for Android" class="download-icon">
+                        <span>Access {webon.name} in the Nomo App</span>
+                    </a>
+                </div>
+            {/if}
         </div>
+
+        {#if showCopyNotification}
+            <div class="copy-notification">
+                Link has been copied!
+            </div>
         {/if}
-
-
         <div class="description">
             <div>Description</div>
             {webon.description}
@@ -315,58 +303,66 @@
 
 
   }
-
-  .qr-and-link-container {
+  .access {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
-    width: 100%;
     padding: 20px;
+    //background-color: rgba(255, 255, 255, 0.1);
+    //border: 2px solid rgba(255, 255, 255, 0.2);
+    //border-radius: 12px;
+    //box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+    margin-top: 10px;
+    box-sizing: border-box;
   }
 
-  .qr-and-copy-container {
+  .qr-container, .website-visit-btn, .mobile-download-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .qr-container {
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
+    justify-content: center;
+    padding: 12px;
+    background-color: #e1e1e1;
+    color: #333;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 180px;
+    max-width: 200px;
+    height: 180px;
     text-align: center;
   }
+  .download-icon {
+    width: 60px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+.copy-btn{
+  transition: background-color 0.3s, transform 0.3s;
+  border-radius: 0.5rem;
+  padding: 3px;
+}
 
-  .website-visit-btn {
-    padding: 20px;
-    background-color: #dbdbdb;
-    color: #26282e;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-left: 10px;
+  .copy-btn:hover, .website-visit-btn:hover, .mobile-download-btn:hover {
+    background-color: #8c8b8b;
+    color: white;
   }
 
-  .copy-btn {
-    display: block;
-    width: auto;
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #ddd;
-    color: #333;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  .mobile-download-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 
-    &:hover {
-      background-color: #ccc;
-    }
   }
 
   .copy-notification {
-
     padding: 10px;
     background-color: #dcdcdc;
     color: black;
@@ -379,6 +375,18 @@
     z-index: 1000;
   }
 
+  @media (min-width: 768px) {
+    .access {
+      flex-direction: row;
+    }
+
+    .mobile-download-container{
+      flex-direction: row;
+
+    }
+
+
+  }
   .description {
     margin-top: 20px;
     border-radius: 8px;
@@ -451,8 +459,8 @@
     color: #333;
 
     &:hover {
-      background-color: #cfcfcf;
-      transform: translateY(-2px);
+      background-color: #8c8b8b;
+      color: white;
     }
   }
 

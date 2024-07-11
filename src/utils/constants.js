@@ -16,12 +16,28 @@ export const platformVisibility = {
         ios: false
     },
 
-    downloadLink: {
+    androidDownloadLink: {
+        hub: false,
+        desktop_nomo: false,
+        nomo: false,
+        desktop: false,
+        android: true,
+        ios: false
+    },
+    iosDownloadLink:{
+        hub: false,
+        desktop_nomo: false,
+        nomo: false,
+        desktop: false,
+        android: false,
+        ios: true
+    },
+    websiteLink:{
         hub: false,
         desktop_nomo: false,
         nomo: false,
         desktop: true,
-        android: true,
-        ios: true
+        android: false,
+        ios: false
     }
 };
