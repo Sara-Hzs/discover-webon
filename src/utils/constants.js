@@ -4,8 +4,8 @@ export const platformVisibility = {
         desktop_nomo: false,
         nomo: false,
         desktop: true,
-        android: false,
-        ios: false
+        android: true,
+        ios: true
     },
     downloadButton: {
         hub: true,
