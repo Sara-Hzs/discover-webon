@@ -4,6 +4,7 @@
     import cross from "../../assets/cross.svg";
     import Reload from "../../components/Reload.svelte";
     import {nomo} from "nomo-webon-kit";
+    import {getData, revertReverseDomain} from "../../utils/functions.js";
 
     let id
     let webon
@@ -23,7 +24,14 @@
             $data[id] = webon
             loading = false
         } else {
-            error = "Webon not found"
+            try {
+                webon = await getData('webon/' + revertReverseDomain(id))
+                console.log(data)
+                $data[id] = webon
+            } catch (e) {
+                error = "Webon not found"
+                loading = false
+            }
             loading = false
         }
     }

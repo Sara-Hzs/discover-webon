@@ -10,7 +10,7 @@ export const platformVisibility = {
     downloadButton: {
         hub: true,
         desktop_nomo: true,
-        nomo: false,
+        nomo: true,
         desktop: false,
         android: false,
         ios: false

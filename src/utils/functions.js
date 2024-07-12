@@ -94,7 +94,6 @@ export const whereAmI = async () => {
 }
 
 export const checkShouldBeVisible = (platform, element) => {
-    console.log(platform, element[platform])
     return element[platform]
 }
 
@@ -110,6 +109,11 @@ export const fetchWebonList = async () => {
     }
 };
 
+
+export function revertReverseDomain(reverseDomain) {
+    const components = reverseDomain.split('.').reverse();
+    return components.join('.');
+}
 
 
 
