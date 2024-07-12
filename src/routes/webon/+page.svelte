@@ -23,13 +23,19 @@
     let webon = $data[id];
     let platform = 'browser'
     let loading = true
-    let ref;
+    let qrValue = '';
+    let originalParams = '';
 
     onMount(async () => {
         platform = await whereAmI()
         loading = false
         const url = new URL(window.location.href);
-        ref = url.searchParams.get('ref');
+        const comingFromWebOnInstallation = url.searchParams.get('comingFromWebOnInstallation');
+        if (comingFromWebOnInstallation) {
+            const sourceUrl = new URL(decodeURIComponent(comingFromWebOnInstallation));
+            originalParams = sourceUrl.search;
+            qrValue = `https://nomo.app/webon/${webon.domain}${originalParams}`;
+        }
     })
 
     function backToWebonList() {
@@ -48,16 +54,9 @@
     }
 
     function handleWebsiteVisit() {
-        const currentUrl = new URL(window.location.href);
         const baseUrl = `https://${webon.domain}`;
-        const destinationUrl = new URL(baseUrl);
-
-        const ref = currentUrl.searchParams.get('ref');
-        if (ref) {
-            destinationUrl.searchParams.set('ref', ref);
-        }
-
-        window.location.href = destinationUrl.toString();
+        const destinationUrl = `${baseUrl}${originalParams}`;
+        window.location.href = destinationUrl;
     }
 </script>
 
@@ -117,10 +116,10 @@
         <div class="access">
             {#if checkShouldBeVisible(platform, platformVisibility.qr)}
                 <div class="qr-container">
-                    <QrCode value={"https://nomo.app/webon/" + webon.domain} size={120}/>
+                    <QrCode value={qrValue} size={120} />
                     <button class="copy-btn" on:click={() => {
-                showCopyNotification = copyToClipboard("https://nomo.app/webon/" + webon.domain)
-            }}>
+                        showCopyNotification = copyToClipboard(qrValue);
+                    }}>
                         Copy Link
                     </button>
                 </div>
@@ -139,7 +138,7 @@
 
             {#if checkShouldBeVisible(platform, platformVisibility. iosDownloadLink)}
                 <div class="mobile-download-container">
-                    <a href={`https://nomo.app/install/ios/${webon.domain}?ref=${ref}`} class="mobile-download-btn">
+                    <a href={`https://nomo.app/install/ios/${webon.domain}${originalParams}`} class="mobile-download-btn">
                         <img src="/src/assets/apple.svg" alt="Download for iOS" class="download-icon">
                         <span>Access {webon.name} in the Nomo App</span>
                     </a>
@@ -147,7 +146,7 @@
             {/if}
                     {#if checkShouldBeVisible(platform, platformVisibility.androidDownloadLink)}
                         <div class="mobile-download-container">
-                            <a href={`https://nomo.app/install/android/${webon.domain}?ref=${ref}`} class="mobile-download-btn">
+                            <a href={`https://nomo.app/install/android/${webon.domain}${originalParams}`} class="mobile-download-btn">
                         <img src="/src/assets/android.svg" alt="Download for Android" class="download-icon">
                         <span>Access {webon.name} in the Nomo App</span>
                     </a>
