@@ -24,16 +24,19 @@
 
     let id = getParameterFromURL();
     let webon = $data[id];
-    let platform = 'browser'
     let loading = true
     let qrValue = '';
     let originalParams = '';
     let showMobileDownloadContainer = true;
     let comingFromWebOnInstallation
-
+    let platform = {
+        hub: 'Hub',
+        desktop: 'Desktop',
+        mobile: 'Mobile'
+    };
 
     onMount(async () => {
-        platform = await whereAmI()
+        platform = await whereAmI(platform);
         console.log(platform)
         loading = false
         const url = new URL(window.location.href);
@@ -87,7 +90,7 @@
             <button class="back" on:click={backToWebonList}>
                 <Back/>
             </button>
-            {#if checkShouldBeVisible(platform, platformVisibility.downloadButton)}
+            {#if checkShouldBeVisible(platform, platformVisibility.addButton)}
                 <button class="download" on:click={async e => {
                     e.stopPropagation()
                     downloadWebOn(webon).then(() => {

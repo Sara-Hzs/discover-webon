@@ -37,61 +37,72 @@ export const mergeInstalledList = async () => {
 
 
 
-// function isMobileDevice() {
-//     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-//     return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-// }
-//
-// export function shouldBeShown(platform, element) {
-//     const executionMode = get(filters).platform;
-//
-//     if (executionMode === 'HUB') {
-//         return platform.hub;
-//     }
-//     if (!isFallbackModeActive()) {
-//         if (isMobileDevice()) {
-//             return platform.mobile;
-//         } else {
-//             return platform.desktop;
-//         }
-//     }
-//     return platform.desktop;
-// }
-//
+function isMobileDevice() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+}
+
+export function whereAmI(platform, element) {
+    const executionMode = get(filters).platform;
+
+    if (executionMode === 'HUB') {
+        return platform.hub;
+    }
+
+
+    if (!isFallbackModeActive()) {
+        if (isMobileDevice()) {
+            return platform.mobile;
+        } else {
+            return platform.desktop;
+        }
+    }
+
+    const userAgent = navigator.userAgent;
+    if (/android/i.test(userAgent)) {
+        return "android";
+    }
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return "ios";
+    }
+    return "desktop";
+}
+
 
 export function isInsideNomo() {
     return !isFallbackModeActive();
 }
 
+//
+// export const whereAmI = async () => {
+//     const inNomo = isInsideNomo()
+//     if (inNomo) {
+//         try {
+//             const executionInfo = await nomoGetPlatformInfo();
+//             switch (executionInfo.executionMode) {
+//                 case "HUB":
+//                     return "hub";
+//                 case "DESKTOP":
+//                     return "desktop_nomo";
+//                 default:
+//                     return "nomo";
+//             }
+//         } catch (error) {
+//             console.error("Error getting execution mode", error);
+//             return "desktop";
+//         }
+//     } else {
+//         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+//         if (/android/i.test(userAgent)) {
+//             return "android";
+//         }
+//         if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+//             return "ios";
+//         }
+//         return "desktop";
+//     }
+// }
 
-export const whereAmI = async () => {
-    const inNomo = isInsideNomo()
-    if (inNomo) {
-        try {
-            const executionInfo = await nomoGetPlatformInfo();
-            switch (executionInfo.executionMode) {
-                case "HUB":
-                    return "hub";
-                case "DESKTOP":
-                    return "desktop_nomo";
-                default:
-                    return "nomo";
-            }
-        } catch (error) {
-            console.error("Error getting execution mode", error);
-            return "desktop";
-        }
-    } else {
-        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        if (/android/i.test(userAgent)) {
-            return "android";
-        }
-        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-            return "ios";
-        }
-        return "desktop";
-    }
-}
 
 export const checkShouldBeVisible = (platform, element) => {
     return element[platform]
