@@ -28,12 +28,19 @@
     let qrValue = '';
     let originalParams = '';
     let showMobileDownloadContainer = true;
-    let comingFromWebOnInstallation
+    let comingFromWebOnInstallation;
     let platform = {
-        hub: 'Hub',
-        desktop: 'Desktop',
-        mobile: 'Mobile'
+        hub: 'hub',
+        desktop_nomo: 'desktop_nomo',
+        nomo: 'nomo',
+        desktop: 'desktop',
+        android: 'android',
+        ios: 'ios',
+        mobile: 'mobile'
     };
+    let currentPlatform = '';
+    let showDownloadButton = false;
+
 
     onMount(async () => {
         platform = await whereAmI(platform);
@@ -90,7 +97,7 @@
             <button class="back" on:click={backToWebonList}>
                 <Back/>
             </button>
-            {#if checkShouldBeVisible(platform, platformVisibility.addButton)}
+            {#if checkShouldBeVisible(platform, platformVisibility.downloadButton)}
                 <button class="download" on:click={async e => {
                     e.stopPropagation()
                     downloadWebOn(webon).then(() => {
@@ -107,8 +114,8 @@
                         <img src={checkmark} alt="">
                     {/if}
                 </button>
-
             {/if}
+
         </div>
         <div class="top">
             <div class="icon">
@@ -256,7 +263,6 @@
       img {
         width: 30px;
       }
-
 
     }
   }
@@ -482,6 +488,7 @@
     background-color: #9b9b9b;
     color: #fff;
   }
+
 
 
 </style>
