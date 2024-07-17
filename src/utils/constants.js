@@ -1,45 +1,29 @@
 export const platformVisibility = {
-    qr: {
-        hub: false,
-        desktop_nomo: false,
-        nomo: false,
-        desktop: true,
-        android: true,
-        ios: true
-    },
-    downloadButton: {
-        hub: true,
-        desktop_nomo: true,
-        nomo: true,
-        desktop: false,
-        android: false,
-        ios: false,
-        mobile: true // Include mobile to represent non-android/ios mobile
-    },
 
+    qr: {
+        mobile: (inNomo) => !inNomo,
+        desktop: (inNomo) => !inNomo,
+        hub: false,
+    },
+        downloadButton: {
+            mobile: (inNomo) => inNomo,
+            desktop: (inNomo) => inNomo,
+            hub: true,
+        },
 
     androidDownloadLink: {
         hub: false,
-        desktopFallback: false,
-        mobileFallback: false,
-        desktop: false,
-        android: true,
-        ios: false
+        desktop: (inNomo) => inNomo,
+        mobile: (inNomo, isAndroid) => !inNomo && isAndroid,
     },
-    iosDownloadLink:{
+    iosDownloadLink: {
         hub: false,
-        desktop_nomo: false,
-        nomo: false,
-        desktop: false,
-        android: false,
-        ios: true
+        desktop: (inNomo) => inNomo,
+        mobile: (inNomo, isIOS) => !inNomo && isIOS,
     },
-    websiteLink:{
+    websiteLink: {
+        mobile: (inNomo) => !inNomo,
+        desktop: (inNomo) => !inNomo,
         hub: false,
-        desktop_nomo: false,
-        nomo: false,
-        desktop: true,
-        android: false,
-        ios: false
-    }
+    },
 };

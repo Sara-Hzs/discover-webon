@@ -20,21 +20,21 @@
 <div class="btns">
     <h1>Sort by</h1>
     <div class="button-group">
-    <button on:click={() => {
-        $filters.sortBy = 'popularity';
-    }} class={$filters.sortBy === 'popularity' ? 'active' : ''}>
-        Popularity
-    </button>
+        <button on:click={() => {
+        $filters.sortBy = 'newest';
+    }} class={$filters.sortBy === 'newest' ? 'active' : ''}>
+            Newest
+        </button>
     <button on:click={() => {
         $filters.sortBy = 'name';
     }} class={$filters.sortBy === 'name' ? 'active' : ''}>
         Name
     </button>
-    <button on:click={() => {
-        $filters.sortBy = 'newest';
-    }} class={$filters.sortBy === 'newest' ? 'active' : ''}>
-        Newest
-    </button>
+        <button on:click={() => {
+        $filters.sortBy = 'popularity';
+    }} class={$filters.sortBy === 'popularity' ? 'active' : ''}>
+            Popularity
+        </button>
     </div>
 </div>
 

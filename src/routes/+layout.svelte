@@ -52,7 +52,7 @@
                 console.error('Error fetching tags list:', e);
                 $data.tagsList = [];
             });
-            await sortWebonList('popularity');
+            await sortWebonList('newest');
         } catch (e) {
             console.error('Error in onMount:', e);
             error = true;

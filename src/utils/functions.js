@@ -42,81 +42,108 @@ function isMobileDevice() {
     return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
 }
 
-export function whereAmI(platform, element) {
-    const executionMode = get(filters).platform;
-
-    if (executionMode === 'HUB') {
-        return platform.hub;
-    }
-
-
-    if (!isFallbackModeActive()) {
-        if (isMobileDevice()) {
-            return platform.mobile;
-        } else {
-            return platform.desktop;
-        }
-    }
-
-    const userAgent = navigator.userAgent;
-    if (/android/i.test(userAgent)) {
-        return "android";
-    }
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        return "ios";
-    }
-    return "desktop";
-}
+// export function whereAmI(platform, element) {
+//     const executionMode = get(filters).platform;
+//
+//     if (executionMode === 'HUB') {
+//         return platform.hub;
+//     }
+//
+//
+//     if (!isFallbackModeActive()) {
+//         if (isMobileDevice()) {
+//             return platform.mobile;
+//         } else {
+//             return platform.desktop;
+//         }
+//     }
+//
+//
+//     const userAgent = navigator.userAgent;
+//     if (/android/i.test(userAgent)) {
+//         return "android";
+//     }
+//     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+//         return "ios";
+//     }
+//     return "desktop";
+// }
 
 
 export function isInsideNomo() {
     return !isFallbackModeActive();
 }
+export const whereAmI = async () => {
+    const inNomo = isInsideNomo();
+    if (inNomo) {
+        try {
+            const executionInfo = await nomoGetPlatformInfo();
+            console.log("Execution Info:", executionInfo);
+            if (executionInfo.operatingSystem.toLowerCase().includes('android') || executionInfo.operatingSystem.toLowerCase().includes('ios')) {
+                return "mobile";
+            } else {
+                switch (executionInfo.executionMode) {
+                    case "HUB":
+                        return "hub";
+                    case "DESKTOP":
+                    case "DEV":
+                        return "desktop";
+                    default:
+                        return "desktop";
+                }
+            }
+        } catch (error) {
+            console.error("Error getting execution mode", error);
 
-//
-// export const whereAmI = async () => {
-//     const inNomo = isInsideNomo()
-//     if (inNomo) {
-//         try {
-//             const executionInfo = await nomoGetPlatformInfo();
-//             switch (executionInfo.executionMode) {
-//                 case "HUB":
-//                     return "hub";
-//                 case "DESKTOP":
-//                     return "desktop_nomo";
-//                 default:
-//                     return "nomo";
-//             }
-//         } catch (error) {
-//             console.error("Error getting execution mode", error);
-//             return "desktop";
-//         }
-//     } else {
-//         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-//         if (/android/i.test(userAgent)) {
-//             return "android";
-//         }
-//         if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-//             return "ios";
-//         }
-//         return "desktop";
-//     }
-// }
+            return "desktop";
+        }
+    } else {
 
+        return determineFallbackPlatform();
+    }
+};
 
-export const checkShouldBeVisible = (platform, element) => {
-    return element[platform]
+function determineFallbackPlatform() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return "mobile";
+    }
+    return "desktop";
 }
+export const checkShouldBeVisible = (platform, platformSettings, inNomo, isAndroid = false, isIOS = false) => {
+    if (!platformSettings) {
+        console.log('No platform settings provided');
+        return false;
+    }
+
+    const visibility = platformSettings[platform];
+    if (typeof visibility === 'function') {
+        return visibility(inNomo, isAndroid, isIOS);
+    }
+
+    return visibility;
+};
 
 
 export const fetchWebonList = async () => {
-    const list = await getData('webons/en');
-    if (isInsideNomo()) {
-        const filteredList = list.filter(webon => webon.id !== 'info.webon.discover').filter(webon => whereAmI(webon.platform));
-        return Promise.resolve(filteredList);
-    } else {
-        const filteredList = list.filter(webon => whereAmI(webon.platform));
-        return Promise.resolve(filteredList);
+    try {
+        const list = await getData('webons/en');
+        console.log('Fetched List:', list);
+
+        const currentPlatform = await whereAmI();
+        console.log('Current Platform:', currentPlatform);
+
+        const filteredList = list.filter(webon => {
+            const isVisible = checkShouldBeVisible(currentPlatform, webon.platform);
+            console.log('Webon:', webon.name, 'Visible:', isVisible);
+            return isVisible;
+        });
+
+        console.log('Filtered List:', filteredList);
+        return filteredList;
+    } catch (error) {
+        console.error('Error in fetchWebonList:', error);
+        return [];
     }
 };
 
@@ -270,14 +297,16 @@ export const filterSortSearch = async () => {
 
 export const sortWebonList = async (sortBy) => {
     get(data).filteredList = get(data).filteredList.sort((a, b) => {
-        if (sortBy === 'name') {
-            return a.name.localeCompare(b.name);
-        } else if (sortBy === 'popularity') {
-            return b?.metrics.adds - a?.metrics.adds;
-        } else if (sortBy === 'newest') {
+    if (sortBy === 'newest') {
             const dateA = a.listed_at ? new Date(a.listed_at) : new Date(0);
             const dateB = b.listed_at ? new Date(b.listed_at) : new Date(0);
             return dateB - dateA;
+        }
+    else if (sortBy === 'name') {
+            return a.name.localeCompare(b.name);
+        }
+    else if (sortBy === 'popularity') {
+            return b?.metrics.adds - a?.metrics.adds;
         }
     });
     return Promise.resolve();
