@@ -68,85 +68,90 @@ function isMobileDevice() {
 //     }
 //     return "desktop";
 // }
-
-
 export function isInsideNomo() {
     return !isFallbackModeActive();
 }
+
 export const whereAmI = async () => {
     const inNomo = isInsideNomo();
+    console.log('Inside Nomo:', inNomo);
+
     if (inNomo) {
         try {
             const executionInfo = await nomoGetPlatformInfo();
-            console.log("Execution Info:", executionInfo);
-            if (executionInfo.operatingSystem.toLowerCase().includes('android') || executionInfo.operatingSystem.toLowerCase().includes('ios')) {
-                return "mobile";
-            } else {
-                switch (executionInfo.executionMode) {
-                    case "HUB":
+            console.log('Execution Mode Info:', executionInfo);
+
+            if (executionInfo.clientName.includes("NOMO")) {
+                console.log('Client Name indicates Nomo:', executionInfo.clientName);
+
+                switch (executionInfo.operatingSystem.toLowerCase()) {
+                    case "linux":
+                    case "macos":
+                    case "windows":
+                        console.log('Operating System:', executionInfo.operatingSystem);
+                        console.log('Returning:', "desktop_nomo");
+                        return "desktop_nomo";
+                    case "hub":
+                        console.log('Operating System: Hub');
                         return "hub";
-                    case "DESKTOP":
-                    case "DEV":
-                        return "desktop";
                     default:
-                        return "desktop";
+                        console.log('Default to Nomo for unknown OS:', executionInfo.operatingSystem);
+                        return "nomo";
                 }
             }
+
+            console.log('Default to Nomo for unmatched clientName');
+            return "nomo";
         } catch (error) {
             console.error("Error getting execution mode", error);
-
-            return "desktop";
+            return "nomo";
         }
     } else {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        console.log('User Agent:', userAgent);
 
-        return determineFallbackPlatform();
+        if (/android/i.test(userAgent)) {
+            console.log('Detected Android');
+            return "android";
+        }
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            console.log('Detected iOS');
+            return "ios";
+        }
+        console.log('Detected Desktop Outside Nomo');
+        return "desktop";
     }
 };
 
-function determineFallbackPlatform() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        return "mobile";
-    }
-    return "desktop";
+export const checkShouldBeVisible = (platform, element) => {
+    return element[platform]
 }
-export const checkShouldBeVisible = (platform, platformSettings, inNomo, isAndroid = false, isIOS = false) => {
-    if (!platformSettings) {
-        console.log('No platform settings provided');
-        return false;
-    }
 
-    const visibility = platformSettings[platform];
-    if (typeof visibility === 'function') {
-        return visibility(inNomo, isAndroid, isIOS);
+const filterWebOnsByPlatform = (webon, platform) => {
+    if (!isInsideNomo())
+        return true
+    switch (platform) {
+        case "desktop_nomo":
+            return webon.platform.desktop
+        case "hub":
+            return webon.platform.hub
+        case "nomo":
+            return webon.platform.mobile
     }
-
-    return visibility;
 };
-
 
 export const fetchWebonList = async () => {
-    try {
-        const list = await getData('webons/en');
-        console.log('Fetched List:', list);
-
-        const currentPlatform = await whereAmI();
-        console.log('Current Platform:', currentPlatform);
-
-        const filteredList = list.filter(webon => {
-            const isVisible = checkShouldBeVisible(currentPlatform, webon.platform);
-            console.log('Webon:', webon.name, 'Visible:', isVisible);
-            return isVisible;
+    const list = await getData('webons/en');
+    const platform = await whereAmI();
+    const filteredList = list
+        .filter(webon => webon.id !== 'info.webon.discover')
+        .filter(webon => {
+            return filterWebOnsByPlatform(webon, platform)
         });
 
-        console.log('Filtered List:', filteredList);
-        return filteredList;
-    } catch (error) {
-        console.error('Error in fetchWebonList:', error);
-        return [];
-    }
+    console.log('Filtered List:', filteredList);
+    return Promise.resolve(filteredList);
 };
-
 
 export function revertReverseDomain(reverseDomain) {
     const components = reverseDomain.split('.').reverse();
