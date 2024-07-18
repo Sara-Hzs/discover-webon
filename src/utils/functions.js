@@ -74,51 +74,50 @@ export function isInsideNomo() {
 
 export const whereAmI = async () => {
     const inNomo = isInsideNomo();
-    console.log('Inside Nomo:', inNomo);
+
 
     if (inNomo) {
         try {
             const executionInfo = await nomoGetPlatformInfo();
-            console.log('Execution Mode Info:', executionInfo);
+
 
             if (executionInfo.clientName.includes("NOMO")) {
-                console.log('Client Name indicates Nomo:', executionInfo.clientName);
+
 
                 switch (executionInfo.operatingSystem.toLowerCase()) {
                     case "linux":
                     case "macos":
                     case "windows":
-                        console.log('Operating System:', executionInfo.operatingSystem);
-                        console.log('Returning:', "desktop_nomo");
+
                         return "desktop_nomo";
                     case "hub":
-                        console.log('Operating System: Hub');
+
                         return "hub";
                     default:
-                        console.log('Default to Nomo for unknown OS:', executionInfo.operatingSystem);
+
                         return "nomo";
                 }
             }
 
-            console.log('Default to Nomo for unmatched clientName');
+
             return "nomo";
         } catch (error) {
-            console.error("Error getting execution mode", error);
+
             return "nomo";
         }
     } else {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        console.log('User Agent:', userAgent);
+
 
         if (/android/i.test(userAgent)) {
-            console.log('Detected Android');
+
             return "android";
         }
         if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-            console.log('Detected iOS');
+
             return "ios";
         }
-        console.log('Detected Desktop Outside Nomo');
+
         return "desktop";
     }
 };
