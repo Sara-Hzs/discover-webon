@@ -17,10 +17,29 @@
     let loading = true
     let error = ''
 
+
+    function formatUrl(url) {
+        if (!url.startsWith('http')) {
+            url = 'https://' + webon.domain + url;
+        }
+        return url;
+    }
+
     onMount(() => {
-        webon = webon
-        loading = false
-    })
+        webon = webon;
+        loading = false;
+
+
+        if (webon.card) {
+            webon.card = formatUrl(webon.card);
+            console.log('Formatted card URL:', webon.card);
+        }
+        if (webon.icon) {
+            webon.icon = formatUrl(webon.icon);
+            console.log('Formatted icon URL:', webon.icon);
+        }
+    });
+
     async function handleUninstall() {
         try {
             await uninstallWebOn(webon);
