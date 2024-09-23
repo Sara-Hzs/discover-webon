@@ -235,6 +235,7 @@ export const uninstallWebOn = ({ id, name }) => {
                 reject(e);
             });
         } catch (e) {
+            console.log("Error:", e);
             reject("Please uninstall manually on your Homescreen");
         }
     });
