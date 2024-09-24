@@ -78,6 +78,18 @@
     "tags": ["tag5", "tag9"]
   },
   {
+    "name": "Liquidity",
+    "description": "A straightforward liquidity application for the Zeniq Smart Chain. Easily view available liquidity pools, add liquidity to your chosen pools, and remove your liquidity when needed. Designed for simplicity and efficiency, it lets you manage your liquidity without unnecessary complications.",
+    "slogan": "Dive into Liquidity: Ride the Zeniq Wave",
+    "images": [],
+    "icon": "/icons/liquidity_icon.svg",
+    "card_image": "/cards/liquidity_card.svg",
+    "version": "0.1.1",
+    "id": "com.zeniqswap.liquidity",
+    "download_link": "https://liquidity.zeniqswap.com",
+    "language": "en"
+  },
+  {
     "name": "Swap DeFi",
     "description": "Swap DeFi: Specializing in user-friendly asset swapping with a seamless and intuitive user experience",
     "slogan": "A Swap WebOn for DeFi-enthusiasts",
