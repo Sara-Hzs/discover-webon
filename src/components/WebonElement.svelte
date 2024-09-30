@@ -163,7 +163,7 @@
     position: relative;
     margin-bottom: 10px;
     transition: transform 0.4s ease;
-    min-height: 100px;
+    min-height: 150px;
 
 
   }
