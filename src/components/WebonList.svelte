@@ -5,12 +5,23 @@
     import { onMount } from 'svelte';
     import Navbar from "./Navbar.svelte";
     import Header from "./Header.svelte";
+    import { fetchWebonList, sortWebonList } from '../utils/functions.js';
+
+
 
     onMount(async () => {
         window.scrollTo(0, 0);
+        $filters.sortBy = 'newest';
+        await fetchWebonList();
+        await sortWebonList($filters.sortBy);
     });
 
-    $:console.log('data', $data)
+    $: if ($filters.sortBy) {
+        sortWebonList($filters.sortBy);
+    }
+
+
+
 </script>
 
 
@@ -20,9 +31,9 @@
 <div class="btns">
     <h1>Sort by</h1>
     <div class="button-group">
-        <button on:click={() => {
-        $filters.sortBy = 'newest';
-    }} class={$filters.sortBy === 'newest' ? 'active' : ''}>
+        <button
+                on:click={() => { $filters.sortBy = 'newest'; }}
+                class={$filters.sortBy === 'newest' ? 'active' : ''}>
             Newest
         </button>
     <button on:click={() => {
@@ -30,9 +41,9 @@
     }} class={$filters.sortBy === 'name' ? 'active' : ''}>
         Name
     </button>
-        <button on:click={() => {
-        $filters.sortBy = 'popularity';
-    }} class={$filters.sortBy === 'popularity' ? 'active' : ''}>
+        <button
+                on:click={() => { $filters.sortBy = 'popularity'; }}
+                class={$filters.sortBy === 'popularity' ? 'active' : ''}>
             Popularity
         </button>
     </div>
