@@ -78,8 +78,8 @@
     "tags": ["tag5", "tag9"]
   },
   {
-    "name": "Zeniq Pools",
-    "description": "A straightforward liquidity application for the Zeniq Smart Chain. Easily view available liquidity pools, add liquidity to your chosen pools, and remove your liquidity when needed. Designed for simplicity and efficiency, Zeniq Pools lets you manage your liquidity without unnecessary complications.",
+    "name": "Liquidity",
+    "description": "A straightforward liquidity application for the Zeniq Smart Chain. Easily view available liquidity pools, add liquidity to your chosen pools, and remove your liquidity when needed. Designed for simplicity and efficiency, Liquidity WebOn lets you manage your liquidity without unnecessary complications.",
     "slogan": "Dive into Liquidity: Ride the Zeniq Wave",
     "images": [],
     "icon": "/icons/liquidity_icon.svg",
