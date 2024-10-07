@@ -29,7 +29,7 @@
             const executionMode = modeInfo?.executionMode || 'DESKTOP';
             console.log('Execution Mode Info:', modeInfo);
             console.log('Determined Execution Mode:', executionMode);
-            $filters.platform = executionMode;
+            $filters.platform = executionMode
 
 
             await nomo.registerOnWebOnVisible(() => {
@@ -61,12 +61,14 @@
     });
 
     const refetchDataOnWebonVisible = async () => {
+        $filters.sortBy = 'newest';
+
         loading = true
         await fetchWebonList().then(async webonList => {
             $data.webonList = webonList;
             $data.filteredList = webonList;
             await mergeInstalledList();
-            await sortWebonList('popularity')
+            await sortWebonList($filters.sortBy)
 
         }).catch(e => {
             console.error('Error refetching WebOn list:', e);

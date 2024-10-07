@@ -301,6 +301,7 @@ export const filterSortSearch = async () => {
 };
 
 export const sortWebonList = async (sortBy) => {
+    console.log('sortWebonList called with sortBy:', sortBy);
     get(data).filteredList = get(data).filteredList.sort((a, b) => {
     if (sortBy === 'newest') {
             const dateA = a.listed_at ? new Date(a.listed_at) : new Date(0);

@@ -5,31 +5,23 @@
     import { onMount } from 'svelte';
     import Navbar from "./Navbar.svelte";
     import Header from "./Header.svelte";
-    import { fetchWebonList, sortWebonList } from '../utils/functions.js';
-
 
 
     onMount(async () => {
         window.scrollTo(0, 0);
-        $filters.sortBy = 'newest';
-        await fetchWebonList();
-        await sortWebonList($filters.sortBy);
     });
 
-    $: if ($filters.sortBy) {
-        sortWebonList($filters.sortBy);
-    }
-
-
-
+    $:console.log('data', $data)
+    $: console.log('Current sorting method:', $filters.sortBy);
 </script>
+
 
 
 <Navbar />
 <Header />
 
 <div class="btns">
-    <h1>Sort by</h1>
+    <h1>Sort by:</h1>
     <div class="button-group">
         <button
                 on:click={() => { $filters.sortBy = 'newest'; }}
