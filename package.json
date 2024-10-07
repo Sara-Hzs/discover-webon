@@ -6,7 +6,7 @@
 		"build": "vite build",
 		"clear:cache": "./scripts/clear_cloudflare_cache.sh",
 		"build-tar": "vite build && rm -rf out && mv build out && nomo-webon-cli build out",
-		"deploy": "npm run build && rsync -avz --progress build/ root@188.34.178.77:/var/www/production_webons/discover/ --delete && npm run clear:cache"
+		"deploy": "npm run build && rsync -avz --progress build/ root@188.34.178.77:/var/www/html/ --delete && npm run clear:cache"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
