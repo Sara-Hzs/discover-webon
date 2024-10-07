@@ -21,19 +21,36 @@ export const getData = (endpoint) => {
 export const mergeInstalledList = async () => {
     try {
         const installed_webons = (await nomo.getInstalledWebOns())?.manifests;
-        console.log('InstalledWebons:', installed_webons);
-        if (installed_webons?.length > 0) {
-            for (const webon of get(data).webonList) {
-                webon.downloaded = !!(installed_webons.find(install => {
-                    return webon?.id === install.webon_id || webon?.name === install.webon_name;
-                }));
-            }
-        }
+        console.log('InstalledWebons:', JSON.stringify(installed_webons, null, 2));
+
+        const webonList = get(data).webonList;
+
+        webonList.forEach(webon => {
+            webon.downloaded = installed_webons.some(install =>
+                webon.id === install.webon_id || webon.name === install.webon_name
+            );
+        });
+
+        data.set({ ...get(data) });
     } catch (e) {
         console.error(e);
         get(data).installed_webons = [];
+        get(data).webonList.forEach(webon => webon.downloaded = false);
+        data.set({ ...get(data) });
     }
 };
+//         if (installed_webons?.length > 0) {
+//             for (const webon of get(data).webonList) {
+//                 webon.downloaded = !!(installed_webons.find(install => {
+//                     return webon?.id === install.webon_id || webon?.name === install.webon_name;
+//                 }));
+//             }
+//         }
+//     } catch (e) {
+//         console.error(e);
+//         get(data).installed_webons = [];
+//     }
+// };
 
 
 
@@ -148,7 +165,8 @@ export const fetchWebonList = async () => {
             return filterWebOnsByPlatform(webon, platform)
         });
 
-    console.log('Filtered List:', filteredList);
+    console.log('Filtered List:', JSON.stringify(filteredList, null, 2));
+
     return Promise.resolve(filteredList);
 };
 

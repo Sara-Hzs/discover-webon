@@ -21,7 +21,7 @@
 <Header />
 
 <div class="btns">
-    <h1>Sort by:</h1>
+    <h1>Sort by</h1>
     <div class="button-group">
         <button
                 on:click={() => { $filters.sortBy = 'newest'; }}
