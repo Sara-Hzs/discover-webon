@@ -41,23 +41,11 @@
         }
     });
 
-    // function saveDownloadStatus(id, status) {
-    //     let downloadedWebOns = JSON.parse(localStorage.getItem('downloadedWebOns')) || {};
-    //     downloadedWebOns[id] = status;
-    //     localStorage.setItem('downloadedWebOns', JSON.stringify(downloadedWebOns));
-    // }
-    //
-    // function getDownloadStatus(id) {
-    //     let downloadedWebOns = JSON.parse(localStorage.getItem('downloadedWebOns')) || {};
-    //     return downloadedWebOns[id] || false;
-    // }
-
 
     async function handleUninstall() {
         try {
             await uninstallWebOn(webon);
             webon.downloaded = false;
-            // saveDownloadStatus(webon.id, false);
             error = '';
         } catch (err) {
             console.error("Uninstall failed:", JSON.stringify(err, null, 2));
@@ -71,7 +59,6 @@
             await downloadWebOn(webon);
             error = '';
             webon.downloaded = true;
-            // saveDownloadStatus(webon.id, true);
         } catch (e) {
             error = e?.toString() ?? 'Download failed';
         }

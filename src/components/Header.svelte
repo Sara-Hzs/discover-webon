@@ -28,7 +28,7 @@
         <div class="search-filter-container">
             <img src={logo} alt="Logo">
             <div class="search-box">
-                <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search} />
+                <input type="text" placeholder="Search WebOns..." class="search-input" bind:value={$filters.search}/>
             </div>
         </div>
     </div>

@@ -62,6 +62,7 @@
 
     const refetchDataOnWebonVisible = async () => {
         $filters.sortBy = 'newest';
+        $filters.search = '';
 
         loading = true
         await fetchWebonList().then(async webonList => {
