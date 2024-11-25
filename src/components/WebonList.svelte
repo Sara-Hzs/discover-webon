@@ -21,6 +21,28 @@
 <Header />
 
 <div class="btns">
+    <div class="filter-section">
+        <div class="category">
+            <h1>Categories</h1>
+            <div class="categories-grid">
+            <button
+                    on:click={() => { $filters.tag = null }}
+                    class={!$filters.tag ? 'active' : ''}>
+                All WebOns
+            </button>
+            {#each [...new Set($data.filteredList.flatMap(w => w.tags?.map(t => t.name)))] as tagName}
+                <button
+                        on:click={() => { $filters.tag = { name: tagName } }}
+                        class={$filters.tag?.name === tagName ? 'active' : ''}>
+                    {tagName}
+                </button>
+            {/each}
+            </div>
+        </div>
+    </div>
+
+
+
     <h1>Sort by</h1>
     <div class="button-group">
         <button
@@ -28,11 +50,11 @@
                 class={$filters.sortBy === 'newest' ? 'active' : ''}>
             Newest
         </button>
-    <button on:click={() => {
+        <button on:click={() => {
         $filters.sortBy = 'name';
     }} class={$filters.sortBy === 'name' ? 'active' : ''}>
-        Name
-    </button>
+            Name
+        </button>
         <button
                 on:click={() => { $filters.sortBy = 'popularity'; }}
                 class={$filters.sortBy === 'popularity' ? 'active' : ''}>
@@ -40,6 +62,8 @@
         </button>
     </div>
 </div>
+
+
 
 
 {#if $filters.tag}
@@ -101,6 +125,15 @@
     font-weight: bold;
     margin-bottom: 20px;
   }
+
+  .categories-grid {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    }
   .btns {
     width: 100%;
     display: flex;
