@@ -5,8 +5,10 @@
     import { onMount } from 'svelte';
     import Navbar from "./Navbar.svelte";
     import Header from "./Header.svelte";
+    import { slide, scale } from 'svelte/transition';
+    import { flip } from 'svelte/animate';
 
-
+    let showDropdown = false;
     onMount(async () => {
         window.scrollTo(0, 0);
     });
@@ -24,23 +26,38 @@
     <div class="filter-section">
         <div class="category">
             <h1>Categories</h1>
-            <div class="categories-grid">
-            <button
-                    on:click={() => { $filters.tag = null }}
-                    class={!$filters.tag ? 'active' : ''}>
-                All WebOns
-            </button>
-            {#each [...new Set($data.filteredList.flatMap(w => w.tags?.map(t => t.name)))] as tagName}
-                <button
-                        on:click={() => { $filters.tag = { name: tagName } }}
-                        class={$filters.tag?.name === tagName ? 'active' : ''}>
-                    {tagName}
+            <div class="dropdown">
+                <button class="dropdown-toggle" on:click={() => showDropdown = !showDropdown}>
+                    {#if $filters.tag}
+                        {$filters.tag.name}
+                    {:else}
+                        All WebOns
+                    {/if}
+                    <span class="arrow" class:rotate={showDropdown}>▼</span>
                 </button>
-            {/each}
+                {#if showDropdown}
+                    <div class="dropdown-menu" transition:slide|local={{ duration: 200 }}>
+                        {#each ['All WebOns', ...[...new Set($data.filteredList.flatMap(w => w.tags?.map(t => t.name)))]] as item (item)}
+                            <button
+                                    animate:flip={{ duration: 200 }}
+                                    on:click={() => {
+                                if(item === 'All WebOns') {
+                                    $filters.tag = null;
+                                } else {
+                                    $filters.tag = { name: item };
+                                }
+                                showDropdown = false;
+                            }}
+                                    class:active={item === 'All WebOns' ? !$filters.tag : $filters.tag?.name === item}
+                                    transition:scale|local={{ duration: 200, start: 0.95 }}>
+                                {item}
+                            </button>
+                        {/each}
+                    </div>
+                {/if}
             </div>
         </div>
     </div>
-
 
 
     <h1>Sort by</h1>
@@ -126,14 +143,8 @@
     margin-bottom: 20px;
   }
 
-  .categories-grid {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
 
-    }
+
   .btns {
     width: 100%;
     display: flex;
@@ -142,6 +153,126 @@
     margin-bottom: 20px;
     text-align: center;
     font-weight: bold;
+  }
+
+
+
+  .filter-section {
+    flex: 0 0 250px;
+    margin-right: auto;
+  }
+  .arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .arrow.rotate {
+    transform: rotate(180deg);
+  }
+  .category {
+
+
+    border-radius: 8px;
+  }
+
+  .category h1 {
+    margin-bottom: 15px;
+    color: #959494;
+    text-align: left;
+    padding: 1rem 1rem 0.5rem 1rem;
+  }
+
+  .dropdown-toggle {
+    width: 100%;
+    padding: 8px 12px;
+    background: #2a2a2a;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #333;
+    }
+  }
+
+  .dropdown {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 5px;
+    width: 100%;
+    background: rgba(28, 28, 28, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding: 6px;
+    margin-top: 4px;
+  }
+
+  .dropdown-menu button {
+    width: 100%;
+    padding: 8px 12px;
+    color: #e1e1e1;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    margin: 2px 0;
+
+    &:hover {
+      background: rgba(156, 99, 238, 0.2);
+      color: #fff;
+    }
+
+    &.active {
+      background: #9c63ee;
+      color: white;
+    }
+  }
+
+
+  .dropdown-menu button.active:hover {
+    background: #8852d9;
+  }
+
+
+  .dropdown-menu button + button {
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+  }
+
+
+  .dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 4px;
+    }
   }
 
   .btns h1 {
@@ -182,10 +313,6 @@
     .container {
       grid-template-columns: 1fr;
     }
-
-
-
-
     .btns {
       flex-direction: row;
       justify-content: space-between;
@@ -261,6 +388,27 @@
 
     button {
       flex: 1;
+    }
+
+    .filter-section {
+      flex: none;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .category h1 {
+      text-align: center;
+      padding: 0.5rem;
+    }
+
+    .dropdown {
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .dropdown-menu {
+      left: 0;
+      width: 100%;
     }
   }
 
