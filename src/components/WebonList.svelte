@@ -9,6 +9,8 @@
     import { flip } from 'svelte/animate';
 
     let showDropdown = false;
+
+
     onMount(async () => {
         window.scrollTo(0, 0);
     });
@@ -160,6 +162,8 @@
   .filter-section {
     flex: 0 0 250px;
     margin-right: auto;
+    padding-bottom: 10px;
+
   }
   .arrow {
     transition: transform 0.2s ease;
@@ -169,13 +173,11 @@
     transform: rotate(180deg);
   }
   .category {
-
-
     border-radius: 8px;
   }
 
   .category h1 {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     color: #959494;
     text-align: left;
     padding: 1rem 1rem 0.5rem 1rem;
@@ -186,7 +188,7 @@
     padding: 8px 12px;
     background: #2a2a2a;
     color: white;
-    border: 1px solid #444;
+    border: 1px solid white;
     border-radius: 6px;
     cursor: pointer;
     display: flex;
@@ -214,7 +216,7 @@
     width: 100%;
     background: rgba(28, 28, 28, 0.95);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+
     border-radius: 8px;
     z-index: 1000;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
