@@ -11,9 +11,9 @@
     let showDropdown = false;
 
 
-    onMount(async () => {
-        window.scrollTo(0, 0);
-    });
+    // onMount(async () => {
+    //     window.scrollTo(0, 0);
+    // });
 
     $:console.log('data', $data)
     $: console.log('Current sorting method:', $filters.sortBy);
@@ -216,7 +216,6 @@
     width: 100%;
     background: rgba(28, 28, 28, 0.95);
     backdrop-filter: blur(8px);
-
     border-radius: 8px;
     z-index: 1000;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);

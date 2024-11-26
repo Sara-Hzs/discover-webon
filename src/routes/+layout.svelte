@@ -10,10 +10,40 @@
     import { nomo } from "nomo-webon-kit";
     import { hasMinimumNomoVersion } from "nomo-webon-kit";
     import { mergeInstalledList, sortWebonList, filterSortSearch } from "../utils/functions.js";
+    import { beforeNavigate, afterNavigate } from '$app/navigation';
 
+    let scrollPositions = {};
     let loading = true;
     let error = false;
 
+
+
+    beforeNavigate(({ from }) => {
+        if (from) {
+            const key = from.url.pathname + from.url.search;
+            const scrollTop = document.body.scrollTop;
+            scrollPositions[key] = scrollTop;
+            console.log(`BeforeNavigate: Saved scrollTop ${scrollTop} for ${key}`);
+        }
+    });
+
+
+    afterNavigate(({ to }) => {
+        if (to) {
+            const key = to.url.pathname + to.url.search;
+            const scrollTop = scrollPositions[key] || 0;
+            console.log(`AfterNavigate: Restoring scrollTop ${scrollTop} for ${key}`);
+
+            const restoreScroll = () => {
+                if (document.body) {
+                    document.body.scrollTop = scrollTop;
+                } else {
+                    requestAnimationFrame(restoreScroll);
+                }
+            };
+            restoreScroll();
+        }
+    });
     onMount(async () => {
         try {
             if (location.hostname.includes("discover.nomo.zone") || location.hostname.includes("discover.nomo.app")) {
