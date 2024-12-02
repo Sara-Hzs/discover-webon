@@ -2,7 +2,7 @@
   "nomo_manifest_version": "1.1.0",
   "webon_id": "info.webon.discover",
   "webon_name": "Discover WebOns",
-  "webon_version": "0.2.10",
+  "webon_version": "0.2.11",
   "dependencies": [],
   "permissions": [
     "nomo.permission.INSTALL_WEBON",

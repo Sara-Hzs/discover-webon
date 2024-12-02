@@ -2,7 +2,6 @@
     import { data } from "../stores/data.js";
     import { filters } from "../stores/filters.js";
     import WebonElement from "./WebonElement.svelte";
-    import { onMount } from 'svelte';
     import Navbar from "./Navbar.svelte";
     import Header from "./Header.svelte";
     import { slide, scale } from 'svelte/transition';
@@ -10,16 +9,16 @@
 
     let showDropdown = false;
 
-
-    // onMount(async () => {
-    //     window.scrollTo(0, 0);
-    // });
-
-    $:console.log('data', $data)
-    $: console.log('Current sorting method:', $filters.sortBy);
+    $: groupedWebons = !$filters.tag ?
+        $data.filteredList.reduce((groups, webon) => {
+            const tags = webon.tags?.length ? webon.tags : [{ name: 'Uncategorized' }];
+            tags.forEach(tag => {
+                if (!groups[tag.name]) groups[tag.name] = [];
+                groups[tag.name].push(webon);
+            });
+            return groups;
+        }, {}) : {};
 </script>
-
-
 
 <Navbar />
 <Header />
@@ -43,13 +42,13 @@
                             <button
                                     animate:flip={{ duration: 200 }}
                                     on:click={() => {
-                                if(item === 'All WebOns') {
-                                    $filters.tag = null;
-                                } else {
-                                    $filters.tag = { name: item };
-                                }
-                                showDropdown = false;
-                            }}
+                                    if(item === 'All WebOns') {
+                                        $filters.tag = null;
+                                    } else {
+                                        $filters.tag = { name: item };
+                                    }
+                                    showDropdown = false;
+                                }}
                                     class:active={item === 'All WebOns' ? !$filters.tag : $filters.tag?.name === item}
                                     transition:scale|local={{ duration: 200, start: 0.95 }}>
                                 {item}
@@ -61,29 +60,25 @@
         </div>
     </div>
 
-
     <h1>Sort by</h1>
     <div class="button-group">
         <button
                 on:click={() => { $filters.sortBy = 'newest'; }}
-                class={$filters.sortBy === 'newest' ? 'active' : ''}>
+                class:active={$filters.sortBy === 'newest'}>
             Newest
         </button>
-        <button on:click={() => {
-        $filters.sortBy = 'name';
-    }} class={$filters.sortBy === 'name' ? 'active' : ''}>
+        <button
+                on:click={() => { $filters.sortBy = 'name'; }}
+                class:active={$filters.sortBy === 'name'}>
             Name
         </button>
         <button
                 on:click={() => { $filters.sortBy = 'popularity'; }}
-                class={$filters.sortBy === 'popularity' ? 'active' : ''}>
+                class:active={$filters.sortBy === 'popularity'}>
             Popularity
         </button>
     </div>
 </div>
-
-
-
 
 {#if $filters.tag}
     <div class="tag" on:click={() => $filters.tag = null}>
@@ -92,14 +87,105 @@
         <span class="delete-btn">×</span>
     </div>
 {/if}
-<div class="container">
-    {#each $data.filteredList as webon}
-        <WebonElement {webon} />
-    {/each}
-</div>
 
+{#if !$filters.tag}
+    <div class="folders-grid">
+        {#each Object.entries(groupedWebons) as [tag, webons]}
+            <div class="folder">
+                <div class="folder-header">
+                    <svg class="folder-icon" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#9c63ee" d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <h2>{tag}</h2>
+                    <span class="count">{webons.length}</span>
+                </div>
+                <div class="folder-content">
+                    {#each webons as webon}
+                        <div class="webon-card">
+                            <WebonElement {webon} />
+                        </div>
+                    {/each}
+                </div>
+            </div>
+        {/each}
+    </div>
+{:else}
+    <div class="container">
+        {#each $data.filteredList as webon}
+            <WebonElement {webon} />
+        {/each}
+    </div>
+{/if}
 <style lang="scss">
+  .folders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
 
+  .folder {
+    background: rgba(28, 28, 28, 0.95);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .folder-header {
+    background: #2a2a2a;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #333;
+
+    h2 {
+      color: white;
+      margin: 0;
+      flex: 1;
+    }
+
+    .count {
+      background: #9c63ee;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.875rem;
+    }
+  }
+
+  .folder-content {
+    padding: 15px;
+    max-height: 500px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 4px;
+    }
+  }
+
+  .webon-card {
+    :global(.webon-element) {
+      transform: scale(0.85);
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(0.9);
+      }
+    }
+  }
   .container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
