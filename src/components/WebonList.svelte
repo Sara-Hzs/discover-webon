@@ -93,9 +93,7 @@
         {#each Object.entries(groupedWebons) as [tag, webons]}
             <div class="folder">
                 <div class="folder-header">
-                    <svg class="folder-icon" viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="#9c63ee" d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                    </svg>
+
                     <h2>{tag}</h2>
                     <span class="count">{webons.length}</span>
                 </div>
