@@ -21,27 +21,45 @@
     beforeNavigate(({ from }) => {
         if (from) {
             const key = from.url.pathname + from.url.search;
-            const scrollTop = document.body.scrollTop;
-            scrollPositions[key] = scrollTop;
-            console.log(`BeforeNavigate: Saved scrollTop ${scrollTop} for ${key}`);
+            const positions = {
+                page: document.documentElement.scrollTop || document.body.scrollTop || window.scrollY,
+                folders: {}
+            };
+
+            document.querySelectorAll('[data-folder-content]').forEach(folder => {
+                const folderId = folder.getAttribute('data-folder-content');
+                positions.folders[folderId] = folder.scrollTop;
+            });
+
+            scrollPositions[key] = positions;
+            console.log(`Saved positions for ${key}:`, positions);
         }
     });
-
 
     afterNavigate(({ to }) => {
         if (to) {
             const key = to.url.pathname + to.url.search;
-            const scrollTop = scrollPositions[key] || 0;
-            console.log(`AfterNavigate: Restoring scrollTop ${scrollTop} for ${key}`);
+            const savedPositions = scrollPositions[key];
 
-            const restoreScroll = () => {
-                if (document.body) {
-                    document.body.scrollTop = scrollTop;
-                } else {
-                    requestAnimationFrame(restoreScroll);
+            const restoreScrolls = () => {
+                if (savedPositions) {
+
+                    window.scrollTo(0, savedPositions.page);
+                    document.documentElement.scrollTop = savedPositions.page;
+                    document.body.scrollTop = savedPositions.page;
+
+                    document.querySelectorAll('[data-folder-content]').forEach(folder => {
+                        const folderId = folder.getAttribute('data-folder-content');
+                        if (savedPositions.folders[folderId] !== undefined) {
+                            folder.scrollTop = savedPositions.folders[folderId];
+                        }
+                    });
                 }
             };
-            restoreScroll();
+
+            requestAnimationFrame(restoreScrolls);
+            setTimeout(restoreScrolls, 50);
+            setTimeout(restoreScrolls, 150);
         }
     });
     onMount(async () => {

@@ -93,11 +93,10 @@
         {#each Object.entries(groupedWebons) as [tag, webons]}
             <div class="folder">
                 <div class="folder-header">
-
                     <h2>{tag}</h2>
                     <span class="count">{webons.length}</span>
                 </div>
-                <div class="folder-content">
+                <div class="folder-content" data-folder-content={tag}>
                     {#each webons as webon}
                         <div class="webon-card">
                             <WebonElement {webon} />

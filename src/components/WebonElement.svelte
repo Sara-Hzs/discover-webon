@@ -143,16 +143,15 @@
   .container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     background: #333333;
     width: 100%;
     border-radius: 8px;
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
     transition: transform 0.4s ease;
-    min-height: 150px;
-
-
+    min-height: 90px;
+    overflow: hidden;
+    height: 100%;
   }
 
   .container:hover {
@@ -179,14 +178,14 @@
     user-select: none;
   }
 
-
   .card-content {
-    padding: 10px;
-    text-align: left;
+    padding: 16px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     cursor: pointer;
   }
-
   .icon-container {
     display: flex;
     align-items: center;
@@ -198,24 +197,24 @@
   }
 
   .icon {
-    width: 60px;
-    padding-bottom: 10px;
-    overflow: hidden;
-
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
 
     img {
-      border-radius: 5px;
-      pointer-events: none;
-      user-select: none;
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+      object-fit: cover;
     }
   }
 
   .left {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    gap: 12px;
+    flex: 1;
+    padding-right: 0;
   }
-
   .details {
     display: flex;
     flex-direction: column;
@@ -223,39 +222,55 @@
     width: 100%;
   }
 
-  .name,
-  .slogan {
-    margin-bottom: 5px;
-    margin-left: 5px;
-  }
-
   .name {
-    font-size: clamp(15px, 3vw, 18px);
+    font-size: 14px;
+    font-weight: bold;
+    word-break: break-all;
+    line-height: 1.3;
+    margin-bottom: 2px;
   }
 
   .domain {
-    font-size: 14px;
+    font-size: 12px;
+    color: #aaa;
     text-decoration: none;
-    margin-left: 5px;
-    font-weight: normal;
+    line-height: 1.3;
+    word-break: break-all;
   }
 
-
-
   .slogan {
-    width: 70%;
-    margin-top: 10px;
-    pointer-events: none;
-    user-select: none;
+    font-size: 13px;
+    color: #ddd;
+    padding-bottom: 10px;
+    margin-top: 8px;
+    line-height: 1.4;
+    white-space: normal;
+    overflow: visible;
+    word-wrap: break-word;
   }
 
   .download {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    padding: 5px;
-  }
+    right: 5px;
+    bottom: 2px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    button {
+      background: transparent;
+      border: none;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      width: 28px;
+      height: 28px;
+    }
+  }
   .error {
     color: red;
     font-size: 12px;
@@ -263,72 +278,41 @@
     padding: 5px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     .container {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      overflow: hidden;
-      position: relative;
-      background: none;
-      isolation: isolate;
-      background: #333333;
-      padding: 10px;
-      padding-right: 50px;
-    }
-
-    .card-image {
-      z-index: -1;
-      position: absolute;
-      inset: 0 0 0 0;
-
-      img {
-        opacity: 0.03;
-        transform: translateY(-8px);
-      }
+      min-height: 80px;
     }
 
     .card-content {
-      flex-grow: 1;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
+      padding: 12px;
     }
 
-
-    .download {
-      position: absolute;
-     top: 10px;
-      right: 20px;
-      padding: 5px;
-    }
-    .download button {
-      padding: 2px 1px;
-      font-size: 0.8em;
-      margin: 5px 0;
-    }
-    .name,
-    .slogan {
-      text-align: left;
-      font-size: 0.8em;
+    .icon {
+      width: 28px;
+      height: 28px;
     }
 
+    .name {
+      font-size: 13px;
+    }
 
     .domain {
-      text-align: left;
-      font-size: 0.7em;
-
+      font-size: 11px;
     }
 
     .slogan {
-      font-size: 0.8em;
-      opacity: 0.9;
-      width: 100%;
-
+      font-size: 12px;
+      margin-top: 6px;
     }
 
+    .download button {
+      width: 24px;
+      height: 24px;
+      padding: 4px;
+    }
 
+    .download {
+      right: 12px;
+    }
   }
 </style>
