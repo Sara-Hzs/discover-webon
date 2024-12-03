@@ -8,6 +8,16 @@
     import { flip } from 'svelte/animate';
 
     let showDropdown = false;
+    let expandedFolders = {};
+
+    const INITIAL_ITEMS = 4;
+
+
+    function toggleFolder(tag) {
+        expandedFolders[tag] = !expandedFolders[tag];
+        expandedFolders = {...expandedFolders};
+    }
+
 
     $: groupedWebons = !$filters.tag ?
         $data.filteredList.reduce((groups, webon) => {
@@ -97,11 +107,20 @@
                     <span class="count">{webons.length}</span>
                 </div>
                 <div class="folder-content" data-folder-content={tag}>
-                    {#each webons as webon}
-                        <div class="webon-card">
+                    {#each webons.slice(0, expandedFolders[tag] ? webons.length : INITIAL_ITEMS) as webon}
+                        <div class="webon-card" transition:slide|local>
                             <WebonElement {webon} />
                         </div>
                     {/each}
+                    {#if webons.length > INITIAL_ITEMS}
+                        <button
+                                class="show-more-btn"
+                                on:click={() => toggleFolder(tag)}
+                                aria-expanded={!!expandedFolders[tag]}
+                        >
+                            {expandedFolders[tag] ? 'Show Less' : 'Show More'}
+                        </button>
+                    {/if}
                 </div>
             </div>
         {/each}
@@ -172,6 +191,38 @@
       border-radius: 4px;
     }
   }
+  .show-more-btn {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 180px;
+    padding: 8px 24px;
+    background: #1E1E1E;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    &:hover {
+      background: #2A2A2A;
+    }
+
+    &::after {
+      content: '▼';
+      font-size: 12px;
+      transition: transform 0.2s;
+    }
+
+    &[aria-expanded="true"]::after {
+      transform: rotate(180deg);
+    }
+  }
+
 
   .webon-card {
     :global(.webon-element) {
@@ -183,6 +234,8 @@
       }
     }
   }
+
+
   .container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

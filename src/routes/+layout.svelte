@@ -26,6 +26,7 @@
                 folders: {}
             };
 
+            // Save folder positions
             document.querySelectorAll('[data-folder-content]').forEach(folder => {
                 const folderId = folder.getAttribute('data-folder-content');
                 positions.folders[folderId] = folder.scrollTop;
@@ -43,11 +44,12 @@
 
             const restoreScrolls = () => {
                 if (savedPositions) {
-
+                    // Restore page scroll
                     window.scrollTo(0, savedPositions.page);
                     document.documentElement.scrollTop = savedPositions.page;
                     document.body.scrollTop = savedPositions.page;
 
+                    // Restore folder scrolls
                     document.querySelectorAll('[data-folder-content]').forEach(folder => {
                         const folderId = folder.getAttribute('data-folder-content');
                         if (savedPositions.folders[folderId] !== undefined) {
@@ -57,6 +59,7 @@
                 }
             };
 
+            // Multiple restore attempts to ensure it works
             requestAnimationFrame(restoreScrolls);
             setTimeout(restoreScrolls, 50);
             setTimeout(restoreScrolls, 150);
