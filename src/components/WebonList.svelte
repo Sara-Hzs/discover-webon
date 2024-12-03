@@ -6,18 +6,11 @@
     import Header from "./Header.svelte";
     import { slide, scale } from 'svelte/transition';
     import { flip } from 'svelte/animate';
+    import { expandedFolders } from "../stores/expandedFolders.js";
 
     let showDropdown = false;
-    let expandedFolders = {};
-
     const INITIAL_ITEMS = 4;
-
-
-    function toggleFolder(tag) {
-        expandedFolders[tag] = !expandedFolders[tag];
-        expandedFolders = {...expandedFolders};
-    }
-
+    const toggleFolder = (tag) => expandedFolders.toggle(tag);
 
     $: groupedWebons = !$filters.tag ?
         $data.filteredList.reduce((groups, webon) => {
@@ -98,6 +91,7 @@
     </div>
 {/if}
 
+
 {#if !$filters.tag}
     <div class="folders-grid">
         {#each Object.entries(groupedWebons) as [tag, webons]}
@@ -107,7 +101,7 @@
                     <span class="count">{webons.length}</span>
                 </div>
                 <div class="folder-content" data-folder-content={tag}>
-                    {#each webons.slice(0, expandedFolders[tag] ? webons.length : INITIAL_ITEMS) as webon}
+                    {#each webons.slice(0, $expandedFolders[tag] ? webons.length : INITIAL_ITEMS) as webon}
                         <div class="webon-card" transition:slide|local>
                             <WebonElement {webon} />
                         </div>
@@ -116,9 +110,9 @@
                         <button
                                 class="show-more-btn"
                                 on:click={() => toggleFolder(tag)}
-                                aria-expanded={!!expandedFolders[tag]}
+                                aria-expanded={!!$expandedFolders[tag]}
                         >
-                            {expandedFolders[tag] ? 'Show Less' : 'Show More'}
+                            {$expandedFolders[tag] ? 'Show Less' : 'Show More'}
                         </button>
                     {/if}
                 </div>
