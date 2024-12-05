@@ -8,53 +8,66 @@
     import { flip } from 'svelte/animate';
     import { expandedFolders } from "../stores/expandedFolders.js";
 
-    let showDropdown = false;
+    let showCategoryDropdown = false;
+    let displayMode = localStorage.getItem('displayMode') || 'All WebOns';
+    let showOldDropdown = localStorage.getItem('showOldDropdown') === 'true';
+    let showOldDropdownMenu = false;
+    let selectedTag = JSON.parse(localStorage.getItem('selectedTag')) || null;
     const INITIAL_ITEMS = 4;
+
     const toggleFolder = (tag) => expandedFolders.toggle(tag);
 
-    $: groupedWebons = !$filters.tag ?
-        $data.filteredList.reduce((groups, webon) => {
-            const tags = webon.tags?.length ? webon.tags : [{ name: 'Uncategorized' }];
-            tags.forEach(tag => {
-                if (!groups[tag.name]) groups[tag.name] = [];
-                groups[tag.name].push(webon);
-            });
-            return groups;
-        }, {}) : {};
+    $: groupedWebons = $data.filteredList.reduce((groups, webon) => {
+        const tags = webon.tags?.length ? webon.tags : [{ name: 'Uncategorized' }];
+        tags.forEach(tag => {
+            if (!groups[tag.name]) groups[tag.name] = [];
+            groups[tag.name].push(webon);
+        });
+        return groups;
+    }, {});
+
+    // Update $filters.tag whenever selectedTag changes
+    $: $filters.tag = selectedTag;
+
+    function resetSelections() {
+        selectedTag = null;
+        localStorage.removeItem('selectedTag');
+        $filters.tag = null;
+        showOldDropdown = false;
+        localStorage.setItem('showOldDropdown', false);
+    }
 </script>
 
 <Navbar />
 <Header />
 
 <div class="btns">
+    <!-- New Dropdown -->
     <div class="filter-section">
         <div class="category">
-            <h1>Categories</h1>
+            <h1>Display Mode</h1>
             <div class="dropdown">
-                <button class="dropdown-toggle" on:click={() => showDropdown = !showDropdown}>
-                    {#if $filters.tag}
-                        {$filters.tag.name}
-                    {:else}
-                        All WebOns
-                    {/if}
-                    <span class="arrow" class:rotate={showDropdown}>▼</span>
+                <button class="dropdown-toggle" on:click={() => showCategoryDropdown = !showCategoryDropdown}>
+                    {displayMode}
+                    <span class="arrow" class:rotate={showCategoryDropdown}>▼</span>
                 </button>
-                {#if showDropdown}
+                {#if showCategoryDropdown}
                     <div class="dropdown-menu" transition:slide|local={{ duration: 200 }}>
-                        {#each ['All WebOns', ...[...new Set($data.filteredList.flatMap(w => w.tags?.map(t => t.name)))]] as item (item)}
+                        {#each ['All WebOns', 'Categorized'] as option}
                             <button
-                                    animate:flip={{ duration: 200 }}
                                     on:click={() => {
-                                    if(item === 'All WebOns') {
-                                        $filters.tag = null;
+                                    displayMode = option;
+                                    showCategoryDropdown = false;
+                                    if (option === 'All WebOns') {
+                                        resetSelections(); // Reset all selections
                                     } else {
-                                        $filters.tag = { name: item };
+                                        showOldDropdown = true;
+                                        localStorage.setItem('showOldDropdown', true);
                                     }
-                                    showDropdown = false;
+                                    localStorage.setItem('displayMode', option);
                                 }}
-                                    class:active={item === 'All WebOns' ? !$filters.tag : $filters.tag?.name === item}
-                                    transition:scale|local={{ duration: 200, start: 0.95 }}>
-                                {item}
+                                    class:active={displayMode === option}>
+                                {option}
                             </button>
                         {/each}
                     </div>
@@ -63,36 +76,77 @@
         </div>
     </div>
 
-    <h1>Sort by</h1>
-    <div class="button-group">
-        <button
-                on:click={() => { $filters.sortBy = 'newest'; }}
-                class:active={$filters.sortBy === 'newest'}>
-            Newest
-        </button>
-        <button
-                on:click={() => { $filters.sortBy = 'name'; }}
-                class:active={$filters.sortBy === 'name'}>
-            Name
-        </button>
-        <button
-                on:click={() => { $filters.sortBy = 'popularity'; }}
-                class:active={$filters.sortBy === 'popularity'}>
-            Popularity
-        </button>
-    </div>
+    <!-- Old Dropdown (Visible only when "Categorized" is selected) -->
+    {#if showOldDropdown}
+        <div class="filter-section">
+            <div class="category">
+                <h1>Categories</h1>
+                <div class="dropdown">
+                    <button class="dropdown-toggle" on:click={() => showOldDropdownMenu = !showOldDropdownMenu}>
+                        {#if selectedTag}
+                            {selectedTag.name}
+                        {:else}
+                            All Categories
+                        {/if}
+                        <span class="arrow" class:rotate={showOldDropdownMenu}>▼</span>
+                    </button>
+                    {#if showOldDropdownMenu}
+                        <div class="dropdown-menu" transition:slide|local={{ duration: 200 }}>
+                            {#each ['  All Categories ', ...[...new Set($data.filteredList.flatMap(w => w.tags?.map(t => t.name)))]] as item (item)}
+                                <button
+                                        on:click={() => {
+                                        if (item === '  All Categories ') {
+                                            selectedTag = null;
+                                        } else {
+                                            selectedTag = { name: item };
+                                        }
+                                        localStorage.setItem('selectedTag', JSON.stringify(selectedTag));
+                                        showOldDropdownMenu = false;
+                                    }}
+                                        class:active={item === '  All Categories ' ? !selectedTag : selectedTag?.name === item}>
+                                    {item}
+                                </button>
+                            {/each}
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    {/if}
+
+
+    {#if displayMode === 'All WebOns'}
+        <h1>Sort by</h1>
+        <div class="button-group">
+            <button
+                    on:click={() => { $filters.sortBy = 'newest'; }}
+                    class:active={$filters.sortBy === 'newest'}>
+                Newest
+            </button>
+            <button
+                    on:click={() => { $filters.sortBy = 'name'; }}
+                    class:active={$filters.sortBy === 'name'}>
+                Name
+            </button>
+            <button
+                    on:click={() => { $filters.sortBy = 'popularity'; }}
+                    class:active={$filters.sortBy === 'popularity'}>
+                Popularity
+            </button>
+        </div>
+    {/if}
 </div>
 
-{#if $filters.tag}
-    <div class="tag" on:click={() => $filters.tag = null}>
-        <span class="tag-label">Selected Tag:</span>
-        <span class="tag-name">{$filters.tag.name}</span>
-        <span class="delete-btn">×</span>
+
+{#if displayMode === 'All WebOns'}
+    <!-- Flat list of all WebOns -->
+    <div class="container">
+        {#each $data.filteredList as webon}
+            <WebonElement {webon} />
+        {/each}
     </div>
-{/if}
-
-
-{#if !$filters.tag}
+{:else if displayMode === 'Categorized'}
+    <!-- Categorized folders -->
     <div class="folders-grid">
         {#each Object.entries(groupedWebons) as [tag, webons]}
             <div class="folder">
@@ -110,8 +164,7 @@
                         <button
                                 class="show-more-btn"
                                 on:click={() => toggleFolder(tag)}
-                                aria-expanded={!!$expandedFolders[tag]}
-                        >
+                                aria-expanded={!!$expandedFolders[tag]}>
                             {$expandedFolders[tag] ? 'Show Less' : 'Show More'}
                         </button>
                     {/if}
@@ -119,13 +172,8 @@
             </div>
         {/each}
     </div>
-{:else}
-    <div class="container">
-        {#each $data.filteredList as webon}
-            <WebonElement {webon} />
-        {/each}
-    </div>
 {/if}
+
 <style lang="scss">
   .folders-grid {
     display: grid;
