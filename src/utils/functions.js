@@ -39,18 +39,6 @@ export const mergeInstalledList = async () => {
         data.set({ ...get(data) });
     }
 };
-//         if (installed_webons?.length > 0) {
-//             for (const webon of get(data).webonList) {
-//                 webon.downloaded = !!(installed_webons.find(install => {
-//                     return webon?.id === install.webon_id || webon?.name === install.webon_name;
-//                 }));
-//             }
-//         }
-//     } catch (e) {
-//         console.error(e);
-//         get(data).installed_webons = [];
-//     }
-// };
 
 
 
@@ -59,32 +47,6 @@ function isMobileDevice() {
     return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
 }
 
-// export function whereAmI(platform, element) {
-//     const executionMode = get(filters).platform;
-//
-//     if (executionMode === 'HUB') {
-//         return platform.hub;
-//     }
-//
-//
-//     if (!isFallbackModeActive()) {
-//         if (isMobileDevice()) {
-//             return platform.mobile;
-//         } else {
-//             return platform.desktop;
-//         }
-//     }
-//
-//
-//     const userAgent = navigator.userAgent;
-//     if (/android/i.test(userAgent)) {
-//         return "android";
-//     }
-//     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-//         return "ios";
-//     }
-//     return "desktop";
-// }
 export function isInsideNomo() {
     return !isFallbackModeActive();
 }
@@ -362,3 +324,4 @@ export const filterWebonList = async (tag) => {
     });
     return Promise.resolve();
 };
+

@@ -98,7 +98,7 @@
                             <img src={default_icon} alt="Default icon"/>
                         {/if}
                     </div>
-                    <div>
+                    <div class="text-container">
                         <div class="name">{webon.name}</div>
                         <a href="https://{webon.domain}" class="domain" on:click|preventDefault={navigateToDetailPage}>https://{webon.domain}</a>
                     </div>
@@ -208,24 +208,32 @@
       object-fit: cover;
     }
   }
-
-  .left {
-    display: flex;
-    gap: 12px;
-    flex: 1;
-    padding-right: 0;
-  }
   .details {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
   }
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+
+  .text-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: calc(100% - 40px);
+  }
+
 
   .name {
     font-size: 14px;
     font-weight: bold;
-    word-break: break-all;
+
     line-height: 1.3;
     margin-bottom: 2px;
   }
@@ -235,8 +243,16 @@
     color: #aaa;
     text-decoration: none;
     line-height: 1.3;
-    word-break: break-all;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
   }
+
+
+
+
 
   .slogan {
     font-size: 13px;
@@ -267,8 +283,8 @@
       align-items: center;
       justify-content: center;
       border-radius: 4px;
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
     }
   }
   .error {
@@ -277,7 +293,11 @@
     margin: 5px 5px 15px;
     padding: 5px;
   }
-
+  @media (max-width: 768px){
+    .card-image{
+      display: none;
+    }
+  }
   @media (max-width: 480px) {
     .container {
       min-height: 80px;
@@ -286,7 +306,9 @@
     .card-content {
       padding: 12px;
     }
-
+    .card-image{
+      display: none;
+    }
     .icon {
       width: 28px;
       height: 28px;
@@ -306,13 +328,14 @@
     }
 
     .download button {
-      width: 24px;
-      height: 24px;
-      padding: 4px;
+      width: 36px;
+
+
     }
 
     .download {
-      right: 12px;
+      top: 8px;
+      right: 8px;
     }
   }
 </style>
