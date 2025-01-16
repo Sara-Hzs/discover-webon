@@ -309,23 +309,31 @@
     .card-image{
       display: none;
     }
+
+
+
     .icon {
-      width: 28px;
-      height: 28px;
+      width: 40px;
+      height: 40px;
     }
 
     .name {
-      font-size: 13px;
+      font-size: 16px;
     }
 
     .domain {
-      font-size: 11px;
+      font-size: 12px;
     }
 
     .slogan {
-      font-size: 12px;
-      margin-top: 6px;
+      font-size: 14px;
+      margin-top: 10px;
+      white-space: normal;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 90%;
     }
+
 
     .download button {
       width: 36px;
@@ -334,7 +342,7 @@
     }
 
     .download {
-      top: 8px;
+      top: 50px;
       right: 8px;
     }
   }

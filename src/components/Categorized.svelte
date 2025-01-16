@@ -60,7 +60,8 @@
     @media (max-width: 600px) {
       grid-template-columns: 1fr;
       gap: 0.875rem;
-      padding: 0.875rem;
+      padding:0;
+      width: 100%;
     }
   }
 
