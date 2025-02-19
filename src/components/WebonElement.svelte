@@ -16,7 +16,8 @@
     export let webon
     let loading = true
     let error = ''
-
+    let touchStartY = 0;
+    let touchEndY = 0;
 
     function formatUrl(url) {
         if (!url.startsWith('http')) {
@@ -40,7 +41,16 @@
             console.log('Formatted icon URL:', webon.icon);
         }
     });
+    function handleTouchStart(e) {
+        touchStartY = e.touches[0].clientY;
+    }
 
+    function handleTouchEnd(e) {
+        touchEndY = e.changedTouches[0].clientY;
+        if (Math.abs(touchEndY - touchStartY) < 10) {
+            navigateToDetailPage(e);
+        }
+    }
 
     async function handleUninstall() {
         try {
@@ -74,13 +84,18 @@
     }
     function navigateToDetailPage(e) {
         e.preventDefault();
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
         goto('/webon?id=' + webon.id);
     }
 
 </script>
 
 {#if !loading}
-    <div class="container" on:click={() => browser && goto('/webon?id=' + webon.id)}>
+    <div class="container" on:click={() => browser && goto('/webon?id=' + webon.id)}
+         on:touchstart={handleTouchStart}
+         on:touchend={handleTouchEnd}>
         <div class="card-image">
             {#if webon.card}
                 <img src={webon.card} alt="{webon.name}"/>
@@ -151,7 +166,7 @@
     margin-bottom: 10px;
     transition: transform 0.4s ease;
     min-height: 150px;
-
+    touch-action: pan-y;
 
   }
 
