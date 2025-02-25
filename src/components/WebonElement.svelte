@@ -47,10 +47,15 @@
 
     function handleTouchEnd(e) {
         touchEndY = e.changedTouches[0].clientY;
+
+        if (e.target.closest('.download')) {
+            return;
+        }
         if (Math.abs(touchEndY - touchStartY) < 10) {
             navigateToDetailPage(e);
         }
     }
+
 
     async function handleUninstall() {
         try {
@@ -121,18 +126,19 @@
                 </div>
                 <div class="download">
                     {#if $data.isBrowser}
-                        <button on:click={handleButtonClick}>
+                        <button on:click|stopPropagation={handleButtonClick} on:touchstart|stopPropagation on:touchend|stopPropagation>
                             <Download />
                         </button>
                     {:else if !webon.downloaded}
-                        <button on:click={handleButtonClick}>
+                        <button on:click|stopPropagation={handleButtonClick} on:touchstart|stopPropagation on:touchend|stopPropagation>
                             <Download />
                         </button>
                     {:else if webon.downloaded}
-                        <button on:click={async e => {
+                        <button on:click|stopPropagation={async e => {
                             e.stopPropagation();
                             await handleUninstall();
-                        }} class="uninstall-btn">
+                        }} class="uninstall-btn"
+                                on:touchstart|stopPropagation on:touchend|stopPropagation>
                             <Uninstall />
                         </button>
                     {:else}
