@@ -16,7 +16,7 @@
     export let webon
     let loading = true
     let error = ''
-
+    export let isInCategorizedView = false;
 
     function formatUrl(url) {
         if (!url.startsWith('http')) {
@@ -104,7 +104,7 @@
                     </div>
 
                 </div>
-                <div class="download">
+                <div class="download" class:categorized-download={isInCategorizedView}>
                     {#if $data.isBrowser}
                         <button on:click={handleButtonClick}>
                             <Download />
@@ -145,13 +145,13 @@
     flex-direction: column;
     background: #333333;
     width: 100%;
+    height: 100%;
     border-radius: 8px;
     position: relative;
-    margin-bottom: 16px;
+    margin-bottom: 0;
     transition: transform 0.4s ease;
     min-height: 90px;
     overflow: hidden;
-    height: 100%;
   }
 
   .container:hover {
@@ -179,7 +179,7 @@
   }
 
   .card-content {
-    padding: 16px;
+    padding: 18px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -198,8 +198,8 @@
 
   .icon {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
 
     img {
       width: 100%;
@@ -231,7 +231,7 @@
 
 
   .name {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
 
     line-height: 1.3;
@@ -239,7 +239,7 @@
   }
 
   .domain {
-    font-size: 12px;
+    font-size: 14px;
     color: #aaa;
     text-decoration: none;
     line-height: 1.3;
@@ -249,10 +249,6 @@
     white-space: nowrap;
     max-width: 100%;
   }
-
-
-
-
 
   .slogan {
     font-size: 13px;
@@ -267,10 +263,8 @@
 
   .download {
     position: absolute;
-    right: 5px;
-    bottom: 2px;
-    width: 28px;
-    height: 28px;
+    right: 10px;
+    bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -283,8 +277,20 @@
       align-items: center;
       justify-content: center;
       border-radius: 4px;
-      width: 32px;
-      height: 32px;
+      width: 38px;
+      height: 38px;
+    }
+  }
+
+  .categorized-download {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+
+    button {
+      width: 30px;
+      height: 30px;
+      padding: 4px;
     }
   }
   .error {
@@ -298,28 +304,23 @@
       display: none;
     }
   }
-  @media (max-width: 480px) {
+  @media (max-width: 425px) {
     .container {
       min-height: 80px;
     }
 
     .card-content {
-      padding: 12px;
+      padding: 20px;
     }
     .card-image{
       display: none;
     }
-
-
 
     .icon {
       width: 40px;
       height: 40px;
     }
 
-    .name {
-      font-size: 16px;
-    }
 
     .domain {
       font-size: 12px;
@@ -334,16 +335,16 @@
       max-width: 90%;
     }
 
+    .download {
+      bottom: auto;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
 
+    }
     .download button {
       width: 36px;
-
-
     }
 
-    .download {
-      top: 50px;
-      right: 8px;
-    }
   }
 </style>

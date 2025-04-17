@@ -98,7 +98,7 @@
   .category h1 {
     margin-bottom: 5px;
     color: #959494;
-    text-align: left;
+    text-align: center;
     padding: 1rem 1rem 0.5rem 1rem;
   }
 

@@ -132,25 +132,21 @@
   }
 
   @media (max-width: 425px) {
-    .search-qr-container{
-      width: 100%;
-    }
     .search-filter-container {
       flex-direction: row;
       align-items: center;
       padding: 10px;
       border-radius: 10px;
       width: 100%;
-
+      gap: 12px;
     }
 
     .search-filter-container img {
-      width: 40px;
+      width: 50px;
     }
 
     .search-box {
       flex-grow: 1;
-
     }
   }
 

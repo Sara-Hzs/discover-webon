@@ -23,7 +23,7 @@
             <div class="folder-content" data-folder-content={tag}>
                 {#each webons.slice(0, $expandedFolders[tag] ? webons.length : INITIAL_ITEMS) as webon}
                     <div class="webon-card" transition:slide|local>
-                        <WebonElement {webon} />
+                        <WebonElement {webon} isInCategorizedView={true} />
                     </div>
                 {/each}
                 {#if webons.length > INITIAL_ITEMS}
@@ -114,52 +114,59 @@
 
   .folder-content {
     flex: 1;
-    padding: 0.875rem;
+    padding: 0.5rem;
     overflow-y: auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: 0.5rem;
     align-content: start;
+    overflow-x: hidden;
 
     @media (max-width: 1010px) {
       grid-template-columns: 1fr;
-      gap: 0.625rem;
-      padding: 0.75rem;
+      padding: 0.5rem;
     }
 
     &::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
     }
+
     &::-webkit-scrollbar-track {
-      background: #1a1a1a;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
     }
+
     &::-webkit-scrollbar-thumb {
-      background: #444;
-      border-radius: 3px;
+      background: #9c63ee;
+      border-radius: 4px;
+      transition: background 0.2s ease;
     }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #b588f1;
+    }
+
+    /* For Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #9c63ee rgba(0, 0, 0, 0.2);
+
   }
 
-  .webon-card :global(.webon-element) {
-    transform: scale(1);
-    transition: transform 0.2s ease;
 
-    @media (max-width: 900px) {
-      transform: scale(0.95);
-    }
-    @media (max-width: 600px) {
-      transform: scale(0.9);
-    }
+  .webon-card {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    margin-bottom: 0.75rem;
+  }
 
-    &:hover {
-      transform: scale(1.05);
-
-      @media (max-width: 900px) {
-        transform: scale(1);
-      }
-      @media (max-width: 600px) {
-        transform: scale(0.95);
-      }
-    }
+  .webon-card :global(.container) {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    transform: scale(0.95);
+    transform-origin: top left;
   }
 
   .show-more-btn {
@@ -196,6 +203,30 @@
     @media (max-width: 600px) {
       width: 100%;
       padding: 0.375rem 0.75rem;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .folder {
+      height: auto;
+      min-height: auto;
+      max-height: 350px;
+    }
+
+    .folder-content {
+      max-height: 300px;
+
+    }
+    .webon-card {
+      transition: none;
+    }
+
+    .webon-card:hover {
+      transform: none !important;
+    }
+
+    .webon-card :global(.container) {
+      transform: none !important;
     }
   }
 </style>
