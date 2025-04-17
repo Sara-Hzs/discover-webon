@@ -18,6 +18,7 @@
     let error = ''
     let touchStartY = 0;
     let touchEndY = 0;
+    export let isInCategorizedView = false;
 
     function formatUrl(url) {
         if (!url.startsWith('http')) {
@@ -118,13 +119,13 @@
                             <img src={default_icon} alt="Default icon"/>
                         {/if}
                     </div>
-                    <div>
+                    <div class="text-container">
                         <div class="name">{webon.name}</div>
                         <a href="https://{webon.domain}" class="domain" on:click|preventDefault={navigateToDetailPage}>https://{webon.domain}</a>
                     </div>
 
                 </div>
-                <div class="download">
+                <div class="download" class:categorized-download={isInCategorizedView}>
                     {#if $data.isBrowser}
                         <button on:click|stopPropagation={handleButtonClick} on:touchstart|stopPropagation on:touchend|stopPropagation>
                             <Download />
@@ -164,16 +165,18 @@
   .container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     background: #333333;
     width: 100%;
+    height: 100%;
     border-radius: 8px;
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     transition: transform 0.4s ease;
-    min-height: 150px;
+
     touch-action: pan-y;
 
+    min-height: 90px;
+    overflow: hidden;
   }
 
   .container:hover {
@@ -200,11 +203,12 @@
     user-select: none;
   }
 
-
   .card-content {
-    padding: 10px;
-    text-align: left;
+    padding: 18px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     cursor: pointer;
   }
 
@@ -219,15 +223,15 @@
   }
 
   .icon {
-    width: 60px;
-    padding-bottom: 10px;
-    overflow: hidden;
-
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
 
     img {
-      border-radius: 5px;
-      pointer-events: none;
-      user-select: none;
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+      object-fit: cover;
     }
   }
 
@@ -243,113 +247,138 @@
     align-items: flex-start;
     width: 100%;
   }
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
 
-  .name,
-  .slogan {
-    margin-bottom: 5px;
-    margin-left: 5px;
+
+  .text-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: calc(100% - 40px);
   }
 
   .name {
-    font-size: clamp(15px, 3vw, 18px);
+    font-size: 16px;
+    font-weight: bold;
+
+    line-height: 1.3;
+    margin-bottom: 2px;
   }
 
   .domain {
     font-size: 14px;
+    color: #aaa;
     text-decoration: none;
-    margin-left: 5px;
-    font-weight: normal;
+    line-height: 1.3;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
   }
 
 
 
   .slogan {
-    width: 70%;
-    margin-top: 10px;
-    pointer-events: none;
-    user-select: none;
+    font-size: 13px;
+    color: #ddd;
+    padding-bottom: 10px;
+    margin-top: 8px;
+    line-height: 1.4;
+    white-space: normal;
+    overflow: visible;
+    word-wrap: break-word;
   }
 
   .download {
     position: absolute;
-    bottom: 10px;
     right: 10px;
-    padding: 5px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+      background: transparent;
+      border: none;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      width: 38px;
+      height: 38px;
+    }
   }
 
+  .categorized-download {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+
+    button {
+      width: 30px;
+      height: 30px;
+      padding: 4px;
+    }
+  }
   .error {
     color: red;
     font-size: 12px;
     margin: 5px 5px 15px;
     padding: 5px;
   }
-
-  @media (max-width: 768px) {
-    .container {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      overflow: hidden;
-      position: relative;
-      background: none;
-      isolation: isolate;
-      background: #333333;
-      padding: 10px;
-      padding-right: 50px;
+  @media (max-width: 768px){
+    .card-image{
+      display: none;
     }
-
-    .card-image {
-      z-index: -1;
-      position: absolute;
-      inset: 0 0 0 0;
-
-      img {
-        opacity: 0.03;
-        transform: translateY(-8px);
-      }
+  }
+  @media (max-width: 425px) {
+    .container {
+      min-height: 80px;
     }
 
     .card-content {
-      flex-grow: 1;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
+      padding: 20px;
+    }
+    .card-image{
+      display: none;
     }
 
-
-    .download {
-      position: absolute;
-     top: 10px;
-      right: 20px;
-      padding: 5px;
-    }
-    .download button {
-      padding: 2px 1px;
-      font-size: 0.8em;
-      margin: 5px 0;
-    }
-    .name,
-    .slogan {
-      text-align: left;
-      font-size: 0.8em;
+    .icon {
+      width: 40px;
+      height: 40px;
     }
 
 
     .domain {
-      text-align: left;
-      font-size: 0.7em;
-
+      font-size: 12px;
     }
 
     .slogan {
-      font-size: 0.8em;
-      opacity: 0.9;
-      width: 100%;
-
+      font-size: 14px;
+      margin-top: 10px;
+      white-space: normal;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 90%;
     }
 
+    .download {
+      bottom: auto;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+
+    }
+    .download button {
+      width: 36px;
+    }
 
   }
 </style>

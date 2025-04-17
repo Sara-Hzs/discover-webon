@@ -1,292 +1,235 @@
 <script>
     import { data } from "../stores/data.js";
     import { filters } from "../stores/filters.js";
-    import WebonElement from "./WebonElement.svelte";
-    import { onMount } from 'svelte';
+    import { expandedFolders } from "../stores/expandedFolders.js";
+
     import Navbar from "./Navbar.svelte";
     import Header from "./Header.svelte";
-    import { slide, scale } from 'svelte/transition';
-    import { flip } from 'svelte/animate';
+    import DisplayMode from "./DisplayMode.svelte";
+    import Categories from "./Categories.svelte";
+    import AllWebons from "./AllWebons.svelte";
+    import Categorized from "./Categorized.svelte";
+    import {onMount} from "svelte";
 
-    let showDropdown = false;
+    let isLoading = false;
+    let showCategoryDropdown = false;
+    let displayMode = localStorage.getItem('displayMode') || 'All WebOns';
+    let showOldDropdown = localStorage.getItem('showOldDropdown') === 'true';
+    let showOldDropdownMenu = false;
+    let selectedTag = JSON.parse(localStorage.getItem('selectedTag')) || null;
+    const INITIAL_ITEMS = 4;
+
+    onMount(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tagParam = urlParams.get('tag');
+
+        if (tagParam) {
+            selectedTag = { name: decodeURIComponent(tagParam) };
+            localStorage.setItem('selectedTag', JSON.stringify(selectedTag));
+        }
+
+        if (selectedTag) {
+            showOldDropdown = true;
+            localStorage.setItem('showOldDropdown', 'true');
+        }
+    });
 
 
-    // onMount(async () => {
-    //     window.scrollTo(0, 0);
-    // });
 
-    $:console.log('data', $data)
-    $: console.log('Current sorting method:', $filters.sortBy);
+    $: $filters.tag = selectedTag;
+
+    // Grouping logic
+    $: groupedWebons = $data.filteredList.reduce((groups, webon) => {
+        const tags = webon.tags?.length ? webon.tags : [{ name: 'Uncategorized' }];
+        tags.forEach(tag => {
+            if (!groups[tag.name]) groups[tag.name] = [];
+            groups[tag.name].push(webon);
+        });
+        return groups;
+    }, {});
+
+    function toggleFolder(tag) {
+        expandedFolders.toggle(tag);
+    }
+
+    function toggleShowCategoryDropdown() {
+        showCategoryDropdown = !showCategoryDropdown;
+    }
+
+    function toggleShowOldDropdownMenu() {
+        showOldDropdownMenu = !showOldDropdownMenu;
+    }
+
+    async function setDisplayMode(option) {
+        isLoading = true;
+        displayMode = option;
+        showCategoryDropdown = false;
+
+        if (option === 'All WebOns') {
+            resetSelections();
+        } else {
+            showOldDropdown = true;
+            localStorage.setItem('showOldDropdown', true);
+        }
+        localStorage.setItem('displayMode', option);
+
+        await new Promise(resolve => setTimeout(resolve, 600));
+        isLoading = false;
+    }
+
+
+    function resetSelections() {
+        selectedTag = null;
+        localStorage.removeItem('selectedTag');
+        $filters.tag = null;
+        showOldDropdown = false;
+        localStorage.setItem('showOldDropdown', false);
+    }
+
+    function setSelectedTag(item) {
+        if (item === 'All Categories') {
+            selectedTag = null;
+        } else {
+            selectedTag = { name: item };
+        }
+        localStorage.setItem('selectedTag', JSON.stringify(selectedTag));
+        showOldDropdownMenu = false;
+    }
+
+
+    function sortByNewest() {
+        $filters.sortBy = 'newest';
+    }
+    function sortByName() {
+        $filters.sortBy = 'name';
+    }
+    function sortByPopularity() {
+        $filters.sortBy = 'popularity';
+    }
 </script>
-
-
 
 <Navbar />
 <Header />
+<div class="top-controls">
+    <!-- Left side controls -->
+    <div class="left-controls">
+        <!-- Display Mode -->
+        <DisplayMode
+                {displayMode}
+                {showCategoryDropdown}
+                toggleShowCategoryDropdown={toggleShowCategoryDropdown}
+                setDisplayMode={setDisplayMode}
+        />
 
-<div class="btns">
-    <div class="filter-section">
-        <div class="category">
-            <h1>Categories</h1>
-            <div class="dropdown">
-                <button class="dropdown-toggle" on:click={() => showDropdown = !showDropdown}>
-                    {#if $filters.tag}
-                        {$filters.tag.name}
-                    {:else}
-                        All WebOns
-                    {/if}
-                    <span class="arrow" class:rotate={showDropdown}>▼</span>
+        <!-- Categories -->
+        <Categories
+                {showOldDropdown}
+                {showOldDropdownMenu}
+                toggleShowOldDropdownMenu={toggleShowOldDropdownMenu}
+                {selectedTag}
+                setSelectedTag={setSelectedTag}
+        />
+    </div>
+
+    <!-- Sort by area, only if displayMode = "All WebOns" -->
+    {#if displayMode === 'All WebOns'}
+        <div class="sort-controls">
+            <span>Sort by</span>
+            <div class="button-group">
+                <button on:click={sortByNewest} class:active={$filters.sortBy === 'newest'}>
+                    Newest
                 </button>
-                {#if showDropdown}
-                    <div class="dropdown-menu" transition:slide|local={{ duration: 200 }}>
-                        {#each ['All WebOns', ...[...new Set($data.filteredList.flatMap(w => w.tags?.map(t => t.name)))]] as item (item)}
-                            <button
-                                    animate:flip={{ duration: 200 }}
-                                    on:click={() => {
-                                if(item === 'All WebOns') {
-                                    $filters.tag = null;
-                                } else {
-                                    $filters.tag = { name: item };
-                                }
-                                showDropdown = false;
-                            }}
-                                    class:active={item === 'All WebOns' ? !$filters.tag : $filters.tag?.name === item}
-                                    transition:scale|local={{ duration: 200, start: 0.95 }}>
-                                {item}
-                            </button>
-                        {/each}
-                    </div>
-                {/if}
+                <button on:click={sortByName} class:active={$filters.sortBy === 'name'}>
+                    Name
+                </button>
+                <button on:click={sortByPopularity} class:active={$filters.sortBy === 'popularity'}>
+                    Popularity
+                </button>
             </div>
         </div>
-    </div>
-
-
-    <h1>Sort by</h1>
-    <div class="button-group">
-        <button
-                on:click={() => { $filters.sortBy = 'newest'; }}
-                class={$filters.sortBy === 'newest' ? 'active' : ''}>
-            Newest
-        </button>
-        <button on:click={() => {
-        $filters.sortBy = 'name';
-    }} class={$filters.sortBy === 'name' ? 'active' : ''}>
-            Name
-        </button>
-        <button
-                on:click={() => { $filters.sortBy = 'popularity'; }}
-                class={$filters.sortBy === 'popularity' ? 'active' : ''}>
-            Popularity
-        </button>
-    </div>
+    {/if}
 </div>
 
-
-
-
-{#if $filters.tag}
-    <div class="tag" on:click={() => $filters.tag = null}>
-        <span class="tag-label">Selected Tag:</span>
-        <span class="tag-name">{$filters.tag.name}</span>
-        <span class="delete-btn">×</span>
+{#if isLoading}
+    <div class="loading-container">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <span class="loading-text">Loading...</span>
+        </div>
     </div>
+{:else}
+    {#if displayMode === 'All WebOns'}
+        <AllWebons />
+    {:else if displayMode === 'Categorized'}
+        <Categorized
+                {groupedWebons}
+                {INITIAL_ITEMS}
+                {toggleFolder}
+        />
+    {/if}
 {/if}
-<div class="container">
-    {#each $data.filteredList as webon}
-        <WebonElement {webon} />
-    {/each}
-</div>
 
 <style lang="scss">
-
-  .container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 15px;
-    justify-content: center;
-  }
-  .tag {
-    max-width: 400px;
-    margin: 0 auto;
-    font-weight: bold;
-    font-size: 14px;
-    background: #36f3fd;
-    border-radius: 5px;
-    color: #333333;
+  .top-controls {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 18px;
-    text-align: center;
-    margin-bottom: 30px;
-    position: relative;
-  }
-
-  .tag-label {
-    margin-right: 5px;
-  }
-
-  .tag-name {
-    margin-left: 2px;
-    margin-right: 8px;
-  }
-
-  .delete-btn {
-    cursor: pointer;
-    font-size: larger;
-    position: absolute;
-    top: 7px;
-    right: 8px;
-  }
-
-  .sorting-label {
-    font-weight: bold;
+    padding: 0 15px;
     margin-bottom: 20px;
-  }
-
-
-
-  .btns {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-    text-align: center;
     font-weight: bold;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
   }
 
-
-
-  .filter-section {
-    flex: 0 0 250px;
-    margin-right: auto;
-    padding-bottom: 10px;
-
-  }
-  .arrow {
-    transition: transform 0.2s ease;
-  }
-
-  .arrow.rotate {
-    transform: rotate(180deg);
-  }
-  .category {
-    border-radius: 8px;
-  }
-
-  .category h1 {
-    margin-bottom: 5px;
-    color: #959494;
-    text-align: left;
-    padding: 1rem 1rem 0.5rem 1rem;
-  }
-
-  .dropdown-toggle {
-    width: 100%;
-    padding: 8px 12px;
-    background: #2a2a2a;
-    color: white;
-    border: 1px solid white;
-    border-radius: 6px;
-    cursor: pointer;
+  .left-controls {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    font-size: 1rem;
-    transition: background 0.2s ease;
+    gap: 1rem;
 
-    &:hover {
-      background: #333;
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+
     }
   }
 
-  .dropdown {
-    position: relative;
-    width: 100%;
+  .sort-controls {
     display: flex;
-    flex-direction: column;
-  }
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
 
-  .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 5px;
-    width: 100%;
-    background: rgba(28, 28, 28, 0.95);
-    backdrop-filter: blur(8px);
-    border-radius: 8px;
-    z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    padding: 6px;
-    margin-top: 4px;
-  }
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
 
-  .dropdown-menu button {
-    width: 100%;
-    padding: 8px 12px;
-    color: #e1e1e1;
-    background: transparent;
-    border: none;
-    border-radius: 6px;
-    text-align: left;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
-    margin: 2px 0;
 
-    &:hover {
-      background: rgba(156, 99, 238, 0.2);
-      color: #fff;
     }
 
-    &.active {
-      background: #9c63ee;
-      color: white;
+    span {
+      font-weight: bold;
+      color: #959494;
     }
-  }
-
-
-  .dropdown-menu button.active:hover {
-    background: #8852d9;
-  }
-
-
-  .dropdown-menu button + button {
-    border-top: 1px solid rgba(255, 255, 255, 0.03);
-  }
-
-
-  .dropdown-menu {
-    max-height: 300px;
-    overflow-y: auto;
-
-
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: #1a1a1a;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #444;
-      border-radius: 4px;
-    }
-  }
-
-  .btns h1 {
-    font-weight: bold;
-    color: #959494;
-    margin-bottom: 10px;
   }
 
   .button-group {
     display: flex;
     gap: 10px;
-    width: 100%;
-    justify-content: center;
+
+    @media (max-width: 768px) {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2px;
+    }
   }
 
   button {
@@ -303,161 +246,54 @@
     &:hover, &:focus {
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
+
+    @media (max-width: 768px) {
+  font-size: 14px;
+
+
+    }
   }
   button.active {
     background-color: #9c63ee;
     font-weight: bold;
     border: 1px solid white;
   }
-
-  @media (max-width: 768px) {
-    .container {
-      grid-template-columns: 1fr;
-    }
-    .btns {
-      flex-direction: row;
-      justify-content: space-between;
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .btns h1 {
-      margin-bottom: 0;
-      color: #fff;
-    }
-
-    button {
-      background-color: #444;
-      color: #fff;
-      flex: 1;
-    }
-
-    button.active {
-      background-color: #9c63ee;
-      font-weight: bold;
-    }
-
+  .loading-container {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  @media (max-width: 425px) {
-
-    .btns {
-      flex-direction: row;
-      align-items: center;
-      width: 100%;
-      margin-top: 4px;
-    }
-
-    .btns h1 {
-      color: #fff;
-      margin-bottom: 5px;
-      width: 100%;
-      text-align: right;
-    }
-
-    button {
-      background-color: #444;
-      color: #fff;
-      width: 100%;
-      margin-bottom: 5px;
-      text-align: center;
-    }
-
-    button.active {
-      background-color: #9c63ee;
-      font-weight: bold;
-    }
-  }
-  @media (max-width: 768px) {
-    .btns {
-      flex-direction: column;
-      align-items: center;
-      margin-top: 10px;
-    }
-
-    .btns h1 {
-      margin-bottom: 10px;
-      width: 100%;
-      text-align: center;
-    }
-
-    .button-group {
-      flex-direction: row;
-      justify-content: center;
-      gap: 5px;
-    }
-
-    button {
-      flex: 1;
-    }
-
-    .filter-section {
-      flex: none;
-      width: 100%;
-      margin-bottom: 20px;
-    }
-
-    .category h1 {
-      text-align: center;
-      padding: 0.5rem;
-    }
-
-    .dropdown {
-      max-width: 300px;
-      margin: 0 auto;
-    }
-
-    .dropdown-menu {
-      left: 0;
-      width: 100%;
-    }
+  .loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
   }
 
-  @media (max-width: 425px) {
-    .btns {
-      margin-top: 4px;
-    }
-
-    .btns h1 {
-      color: #fff;
-      margin-bottom: 5px;
-      width: 100%;
-      text-align: center;
-    }
-
-    .button-group {
-      flex-direction: row;
-      width: 100%;
-    }
-
-    button {
-      width: 100%;
-      margin-bottom: 5px;
-      text-align: center;
-    }
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(156, 99, 238, 0.2);
+    border-radius: 50%;
+    border-top-color: #9c63ee;
+    animation: spin 0.8s linear infinite;
   }
 
-  @media (min-width: 769px) {
-    .btns {
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 1rem;
-      margin-bottom: 20px;
-    }
-
-    .btns h1 {
-      margin-bottom: 0;
-      margin-right: 10px;
-      white-space: nowrap;
-    }
-
-    .button-group {
-      gap: 10px;
-      width: auto;
-      display: flex;
-    }
+  .loading-text {
+    color: #9c63ee;
+    font-weight: 500;
+    font-size: 1rem;
   }
 
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 </style>

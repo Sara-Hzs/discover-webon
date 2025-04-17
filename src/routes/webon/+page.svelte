@@ -181,9 +181,11 @@
             <div class="tag-filter">
                 {#each webon.tags as tag}
                     <button on:click={() => {
-                    $filters.tag = tag
-                    goto('/')
-                }}>
+                $filters.tag = tag;
+                localStorage.setItem('selectedTag', JSON.stringify(tag));
+                localStorage.setItem('displayMode', 'Categorized');
+                goto('/');
+            }}>
                         {tag.name}
                     </button>
                 {/each}
